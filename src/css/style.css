@@ -298,12 +298,12 @@ a {
 --------------------------------------------------------------*/
 #hero {
     background: #FDFDFD;
+    padding: 0 64px;
+    padding-top: 32px;
 }
 #hero .container {
     display: flex;
     flex-direction: row;
-    padding: 0 64px;
-    padding-top: 32px;
 }
 .hero-main {
     display: flex;
@@ -605,10 +605,10 @@ a {
 --------------------------------------------------------------*/
 #testimonial {
     background: var(--gr, linear-gradient(64deg, #003C43 -6.33%, #00746B 76.47%, #FFF 128.78%));
+    padding: 64px;
 }
 #testimonial .container{
     display: flex;
-    padding: 64px;
     flex-direction: column;
     align-items: center;
     gap: 40px;
@@ -682,3 +682,40 @@ a {
     line-height: 150%;
 }
 /* End Landing Page */
+
+/* Our Team Page */
+#team {
+    padding: 32px 64px;
+}
+#team .container {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    gap: 14px;
+}
+.team-header {
+    text-align: center;
+}
+.team-title {
+    margin: 0;
+    color: var(--Main-Primary-main-primary, #003C43);
+    font-size: 28px;
+    font-weight: 800;
+    line-height: 150%;
+}
+.team-title span {
+    color: var(--Main-Secondary-main-secondary, #007F73);
+}
+.team-description {
+    margin: 0;
+    color: var(--Dark-main-dark, #072326);
+    font-size: 18px;
+    font-weight: 500;
+    line-height: normal;
+}
+.team-list {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+/* End Our Team Page */
