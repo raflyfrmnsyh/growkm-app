@@ -1,1 +1,180 @@
+<<<<<<< HEAD
 <!-- Landing page or Main Pages -->
+=======
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title class="page_title"></title>
+    <meta
+      name="description"
+      content="Growkm is a platform that connects farmers with buyers."
+    />
+    <!-- Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap"
+    />
+
+    <!-- Icon -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.hugeicons.com/font/hgi-stroke-rounded.css"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7.2.3/css/flag-icons.min.css"
+    />
+    <!-- Main Style -->
+    <link rel="stylesheet" href="src/css/main.css" />
+  </head>
+
+  <body>
+    <header>
+      <!-- Promo Header -->
+      <div class="promo-header">
+        <div>
+          <p>
+            Dapatkan Kesempatan mengembangkan bisnis dengan mudah dan cepat
+            bersama growkm
+          </p>
+          <i class="hgi hgi-stroke hgi-arrow-right-02"></i>
+          <a href="#" class="text-yellow-light">Bergabung Sekarang</a>
+        </div>
+        <i class="hgi hgi-stroke hgi-cancel-01"></i>
+      </div>
+      <!-- Navbar -->
+      <navbar>
+        <a href="index.html" class="nav-logo">
+          <img src="src/image/growkm_logo.svg" alt="logo" height="42px" />
+        </a>
+        <ul class="nav-menu">
+          <li class="nav-item active">
+            <a href="#" class="nav-link">Beranda</a>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link">Program Growkm</a>
+          </li>
+          <!-- Dropdown -->
+          <li class="nav-item dropdown pointer">
+            <div class="flex gap-6 dropdown-toggle">
+              <span>Sumber daya</span>
+              <i class="hgi hgi-stroke hgi-arrow-down-01 text-dark"></i>
+            </div>
+            <ul class="dropdown-menu program-growkm">
+              <a href="#" class="dropdown-item">Mitra Growkm</a>
+              <a href="#" class="dropdown-item">Tentang Supplier+</a>
+              <a href="#" class="dropdown-item">Tim Growkm</a>
+            </ul>
+          </li>
+          <!-- close dropsown -->
+          <li class="nav-item">
+            <a href="#" class="nav-link"> Testimoni </a>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link"> Pusat Bantuan </a>
+          </li>
+        </ul>
+        <ul class="nav-actions">
+          <li class="nav-item dropdown pointer">
+            <div class="flex gap-6 dropdown-toggle">
+              <i class="hgi hgi-stroke hgi-global-refresh"></i>
+              <span>ID</span>
+              <i class="hgi hgi-stroke hgi-arrow-down-01 text-dark"></i>
+            </div>
+            <ul class="dropdown-menu choose-language">
+              <div class="language-item">
+                <i class="fi fi-id"></i> Indonesia
+              </div>
+              <div class="language-item"><i class="fi fi-us"></i> English</div>
+            </ul>
+          </li>
+          <a href="#" class="btn-outline regist-button">Daftar</a>
+          <a href="#" class="btn-solid login-button">Masuk</a>
+        </ul>
+      </navbar>
+
+      <!-- Hero Section -->
+      <section class="hero_section">
+        <div class="container">
+          <div class="hero_section-hook">
+            <span
+              ><img src="src/icons/stars.svg" /> Solusi Pengembangan UKM dan
+              UMKM terbaik</span
+            >
+            <div class="display">
+              <h3 class="display-text">
+                Berkembang bersama pelaku usaha se-Indonesia melalui
+                Pendampingan Growkm
+              </h3>
+              <p class="display-desc">
+                Growkm hadir sebagai platform kombinasi edukasi bisnis yang
+                praktis, pendampingan dari mentor berpengalaman, dan fitur
+                Supplier+ yang mempertemukan pelaku usaha dengan supplier
+                terpercaya.
+              </p>
+            </div>
+
+            <div>
+              <a href="#" class="btn-solid">Bergabung Sekarang</a>
+              <a href="#" class="btn-outline">Tentang Supplier+</a>
+            </div>
+          </div>
+          <img
+            class="hero_section-image"
+            src="src/image/hero_img.png"
+            alt="hero"
+          />
+        </div>
+      </section>
+      <section class="stat-growkm">
+        <div class="container">
+          <div class="flex">
+            <h3 class="stat-growkm_title">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Sint,
+              aspernatur eveniet. Corporisdas
+            </h3>
+            <ul class="stat-items">
+              <li class="stat-item">
+                <h4 class="stat-item_title">80+</h4>
+                <span class="stat-item_desc">Mentor Bisnis</span>
+              </li>
+              <li class="stat-item">
+                <h4 class="stat-item_title">400+</h4>
+                <span class="stat-item_desc">Mentor Bisnis</span>
+              </li>
+              <li class="stat-item">
+                <h4 class="stat-item_title">300+</h4>
+                <span class="stat-item_desc">Mentor Bisnis</span>
+              </li>
+              <li class="stat-item">
+                <h4 class="stat-item_title">2000+</h4>
+                <span class="stat-item_desc">Mentor Bisnis</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </section>
+      <!-- close header -->
+    </header>
+  </body>
+
+  <script>
+    const page_title = document.querySelector(".page_title");
+    const title = "Growkm";
+    page_title.innerHTML = title;
+    document.title = title;
+
+    // Dropdown Event
+    const toggleDropdowns = document.querySelectorAll(".dropdown-toggle");
+    const dropdownMenus = document.querySelectorAll(".dropdown-menu");
+
+    toggleDropdowns.forEach((toggle, index) => {
+      toggle.addEventListener("click", () => {
+        dropdownMenus[index].classList.toggle("show");
+      });
+    });
+  </script>
+</html>
+>>>>>>> ba6e5187d7ac77c3d879a538fa1a241ffb324a20
