@@ -758,6 +758,60 @@ a {
 }
 
 /*--------------------------------------------------------------
+# Call to Action Section
+--------------------------------------------------------------*/
+#action {
+    padding: 64px;
+}
+#action .container {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    gap: 28px;
+}
+.action-card {
+    padding: 84px 30px 30px 30px;
+    border-radius: 8px;
+}
+.action-card-content {
+    display: flex;
+    gap: 32px;
+    justify-content: space-between;
+    flex-direction: column;
+    width: 60%;
+    color: var(--Light-main-light, #F9FEFE);
+}
+.action-card-content h3 {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 150%;
+}
+.action-card-content p {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 150%;
+}
+.action-card-content button {
+    width: fit-content;
+    padding: 9px 18px;
+    border-radius: 8px;
+    border: 1.023px solid var(--Light-main-light, #F9FEFE);
+    background: var(--Light-main-light, #F9FEFE);
+    color: #072326;
+    font-size: 16px;
+}
+.action-card.action-left {
+    background-image: url("../image/action-bg-left.png");
+    background-size: cover;
+}
+.action-card.action-right {
+    background-image: url("../image/action-bg-right.png");
+    background-size: cover;
+}
+
+/*--------------------------------------------------------------
 # FAQ Section
 --------------------------------------------------------------*/
 #faq {
