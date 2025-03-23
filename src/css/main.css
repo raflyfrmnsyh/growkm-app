@@ -486,9 +486,9 @@ section.courses .courses-filter .filter-item select option:hover {
   background-color: #007f73;
   color: white;
 }
-section.courses .courses-filter button {
+section.courses .courses-filter .btn-filter {
   border-radius: 8px;
-  padding: 14px 20px;
+  padding: 14px 24px;
 }
 section.courses .courses-list {
   display: flex;
@@ -880,4 +880,37 @@ section.action .container .action-card .action-card-content .btn-solid {
   font-size: 12px;
   color: #888;
   padding: 24px 0;
+}
+
+section.our-team {
+  padding: 64px 0px;
+}
+section.our-team .team-header {
+  text-align: center;
+}
+section.our-team .team-title {
+  margin: 0;
+  color: var(--Main-Primary-main-primary, #003c43);
+  font-size: 28px;
+  font-weight: 800;
+  line-height: 150%;
+}
+section.our-team .team-title span {
+  color: var(--Main-Secondary-main-secondary, #007f73);
+}
+section.our-team .team-description {
+  margin: 0;
+  color: var(--Dark-main-dark, #072326);
+  font-size: 18px;
+  font-weight: 500;
+  line-height: normal;
+}
+section.our-team .team-list {
+  display: flex;
+  justify-content: center;
+  align-items: end;
+  flex-wrap: none;
+}
+section.our-team .team-list .team-member {
+  width: 30%;
 }/*# sourceMappingURL=main.css.map */

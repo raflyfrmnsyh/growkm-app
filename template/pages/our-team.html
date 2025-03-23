@@ -1,14 +1,13 @@
-<!-- Landing page or Main Pages -->
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
   <head>
-    <meta charset="utf-8" />
-    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-
-    <title></title>
-    <meta content="" name="description" />
-    <meta content="" name="keywords" />
-
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title class="page_title"></title>
+    <meta
+      name="description"
+      content="Growkm is a platform that connects farmers with buyers."
+    />
     <!-- Google Fonts -->
     <link
       href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap"
@@ -24,75 +23,88 @@
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7.2.3/css/flag-icons.min.css"
     />
-
-    <!-- CSS File -->
-    <link rel="stylesheet" href="../../src/css/style.css" />
+    <!-- Main Style -->
+    <link rel="stylesheet" href="../../src/css/main.css" />
   </head>
+
   <body>
-    <!-- =========== Top Bar =========== -->
-    <div id="topbar">
-      <div class="topbar-content">
-        <p class="topbar-text">
-          Dapatkan Kesempatan mengembangkan bisnis dengan mudah dan cepat
-          bersama growkm
-        </p>
-        <i class="hgi hgi-solid hgi-arrow-right-02"></i>
-        <a class="topbar-link">Bergabung sekarang</a>
-      </div>
-      <button class="close-topbar">
-        <i class="hgi hgi-stroke hgi-cancel-01"></i>
-      </button>
-    </div>
-    <!-- End Topbar -->
-
-    <!-- =========== Header =========== -->
-    <header id="header">
-      <div class="container">
-        <div class="logo">
-          <a href="../../index.html"
-            ><img src="../../src/image/logo-vertical.png" alt=""
-          /></a>
+    <!-- Head Section -->
+    <header>
+      <!-- Promo Header -->
+      <div class="promo-header">
+        <div>
+          <p>
+            Dapatkan Kesempatan mengembangkan bisnis dengan mudah dan cepat
+            bersama growkm
+          </p>
+          <i class="hgi hgi-stroke hgi-arrow-right-02"></i>
+          <a href="#" class="text-yellow-light">Bergabung Sekarang</a>
         </div>
-        <nav id="navbar">
-          <ul class="navbar-menu">
-            <li><a href="#">Beranda</a></li>
-            <li><a href="#">Program Growkm</a></li>
-            <li>
-              <a href="#">Sumber Daya</a>
-              <ul class="dropdown">
-                <li><a href="#">Our Partner</a></li>
-                <li><a href="#">Tim Growkm</a></li>
-              </ul>
-              <i class="hgi hgi-stroke hgi-arrow-down-01"></i>
-            </li>
-            <li><a href="#">Tentang Kami</a></li>
-          </ul>
-          <div class="navbar-controls">
-            <div class="language-switch">
-              <a href="#">
-                <i class="hgi hgi-stroke hgi-sharp hgi-globe-02"></i>
-                <span>ID</span>
-              </a>
-              <ul class="dropdown">
-                <li>
-                  <a href="#"><span class="fi fi-id"></span>ID</a>
-                </li>
-                <li>
-                  <a href="#"><span class="fi fi-us"></span>EN</a>
-                </li>
-              </ul>
-              <i class="hgi hgi-stroke hgi-arrow-down-01"></i>
-            </div>
-            <button class="btn-register">Daftar</button>
-            <button class="btn-login">Masuk</button>
-          </div>
-        </nav>
+        <i class="hgi hgi-stroke hgi-cancel-01"></i>
       </div>
+      <!-- Navbar -->
+      <navbar>
+        <a href="../../index.html" class="nav-logo">
+          <img src="../../src/image/growkm_logo.svg" alt="logo" height="42px" />
+        </a>
+        <ul class="nav-menu">
+          <li class="nav-item">
+            <a href="#" class="nav-link">Beranda</a>
+          </li>
+          <li class="nav-item">
+            <a href="#program" class="nav-link">Program Growkm</a>
+          </li>
+          <!-- Dropdown -->
+          <li class="nav-item dropdown pointer">
+            <div class="flex gap-6 dropdown-toggle">
+              <span>Sumber daya</span>
+              <i class="hgi hgi-stroke hgi-arrow-down-01 text-dark"></i>
+            </div>
+            <ul class="dropdown-menu program-growkm">
+              <a href="#" class="dropdown-item">Mitra Growkm</a>
+              <a href="#" class="dropdown-item">Tentang Supplier+</a>
+              <a href="template/pages/our-team.html" class="dropdown-item"
+                >Tim Growkm</a
+              >
+            </ul>
+          </li>
+          <!-- close dropsown -->
+          <li class="nav-item">
+            <a href="#testimonial" class="nav-link"> Testimoni </a>
+          </li>
+          <li class="nav-item">
+            <a href="#faq" class="nav-link"> Pusat Bantuan </a>
+          </li>
+        </ul>
+        <ul class="nav-actions">
+          <li class="nav-item dropdown pointer">
+            <div class="flex gap-6 dropdown-toggle">
+              <i class="hgi hgi-stroke hgi-global-refresh"></i>
+              <span>ID</span>
+              <i class="hgi hgi-stroke hgi-arrow-down-01 text-dark"></i>
+            </div>
+            <ul class="dropdown-menu choose-language">
+              <div class="language-item">
+                <i class="fi fi-id"></i> Indonesia
+              </div>
+              <div class="language-item"><i class="fi fi-us"></i> English</div>
+            </ul>
+          </li>
+          <a
+            href="template/pages/register.html"
+            class="btn-outline regist-button"
+            >Daftar</a
+          >
+          <a href="template/pages/login.html" class="btn-solid login-button"
+            >Masuk</a
+          >
+        </ul>
+      </navbar>
+      <!-- close header -->
     </header>
-    <!-- End Header -->
-
-    <!-- =========== Our Team Section =========== -->
-    <section id="team">
+    <!-- Close Head Section -->
+    <!-- Our Program -->
+    <section class="our-team" id="team">
       <div class="container">
         <div class="team-header">
           <div class="team-title">
@@ -124,8 +136,6 @@
         </div>
       </div>
     </section>
-
-    <!-- =========== Footer Section =========== -->
     <footer id="footer">
       <div class="footer-container">
         <div class="footer-logo">
@@ -186,4 +196,21 @@
       </div>
     </footer>
   </body>
+
+  <script>
+    const page_title = document.querySelector(".page_title");
+    const title = "Growkm";
+    page_title.innerHTML = title;
+    document.title = title;
+
+    // Dropdown Event
+    const toggleDropdowns = document.querySelectorAll(".dropdown-toggle");
+    const dropdownMenus = document.querySelectorAll(".dropdown-menu");
+
+    toggleDropdowns.forEach((toggle, index) => {
+      toggle.addEventListener("click", () => {
+        dropdownMenus[index].classList.toggle("show");
+      });
+    });
+  </script>
 </html>

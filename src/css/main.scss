@@ -510,9 +510,9 @@ section.courses {
       }
     }
 
-    button {
+    .btn-filter {
       border-radius: 8px;
-      padding: 14px 20px;
+      padding: 14px 24px;
     }
   }
 
@@ -941,5 +941,39 @@ section.action {
     font-size: 12px;
     color: #888;
     padding: 24px 0;
+  }
+}
+
+section.our-team {
+  padding: 64px 0px;
+  .team-header {
+    text-align: center;
+  }
+
+  .team-title {
+    margin: 0;
+    color: var(--Main-Primary-main-primary, #003c43);
+    font-size: 28px;
+    font-weight: 800;
+    line-height: 150%;
+
+    span {
+      color: var(--Main-Secondary-main-secondary, #007f73);
+    }
+  }
+
+  .team-description {
+    margin: 0;
+    color: var(--Dark-main-dark, #072326);
+    font-size: 18px;
+    font-weight: 500;
+    line-height: normal;
+  }
+
+  .team-list {
+    @include flex($align: end);
+    .team-member {
+      width: 30%;
+    }
   }
 }
