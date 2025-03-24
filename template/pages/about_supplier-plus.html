@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title class="page_title"></title>
+    <meta
+      name="description"
+      content="Growkm is a platform that connects farmers with buyers."
+    />
+    <!-- Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap"
+    />
+
+    <!-- Icon -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.hugeicons.com/font/hgi-stroke-rounded.css"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7.2.3/css/flag-icons.min.css"
+    />
+    <!-- Main Style -->
+    <link rel="stylesheet" href="../../src/css/main.css" />
+    <style>
+      .banner {
+        background: linear-gradient(
+            to right,
+            rgba(0, 60, 0, 0.7),
+            rgba(0, 100, 0, 0.6)
+          ),
+          url("https://plus.unsplash.com/premium_photo-1661901122974-e280f0c1efab?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
+        background-size: cover;
+        background-position: center;
+        padding: 60px 0;
+        text-align: center;
+        color: #ffffff;
+      }
+      .banner h2 {
+        font-size: 2.5rem;
+        font-weight: 700;
+      }
+
+      .benefits {
+        background-color: #ffffff;
+        padding: 60px 0;
+        text-align: center;
+      }
+      .benefits h2 {
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: #343a40;
+        margin-bottom: 30px;
+      }
+      .benefits ul {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        list-style: none;
+        padding: 0;
+        gap: 20px;
+      }
+      .benefits li {
+        background-color: #f8f9fa;
+        border: 1px solid #dee2e6;
+        border-radius: 8px;
+        padding: 20px;
+        width: 200px;
+        text-align: center;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      }
+      .benefits li i {
+        font-size: 2rem;
+        color: #e5ffa5;
+        margin-bottom: 10px;
+      }
+      .benefits li p {
+        font-size: 1.25rem;
+        color: #6c757d;
+        margin: 0;
+      }
+
+      .cta {
+        background: linear-gradient(
+            to right,
+            rgba(0, 60, 0, 0.7),
+            rgba(0, 100, 0, 0.6)
+          ),
+          url("https://plus.unsplash.com/premium_photo-1661901122974-e280f0c1efab?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
+        background-position: center;
+        padding: 60px 0;
+        text-align: center;
+        color: #ffffff;
+      }
+      .cta h2 {
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-bottom: 20px;
+      }
+      .cta p {
+        font-size: 1.25rem;
+        margin-bottom: 30px;
+      }
+      .cta .btn-solid {
+        background-color: #e5ffa5;
+        color: #343a40;
+        padding: 10px 20px;
+        font-size: 1.25rem;
+        font-weight: 700;
+        text-decoration: none;
+        border-radius: 5px;
+        border: none;
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- Head Section -->
+    <header>
+      <!-- Promo Header -->
+      <div class="promo-header">
+        <div>
+          <p>
+            Dapatkan Kesempatan mengembangkan bisnis dengan mudah dan cepat
+            bersama growkm
+          </p>
+          <i class="hgi hgi-stroke hgi-arrow-right-02"></i>
+          <a href="#" class="text-yellow-light">Bergabung Sekarang</a>
+        </div>
+        <i class="hgi hgi-stroke hgi-cancel-01"></i>
+      </div>
+      <!-- Navbar -->
+      <navbar>
+        <a href="index.html" class="nav-logo">
+          <img src="../../src/image/growkm_logo.svg" alt="logo" height="42px" />
+        </a>
+        <ul class="nav-menu">
+          <li class="nav-item">
+            <a href="../../index.html" class="nav-link">Beranda</a>
+          </li>
+          <li class="nav-item">
+            <a href="#program" class="nav-link">Program Growkm</a>
+          </li>
+          <!-- Dropdown -->
+          <li class="nav-item dropdown pointer">
+            <div class="flex gap-6 dropdown-toggle">
+              <span>Sumber daya</span>
+              <i class="hgi hgi-stroke hgi-arrow-down-01 text-dark"></i>
+            </div>
+            <ul class="dropdown-menu program-growkm">
+              <a href="#" class="dropdown-item">Mitra Growkm</a>
+              <a href="about_supplier-plus.html" class="dropdown-item"
+                >Tentang Supplier+</a
+              >
+              <a href="our-team.html" class="dropdown-item">Tim Growkm</a>
+            </ul>
+          </li>
+          <!-- close dropsown -->
+          <li class="nav-item">
+            <a href="#testimonial" class="nav-link"> Testimoni </a>
+          </li>
+          <li class="nav-item">
+            <a href="#faq" class="nav-link"> Pusat Bantuan </a>
+          </li>
+        </ul>
+        <ul class="nav-actions">
+          <li class="nav-item dropdown pointer">
+            <div class="flex gap-6 dropdown-toggle">
+              <i class="hgi hgi-stroke hgi-global-refresh"></i>
+              <span>ID</span>
+              <i class="hgi hgi-stroke hgi-arrow-down-01 text-dark"></i>
+            </div>
+            <ul class="dropdown-menu choose-language">
+              <div class="language-item">
+                <i class="fi fi-id"></i> Indonesia
+              </div>
+              <div class="language-item"><i class="fi fi-us"></i> English</div>
+            </ul>
+          </li>
+          <a
+            href="template/pages/register.html"
+            class="btn-outline regist-button"
+            >Daftar</a
+          >
+          <a href="template/pages/login.html" class="btn-solid login-button"
+            >Masuk</a
+          >
+        </ul>
+      </navbar>
+    </header>
+    <!-- Close Head Section -->
+
+    <!-- Banner Section -->
+    <section class="banner">
+      <div class="container">
+        <h2>
+          Dapatkan produk terbaik dari produsen dan supplier terpercaya Growkm
+        </h2>
+      </div>
+    </section>
+
+    <!-- Benefits Section -->
+    <section class="benefits">
+      <div class="container">
+        <h2>Keuntungan Bergabung dengan Supplier+</h2>
+        <ul>
+          <li>Mudah menemukan supplier terpercaya</li>
+          <li>Proses pembelian produk yang mudah</li>
+          <li>Platform yang user-friendly</li>
+          <li>Support dan pendampingan usaha</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Call to Action Section -->
+    <section class="cta">
+      <div class="container">
+        <h2>Bergabunglah dengan Supplier+ Sekarang!</h2>
+        <p>
+          Dapatkan akses ke berbagai fitur dan keuntungan dengan bergabung
+          bersama Supplier+ di Growkm.
+        </p>
+        <a href="template/pages/register.html" class="btn-solid"
+          >Daftar Sekarang</a
+        >
+      </div>
+    </section>
+
+    <footer id="footer">
+      <div class="footer-container">
+        <div class="footer-logo">
+          <img src="../../src/image/logo-vertical.png" alt="" />
+        </div>
+        <div class="footer-main">
+          <div class="footer-info">
+            <p class="footer-description">
+              Growkm merupakan platform edukasi, pendampingan usaha yang
+              terintegrasi dengan fitur temu supplier yang dapat membantu proses
+              pengembangan usaha melalui produk tangan pertama dengan mitra
+              supplier yang tergabung.
+            </p>
+            <div class="footer-socials">
+              <a href="#"></a>
+              <a href="#"></a>
+              <a href="#"></a>
+              <a href="#"></a>
+              <a href="#"></a>
+            </div>
+          </div>
+          <div class="footer-section">
+            <ul class="footer-links">
+              <li><a href="#">Layanan Kami</a></li>
+              <li><a href="#">Tentang Growkm</a></li>
+              <li><a href="#">Mitra Growkm</a></li>
+              <li><a href="#">Testimoni Alumni</a></li>
+              <li><a href="#">FAQ</a></li>
+            </ul>
+            <ul class="footer-links">
+              <li><a href="#">Supplier+</a></li>
+              <li><a href="#">Growkm Course</a></li>
+              <li><a href="#">Pendampingan Usaha</a></li>
+            </ul>
+            <ul class="footer-links">
+              <li><a href="#">Berlangganan Supplier+</a></li>
+              <li><a href="#">Bergabung menjadi Mitra</a></li>
+              <li><a href="#">Syarat & Ketentuan</a></li>
+              <li><a href="#">Kebijakan Privasi</a></li>
+            </ul>
+          </div>
+          <div class="footer-apps">
+            <a href="#"
+              ><img src="../../src/image/image-10.png" alt="Google Play"
+            /></a>
+            <a href="#"
+              ><img src="../../src/image/image-20.png" alt="App Store"
+            /></a>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <span>PT Digital Creative Solusi Indonesia</span>
+          <span
+            >Copyright © 2025 Growkm Solutions • v1.0.0 • All Rights
+            Reserved</span
+          >
+        </div>
+      </div>
+    </footer>
+  </body>
+
+  <script>
+    const page_title = document.querySelector(".page_title");
+    const title = "Supplier+ Features - Growkm";
+    page_title.innerHTML = title;
+    document.title = title;
+
+    // Dropdown Event
+    const toggleDropdowns = document.querySelectorAll(".dropdown-toggle");
+    const dropdownMenus = document.querySelectorAll(".dropdown-menu");
+
+    toggleDropdowns.forEach((toggle, index) => {
+      toggle.addEventListener("click", () => {
+        dropdownMenus[index].classList.toggle("show");
+      });
+    });
+  </script>
+</html>
