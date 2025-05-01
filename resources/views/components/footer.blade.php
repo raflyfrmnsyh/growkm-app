@@ -36,7 +36,7 @@
                  <a href="{{ url('#') }}"
                      class="foot_nav-link hover:font-medium hover:text-primaryColors-base hover:text-nowrap lg:hover:text-wrap text-md">Tentang
                      Growkm</a>
-                 <a href="{{ url('#') }}"
+                 <a href="{{ url('/our-partner') }}"
                      class="foot_nav-link hover:font-medium hover:text-primaryColors-base hover:text-nowrap lg:hover:text-wrap text-md">Mitra
                      Growkm</a>
                  <a href="{{ url('#') }}"

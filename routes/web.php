@@ -8,3 +8,20 @@ Route::get('/', function () {
     ]);
 });
 
+Route::get('/our-team', function () {
+    return view('landingpage/our-team', [
+        'title' => "Tim Growkm"
+    ]);
+});
+
+Route::get('/our-partner', function () {
+    return view('landingpage/our-partner', [
+        'title' => "Partner Growkm"
+    ]);
+});
+
+Route::get('/about-supplier-plus', function () {
+    return view('landingpage/about-supplier-plus', [
+        'title' => "Tentang Supplier Plus"
+    ]);
+});

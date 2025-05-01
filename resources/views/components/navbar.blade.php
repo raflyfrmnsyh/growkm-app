@@ -52,9 +52,9 @@
         <x-nav-link href="{{ url('#') }}">Program Growkm</x-nav-link>
         <x-dropdown-nav-link :dropdownName="'Sumber Daya'">
             <x-slot name="linkName">
-                <x-nav-link href="{{ url('#') }}">Mitra Growkm</x-nav-link>
-                <x-nav-link href="{{ url('#') }}">Tentang Supplier+</x-nav-link>
-                <x-nav-link href="{{ url('#') }}">Tim Growkm</x-nav-link>
+                <x-nav-link href="{{ url('/our-partner') }}">Mitra Growkm</x-nav-link>
+                <x-nav-link href="{{ url('/about-supplier-plus') }}">Tentang Supplier+</x-nav-link>
+                <x-nav-link href="{{ url('/our-team') }}">Tim Growkm</x-nav-link>
             </x-slot>
         </x-dropdown-nav-link>
 
