@@ -7,3 +7,4 @@ Route::get('/', function () {
         'title' => "Home - Growkm app"
     ]);
 });
+
