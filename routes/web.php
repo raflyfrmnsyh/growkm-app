@@ -25,3 +25,27 @@ Route::get('/about-supplier-plus', function () {
         'title' => "Tentang Supplier Plus"
     ]);
 });
+
+Route::get('/auth/login', function () {
+    return view('_auth.sign-in', [
+        'title' => "Login - Growkm app"
+    ]);
+});
+
+Route::get('/auth/register', function () {
+    return view('_auth.sign-up', [
+        'title' => "Register - Growkm app"
+    ]);
+});
+
+Route::get('/auth/forgot-password', function () {
+    return view('_auth.forgot-password', [
+        'title' => "Lupa Password - Growkm app"
+    ]);
+});
+
+Route::get('/auth/reset-password', function () {
+    return view('_auth.reset-password', [
+        'title' => "Reset Password - Growkm app"
+    ]);
+});

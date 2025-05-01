@@ -16,9 +16,9 @@
             <!-- Mobile: Sumber Daya / Dropdown-->
             <x-dropdown-nav-link :dropdownName="'Sumber Daya'">
                 <x-slot name="linkName">
-                    <x-nav-link href="#">Mitra Growkm</x-nav-link>
-                    <x-nav-link href="#">Tentang Supplier+</x-nav-link>
-                    <x-nav-link href="#">Tim Growkm</x-nav-link>
+                    <x-nav-link href="{{ url('/our-partner') }}">Mitra Growkm</x-nav-link>
+                    <x-nav-link href="{{ url('/about-supplier-plus') }}">Tentang Supplier+</x-nav-link>
+                    <x-nav-link href="{{ url('/our-team') }}">Tim Growkm</x-nav-link>
                 </x-slot>
             </x-dropdown-nav-link>
 
@@ -38,9 +38,9 @@
                     </x-slot>
                 </x-dropdown-nav-link>
 
-                <a href="#"
+                <a href="{{ url('/auth/register') }}"
                     class="rounded border border-dark-base text-dark-base text-center px-4 py-3 hover:bg-gray-50 transition">Daftar</a>
-                <a href="#"
+                <a href="{{ url('/auth/login') }}"
                     class="rounded bg-dark-base text-white text-center px-4 py-3 hover:bg-gray-900 transition">Masuk</a>
             </div>
         </div>
@@ -74,9 +74,9 @@
                         <x-nav-link href="#">EN - Inggris</x-nav-link>
                     </x-slot>
                 </x-dropdown-nav-link>
-                <a href="#"
+                <a href="{{ url('/auth/register') }}"
                     class="btn px-3 py-2 border border-dark-base bg-transparent text-dark-base rounded-[4px]">Daftar</a>
-                <a href="#"
+                <a href="{{ url('/auth/login') }}"
                     class="btn px-3 py-2 border border-dark-base bg-dark-base text-light-base rounded-[4px]">Masuk</a>
             </div>
         </li>
