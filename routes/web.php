@@ -30,22 +30,22 @@ Route::get('/auth/login', function () {
     return view('_auth.sign-in', [
         'title' => "Login - Growkm app"
     ]);
-});
+})->name('login');
 
 Route::get('/auth/register', function () {
     return view('_auth.sign-up', [
         'title' => "Register - Growkm app"
     ]);
-});
+})->name('register');
 
 Route::get('/auth/forgot-password', function () {
     return view('_auth.forgot-password', [
         'title' => "Lupa Password - Growkm app"
     ]);
-});
+})->name('forgot.password');
 
 Route::get('/auth/reset-password', function () {
     return view('_auth.reset-password', [
         'title' => "Reset Password - Growkm app"
     ]);
-});
+})->name('password.reset');

@@ -9,3 +9,6 @@ export default defineConfig({
         }),
     ],
 });
+
+console.log('VITE_APP_URL from .env:', process.env.VITE_APP_URL);
+
