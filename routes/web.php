@@ -49,3 +49,10 @@ Route::get('/auth/reset-password', function () {
         'title' => "Reset Password - Growkm app"
     ]);
 });
+
+
+Route::get('/user/dashboard', function () {
+    return view('_users.dashboard', [
+        'title' => "Dashboard - Growkm app"
+    ]);
+});
