@@ -6,7 +6,7 @@
       <div class="bg-gradient-to-br from-white to-gray-100 py-16 px-4 md:px-0">
         <div class="max-w-6xl mx-auto text-left">
             <h1 class="text-3xl md:text-4xl font-bold mb-4 text-gray-900">
-                Berkembang bersama pelaku usaha <br>
+                Berkembang bersama pelaku <br>
                 usaha se–Indonesia melalui <br>
                 <span class="text-[#007F73]">Pendampingan Growkm</span>
             </h1>
