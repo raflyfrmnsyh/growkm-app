@@ -1,6 +1,6 @@
-<x-client-side-layout>
+<x-layouts.client-side-layout>
     <x-slot:title>{{ $title }}</x-slot:title>
-    <x-header></x-header>
+    <x-partials.header></x-partials.header>
 
     {{-- Make content bellow! --}}
-</x-client-side-layout>
+</x-layouts.client-side-layout>

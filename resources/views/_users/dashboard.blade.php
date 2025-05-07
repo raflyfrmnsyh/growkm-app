@@ -1,112 +1,57 @@
 <html>
-<x-head-info>
+<x-partials.head-info>
     <x-slot:title>{{ $title }}</x-slot:title>
-</x-head-info>
+</x-partials.head-info>
 
-<body class="bg-gray-100 flex flex-row min-h-screen">
-    <aside
-        class="desktop-sidebar w-[300px] bg-light-base border-r-[1px] border-gray-300 h-screen fixed top-0 left-0 z-50 hidden lg:block">
-        <div class="sidebar_head-logo px-6 py-4 border-b-[1px] border-gray-300 w-full">
-            <img src="{{ asset('image/logo-growkm.svg') }}" alt="logo" class="logo cursor-pointer w-1/2 h-auto">
-        </div>
-        <div class="sidebar_menu my-4 ">
-            <ul class="flex flex-col gap-2">
-                <span
-                    class="menu-section w-full py-3 px-6 text-md text-secondaryColors-base font-medium">Aktivitas</span>
-                <li
-                    class="flex items-center gap-4 px-6 py-3 w-full isActive cursor-pointer relative hover:bg-[#007f7310] transition-all duration-300 ease-in-out">
-                    <i
-                        class="hgi hgi-stroke hgi-dashboard-square-setting text-xl text-secondaryColors-base font-semibold"></i>
-                    <a href="{{ url('#') }}"
-                        class="text-secondaryColors-base mb-[1px] text-lg font-medium">Dashboard</a>
-                    <div class="line-active absolute left-0 w-[4px] h-full bg-secondaryColors-base rounded-r-lg">
+<body class="bg-gray-100 flex flex-row min-h-screen justify-center items-start">
+    <x-dashboards.sidebar></x-dashboards.sidebar>
+
+    <main class="w-[80%] left-[20%] absolute  min-h-screen">
+        <header
+            class="w-full px-8 py-3 border-b-[1px] border-gray-300 bg-light-base flex gap-4 justify-end items-center h-[80px]">
+            <x-partials.dropdown-nav-link :dropdownName="'Program Growkm'" :dropdownClass="'text-md'">
+                <x-slot name="linkName">
+                    <x-partials.nav-link href="{{ url('/our-partner') }}" class="block px-4 py-2 hover:bg-gray-100">Event
+                        & Kelas Gratis</x-partials.nav-link>
+                    <x-partials.nav-link href="{{ url('/about-supplier-plus') }}"
+                        class="block px-4 py-2 hover:bg-gray-100">Supplier Plus</x-partials.nav-link>
+                    <x-partials.nav-link href="{{ url('/our-team') }}" class="block px-4 py-2 hover:bg-gray-100">Program
+                        Pendampingan</x-partials.nav-link>
+                </x-slot>
+            </x-partials.dropdown-nav-link>
+            <x-partials.nav-link href="{{ url('$') }}">Pusat Bantuan</x-partials.nav-link>
+
+            <div x-data="{ isOpen: false }" class="relative">
+                <div class="profile-menu flex items-center gap-2 cursor-pointer" @click="isOpen = !isOpen">
+                    <div class="profile-img w-[44px] h-[44px] rounded-[4px] bg-gray-300 overflow-hidden">
+                        <img src="{{ asset('image/dummy-profile.png') }}" alt="profile"
+                            class="w-full h-full object-cover">
                     </div>
-                    <div
-                        class="dot-active absolute right-6 w-5 h-5 rounded-full  border-4 border-secondaryColors-10 bg-secondaryColors-base">
+                    <div class="profile-name">
+                        <div class="flex items-center gap-1">
+                            <h5 class="_name font-medium">Rafly Firmansyah</h5>
+                            <x-icons.verify-icon></x-icons.verify-icon>
+                        </div>
+                        <span class="text-sm text-gray-600">Basic Member</span>
                     </div>
-                </li>
-                <li
-                    class="flex items-center gap-4 px-6 py-3 w-full cursor-pointer relative hover:bg-[#007f7310] transition-all duration-300 ease-in-out">
+                </div>
+                <div x-show="isOpen" x-transition
+                    class="absolute right-0 mt-6 w-56 bg-white border border-gray-300 rounded-[4px] shadow-lg z-50">
+                    <x-partials.nav-link href="{{ url('/profile') }}"
+                        class="block px-4 py-2 hover:bg-gray-100">Profile</x-partials.nav-link>
+                    <x-partials.nav-link href="{{ url('/setting') }}"
+                        class="block px-4 py-2 hover:bg-gray-100">Pengaturan</x-partials.nav-link>
+                    <x-partials.nav-link href="{{ url('/logout') }}"
+                        class="block px-4 py-2 hover:bg-gray-100">Keluar</x-partials.nav-link>
+                </div>
+            </div>
+        </header>
 
-                    <i
-                        class="hgi hgi-stroke hgi-dashboard-square-setting text-xl text-primaryColors-90 font-medium"></i>
-                    <a href="{{ url('#') }}" class="text-primaryColors-90 mb-[1px] text-lg font-normal">Kelas &
-                        Event Saya</a>
-                </li>
-                <li
-                    class="flex items-center gap-4 px-6 py-3 w-full cursor-pointer relative hover:bg-[#007f7310] transition-all duration-300 ease-in-out">
+        <section class="main-content">
 
-                    <i
-                        class="hgi hgi-stroke hgi-dashboard-square-setting text-xl text-primaryColors-90 font-medium"></i>
-                    <a href="{{ url('#') }}" class="text-primaryColors-90 mb-[1px] text-lg font-normal">Sertifikat
-                        / Skillbadge</a>
-                </li>
-                <li
-                    class="flex items-center gap-4 px-6 py-3 w-full cursor-pointer relative hover:bg-[#007f7310] transition-all duration-300 ease-in-out">
+        </section>
+    </main>
 
-                    <i
-                        class="hgi hgi-stroke hgi-dashboard-square-setting text-xl text-primaryColors-90 font-medium"></i>
-                    <a href="{{ url('#') }}" class="text-primaryColors-90 mb-[1px] text-lg font-normal">Supplier
-                        Saya</a>
-                </li>
-                <li
-                    class="flex items-center gap-4 px-6 py-3 w-full cursor-pointer relative hover:bg-[#007f7310] transition-all duration-300 ease-in-out">
-
-                    <i
-                        class="hgi hgi-stroke hgi-dashboard-square-setting text-xl text-primaryColors-90 font-medium"></i>
-                    <a href="{{ url('#') }}" class="text-primaryColors-90 mb-[1px] text-lg font-normal">Program
-                        Mentoring</a>
-                </li>
-            </ul>
-            <ul class="flex flex-col gap-2">
-                <span
-                    class="menu-section w-full py-3 px-6 text-md text-secondaryColors-base font-medium">Transaksi</span>
-                <li
-                    class="flex items-center gap-4 px-6 py-3 w-full cursor-pointer relative hover:bg-[#007f7310] transition-all duration-300 ease-in-out">
-
-                    <i
-                        class="hgi hgi-stroke hgi-dashboard-square-setting text-xl text-primaryColors-90 font-medium"></i>
-                    <a href="{{ url('#') }}" class="text-primaryColors-90 mb-[1px] text-lg font-normal">
-                        Riwayat Transaksi</a>
-                </li>
-                <li
-                    class="flex items-center gap-4 px-6 py-3 w-full cursor-pointer relative hover:bg-[#007f7310] transition-all duration-300 ease-in-out">
-
-                    <i
-                        class="hgi hgi-stroke hgi-dashboard-square-setting text-xl text-primaryColors-90 font-medium"></i>
-                    <a href="{{ url('#') }}" class="text-primaryColors-90 mb-[1px] text-lg font-normal">
-                        Upgrade Member</a>
-                </li>
-            </ul>
-            <ul class="flex flex-col gap-2">
-                <span class="menu-section w-full py-3 px-6 text-md text-secondaryColors-base font-medium">Lainnya</span>
-                <li
-                    class="flex items-center gap-4 px-6 py-3 w-full cursor-pointer relative hover:bg-[#007f7310] transition-all duration-300 ease-in-out">
-
-                    <i
-                        class="hgi hgi-stroke hgi-dashboard-square-setting text-xl text-primaryColors-90 font-medium"></i>
-                    <a href="{{ url('#') }}" class="text-primaryColors-90 mb-[1px] text-lg font-normal">
-                        Pengaturan</a>
-                </li>
-                <li
-                    class="flex items-center gap-4 px-6 py-3 w-full cursor-pointer relative hover:bg-[#007f7310] transition-all duration-300 ease-in-out">
-
-                    <i
-                        class="hgi hgi-stroke hgi-dashboard-square-setting text-xl text-primaryColors-90 font-medium"></i>
-                    <a href="{{ url('#') }}" class="text-primaryColors-90 mb-[1px] text-lg font-normal">
-                        Logout</a>
-                </li>
-            </ul>
-        </div>
-    </aside>
-
-    {{-- <header class="dashboard-header">
-
-    </header>
-
-    <main class="dashboard-content">
-
-    </main> --}}
 </body>
 
 </html>

@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
-<x-head-info>
+<x-partials.head-info>
     <x-slot name="title">{{ $title }}</x-slot>
-</x-head-info>
+</x-partials.head-info>
 
 <body>
     {{ $slot }}
 </body>
 
-<x-footer></x-footer>
+<x-partials.footer></x-partials.footer>
 
 </html>
