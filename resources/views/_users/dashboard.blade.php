@@ -318,8 +318,65 @@
                     </div>
                 </div>
             </div>
-            <div class="my_event w-[40%] bg-light-base">
-                Event Terdekat
+            <div class="my_event w-[40%] bg-light-base rounded-lg">
+                <div
+                    class="my-event_head px-6 py-4 border-b-[1px] border-gray-200 bg-[linear-gradient(90deg,_#003C43_0%,_#007F73_52.31%,_#E4C46E_100%)] rounded-t-lg">
+                    <h2 class="text-white font-medium">Event mendatang</h2>
+                </div>
+                <div class="my-event_body p-6 flex flex-col gap-6">
+                    <div class="event-card flex flex-col gap-2 p-4 rounded-lg border-[1px] border-gray-200">
+                        <div class="event-card_head">
+                            <h2 class="event_title font-semibold text-lg">Merancang Bisnis Digital</h2>
+                            <span class="text-sm">Webinar by growKm</span>
+                        </div>
+                        <div class="event-card-body">
+                            <p class="text-[14px]">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Corrupti,
+                                repellendus at. Sit
+                                velit dolor assumenda?
+                            </p>
+
+                            <div class="detail flex items-center gap-4 mt-4">
+                                <div class="date flex items-center gap-2">
+                                    <x-icons.calendar class="stroke-primaryColors-base size-5"></x-icons.calendar>
+                                    <span class="text-[14px]">12 Desember 2023</span>
+                                </div>
+                                <div class="time flex items-center gap-2">
+                                    <x-icons.time class="stroke-primaryColors-base size-5"></x-icons.time>
+                                    <span class="text-[14px]">09:00 s/d selesai</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="event-card flex flex-col gap-2 p-4 rounded-lg border-[1px] border-gray-200">
+                        <div class="event-card_head">
+                            <h2 class="event_title font-semibold text-lg">Merancang Bisnis Digital</h2>
+                            <span class="text-sm">Webinar by growKm</span>
+                        </div>
+                        <div class="event-card-body">
+                            <p class="text-[14px]">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Corrupti,
+                                repellendus at. Sit
+                                velit dolor assumenda?
+                            </p>
+
+                            <div class="detail flex items-center gap-4 mt-4">
+                                <div class="date flex items-center gap-2">
+                                    <x-icons.calendar class="stroke-primaryColors-base size-5"></x-icons.calendar>
+                                    <span class="text-[14px]">12 Desember 2023</span>
+                                </div>
+                                <div class="time flex items-center gap-2">
+                                    <x-icons.time class="stroke-primaryColors-base size-5"></x-icons.time>
+                                    <span class="text-[14px]">09:00 s/d selesai</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div
+                    class="my-event-foot flex items-center justify-center p-3 rounded-b-lg bg-light-base border-t-[1px] border-gray-200 gap-2 cursor-pointer">
+                    <a href="{{ url('#') }}" class="font-semibold text-primaryColors-60 text-md">Lihat
+                        semua</a>
+                    <x-icons.arrow-right class="stroke-primaryColors-base size-6 mt-1"></x-icons.arrow-right>
+                </div>
             </div>
 
         </section>
