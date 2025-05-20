@@ -1,5 +1,5 @@
 <aside
-    class="desktop-sidebar w-[20%] bg-light-base border-r-[1px] border-gray-300 h-screen fixed top-0 left-0 z-50 hidden lg:block">
+    class="desktop-sidebar w-[20%] bg-light-base border-r-[1px] border-gray-300 h-screen fixed top-0 left-0 z-50 hidden lg:block scroll">
     <div class="sidebar_head-logo px-6 py-4 border-b-[1px] border-gray-300 w-full h-[80px] flex items-center">
         <img src="{{ asset('image/logo-growkm.svg') }}" alt="logo" class="logo cursor-pointer w-[40%] h-auto">
     </div>
@@ -20,12 +20,6 @@
                 <x-icons.computer-user class="size-6 stroke-primaryColors-90"></x-icons.computer-user>
                 <a href="{{ url('#') }}" class="text-primaryColors-90 mb-[1px] text-md font-normal">Kelas &
                     Event Saya</a>
-            </li>
-            <li
-                class="flex items-center gap-4 px-6 py-3 w-full cursor-pointer relative hover:bg-[#007f7310] transition-all duration-300 ease-in-out">
-                <x-icons.certificate class="size-6 stroke-primaryColors-90"></x-icons.certificate>
-                <a href="{{ url('#') }}" class="text-primaryColors-90 mb-[1px] text-md font-normal">Sertifikat
-                    / Skillbadge</a>
             </li>
             <li
                 class="flex items-center gap-4 px-6 py-3 w-full cursor-pointer relative hover:bg-[#007f7310] transition-all duration-300 ease-in-out">
@@ -53,8 +47,8 @@
             <li
                 class="flex items-center gap-4 px-6 py-3 w-full cursor-pointer relative hover:bg-[#007f7310] transition-all duration-300 ease-in-out">
                 <x-icons.star-medal class="size-6 stroke-primaryColors-90"></x-icons.star-medal>
-                <a href="{{ url('#') }}" class="text-primaryColors-90 mb-[1px] text-md font-normal">Sertifikat
-                    / Skillbadge</a>
+                <a href="{{ url('#') }}" class="text-primaryColors-90 mb-[1px] text-md font-normal">Upgrade
+                    Member</a>
             </li>
         </ul>
         <ul class="flex flex-col gap-2">

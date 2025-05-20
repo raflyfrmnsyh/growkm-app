@@ -1,4 +1,5 @@
-<div x-data="{ childOpen: false }" class="flex flex-col md:flex-row md:item-center md:gap-8 md:text-lg">
+<div x-data="{ childOpen: false }"
+    class="{{ $class ?? 'hidden lg:flex flex-col md:flex-row md:item-center md:gap-8 md:text-lg' }}">
     <button @click="childOpen = !childOpen"
         class="flex justify-between md:justify-normal items-center w-full hover:text-primaryColors-500 transition md:leading-none md:whitespace-nowrap md:cursor-pointer md:gap-1">
         @if (!empty($beforeIcon))
@@ -20,3 +21,4 @@
         {{ $linkName }}
     </div>
 </div>
+{{--  --}}
