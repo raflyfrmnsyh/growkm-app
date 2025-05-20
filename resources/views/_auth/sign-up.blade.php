@@ -51,7 +51,7 @@
 <body class="min-h-screen flex items-center justify-center py-10">
     <div class="w-full max-w-[547px] mx-auto p-10 bg-white auth-card rounded-xl"
     x-data="formhandler()">
-            
+
 
         <!-- Logo Container -->
         <div class="flex justify-center mb-8">
@@ -200,22 +200,22 @@
     </div>
 </body>
 
-<script>   
+<script>
 function formhandler() {
-    return {    
-    name: '', 
+    return {
+    name: '',
     email: '', // ditambahkan
     password: '',
-    confirmPassword: '', 
-    agreeToTerms: false, 
+    confirmPassword: '',
+    agreeToTerms: false,
     rememberMe: false,
     showPassword: false,
     loading: false,
     errors: {
-        name: '', 
+        name: '',
         email: '',
         password: '',
-        confirmPassword: '', 
+        confirmPassword: '',
         terms: ''
     },
     errorMessage: '',
@@ -277,6 +277,7 @@ function formhandler() {
                 this.errors.password = 'Must include at least one special character (@$!%*?&)';
                 hasError = true;
             }
+            
 
 
             // Validasi Konfirmasi Password
@@ -305,6 +306,6 @@ function formhandler() {
         }, 800);
     }
 };
-}    
+}
 </script>
 </html>
