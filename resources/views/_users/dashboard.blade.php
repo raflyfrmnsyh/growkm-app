@@ -9,14 +9,14 @@
     <main class="w-full lg:w-[80%] lg:left-[20%] absolute ">
         {{-- Mobile Header --}}
         <div
-            class="mobile_header flex w-full lg:hidden px-4 py-3 border-b-[1px] border-gray-300 bg-light-base justify-between items-center h-[80px]">
+            class="mobile_header  fixed flex w-full lg:hidden px-4 py-3 border-b-[1px] border-gray-300 bg-light-base justify-between items-center h-[80px]">
             <img src="{{ asset('image/logo-growkm.svg') }}" alt="logo" class="logo h-[70%]  cursor-pointer">
 
             <div x-data="{ open: false }" x-transition>
                 <x-partials.hamburger-button></x-partials.hamburger->
 
                     <div x-show="open" click.outside="open = false" x-transition
-                        class="absolute bg-light-base w-full top-full h-screen left-0 px-4 py-6">
+                        class="absolute bg-light-base w-full top-[80px] h-screen left-0 px-4 py-6  z-50">
                         {{-- profile --}}
                         <div class="flex items-center justify-between mb-4">
                             <div class="flex items-center gap-3">
@@ -116,7 +116,7 @@
 
         {{-- Desktop Header --}}
         <header
-            class=" desktop_header hidden px-8 py-3 border-b-[1px] border-gray-300 bg-light-base lg:flex gap-4 justify-end items-center h-[80px]">
+            class=" desktop_header fixed w-[80%] hidden px-8 py-3 border-b-[1px] border-gray-300 bg-light-base lg:flex gap-4 justify-end items-center h-[80px]">
 
             <x-partials.dropdown-nav-link :dropdownName="'Program Growkm'" :dropdownClass="'text-md'">
                 <x-slot name="linkName">
@@ -159,7 +159,7 @@
             </div>
         </header>
 
-        <section class="section_content flex items-start gap-4 m-8">
+        <section class="section_content flex items-start gap-4 mx-8 py-[112px]">
             <div class="main-content w-[70%]  ">
                 <div class="stat-dash">
                     <div
@@ -203,11 +203,118 @@
                         </div>
                     </div>
                 </div>
-                <div class="course-progress bg-light-base p-6 mt-6 rounded-lg">
-                    <div class="course-progress_head flex items-center justify-between">
-                        <h2 class="text-lg">Lanjutkan Progress</h2>
-                        <a class="font-medium text-secondaryColors-base text-md"
-                            href="{{ url('#') }}">Selengkapnya</a>
+                <div class="mt-6">
+                    <div
+                        class="progress-header flex items-center justify-between px-6 py-4 rounded-t-lg bg-light-base border-b-[1px] border-gray-200">
+                        <h2 class="font-semibold text-primaryColors-60 text-lg">Lanjutkan Progress Belajar</h2>
+
+                        <div x-data="{ view: 'grid' }"
+                            class="flex items-center space-x-2 bg-gray-100 p-2 rounded-lg w-fit">
+                            <!-- Tombol Grid View -->
+                            <button
+                                :class="view === 'grid' ? 'bg-secondaryColors-60 text-light-base shadow' : 'text-gray-600'"
+                                @click="view = 'grid'"
+                                class="px-4 py-2 text-sm font-medium rounded-md transition-colors duration-200">
+                                Grid View
+                            </button>
+
+                            <!-- Tombol List View -->
+                            <button
+                                :class="view === 'list' ? 'bg-secondaryColors-60 text-light-base' : 'text-gray-600'"
+                                @click="view = 'list'"
+                                class="px-4 py-2 text-sm font-medium rounded-md transition-colors duration-200">
+                                List View
+                            </button>
+                        </div>
+                    </div>
+                    <div class="progress-container px-6 py-6 bg-light-base  flex flex-wrap gap-6"
+                        :class="view === 'list' ? 'flex-col' : 'flex-row flex-wrap'">
+                        <div class="progress-card w-full md:w-[48%] p-4 border-[1px] border-gray-200 rounded-lg flex flex-col gap-3"
+                            :class="view === 'list' ? 'w-full' : 'md:w-[48%] w-full'">
+                            <div class="card-progress_head flex justify-between items-center">
+                                <h2 class="course-title font-medium text-lg">
+                                    Lorem ipsum dolor si..
+                                </h2>
+                                <span
+                                    class="course-status text-[14px] px-2 py-1 bg-secondaryColors-10 text-secondaryColors-base rounded-[4px]">
+                                    on-progress
+                                </span>
+                            </div>
+                            <p class="card-course_body text-[14px]">Lorem ipsum dolor sit amet consectetur
+                                elit. Omnis ipsam perferendis ali...
+                            </p>
+                            <div class="course-course-foot py-2 mt-2  ">
+                                <a href="{{ url('#') }}"
+                                    class="btn text-[14px] py-2 px-3 font-normal rounded-md  text-light-base bg-secondaryColors-base">Lanjutkan
+                                    Belajar</a>
+                            </div>
+                        </div>
+                        <div class="progress-card w-full md:w-[48%] p-4 border-[1px] border-gray-200 rounded-lg flex flex-col gap-3"
+                            :class="view === 'list' ? 'w-full' : 'md:w-[48%] w-full'">
+                            <div class="card-progress_head flex justify-between items-center">
+                                <h2 class="course-title font-medium text-lg">
+                                    Lorem ipsum dolor si..
+                                </h2>
+                                <span
+                                    class="course-status text-[14px] px-2 py-1 bg-secondaryColors-10 text-secondaryColors-base rounded-[4px]">
+                                    on-progress
+                                </span>
+                            </div>
+                            <p class="card-course_body text-[14px]">Lorem ipsum dolor sit amet consectetur
+                                elit. Omnis ipsam perferendis ali...
+                            </p>
+                            <div class="course-course-foot py-2 mt-2  ">
+                                <a href="{{ url('#') }}"
+                                    class="btn text-[14px] py-2 px-3 font-normal rounded-md  text-light-base bg-secondaryColors-base">Lanjutkan
+                                    Belajar</a>
+                            </div>
+                        </div>
+                        <div class="progress-card w-full md:w-[48%] p-4 border-[1px] border-gray-200 rounded-lg flex flex-col gap-3"
+                            :class="view === 'list' ? 'w-full' : 'md:w-[48%] w-full'">
+                            <div class="card-progress_head flex justify-between items-center">
+                                <h2 class="course-title font-medium text-lg">
+                                    Lorem ipsum dolor si..
+                                </h2>
+                                <span
+                                    class="course-status text-[14px] px-2 py-1 bg-secondaryColors-10 text-secondaryColors-base rounded-[4px]">
+                                    on-progress
+                                </span>
+                            </div>
+                            <p class="card-course_body text-[14px]">Lorem ipsum dolor sit amet consectetur
+                                elit. Omnis ipsam perferendis ali...
+                            </p>
+                            <div class="course-course-foot py-2 mt-2  ">
+                                <a href="{{ url('#') }}"
+                                    class="btn text-[14px] py-2 px-3 font-normal rounded-md  text-light-base bg-secondaryColors-base">Lanjutkan
+                                    Belajar</a>
+                            </div>
+                        </div>
+                        <div class="progress-card w-full md:w-[48%] p-4 border-[1px] border-gray-200 rounded-lg flex flex-col gap-3"
+                            :class="view === 'list' ? 'w-full' : 'md:w-[48%] w-full'">
+                            <div class="card-progress_head flex justify-between items-center">
+                                <h2 class="course-title font-medium text-lg">
+                                    Lorem ipsum dolor si..
+                                </h2>
+                                <span
+                                    class="course-status text-[14px] px-2 py-1 bg-secondaryColors-10 text-secondaryColors-base rounded-[4px]">
+                                    on-progress
+                                </span>
+                            </div>
+                            <p class="card-course_body text-[14px]">Lorem ipsum dolor sit amet consectetur
+                                elit. Omnis ipsam perferendis ali...
+                            </p>
+                            <div class="course-course-foot py-2 mt-2  ">
+                                <a href="{{ url('#') }}"
+                                    class="btn text-[14px] py-2 px-3 font-normal rounded-md  text-light-base bg-secondaryColors-base">Lanjutkan
+                                    Belajar</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div
+                        class="progress-header flex items-center justify-center p-3 rounded-b-lg bg-light-base border-t-[1px] border-gray-200 gap-2 cursor-pointer">
+                        <a href="{{ url('#') }}" class="font-semibold text-primaryColors-60 text-md">Lihat
+                            semua</a>
+                        <x-icons.arrow-right class="stroke-primaryColors-base size-6 mt-1"></x-icons.arrow-right>
                     </div>
                 </div>
             </div>
