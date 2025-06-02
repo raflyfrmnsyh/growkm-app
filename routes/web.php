@@ -56,3 +56,22 @@ Route::get('/user/dashboard', function () {
         'title' => "Dashboard - Growkm app"
     ]);
 });
+
+//settings
+Route::get('/user/profile-info', function () {
+    return view('_users.settings.profile-info', [
+        'title' => "Profile Information - Growkm app"
+    ]);
+})->name('profile.info');
+
+Route::get('/user/account-info', function () {
+    return view('_users.settings.account-info', [
+        'title' => "Account Information - Growkm app"
+    ]);
+})->name('account.info');
+
+Route::get('/user/change-password', function () {
+    return view('_users.settings.change-password', [
+        'title' => "Change Password - Growkm app"
+    ]);
+})->name('change.password');
