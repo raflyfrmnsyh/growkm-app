@@ -2,6 +2,24 @@
 
 use Illuminate\Support\Facades\Route;
 
+
+// Prefix Routing
+
+Route::prefix('admin')->group(function () {
+    Route::get('/dashboard', function () {
+        return view('_admin.dashboard', [
+            'title' => "Dashboard - Growkm app"
+        ]);
+    })->name('admin.dashboard');
+});
+
+
+
+
+
+
+// Basic Routing
+
 Route::get('/', function () {
     return view('landing-page', [
         'title' => "Home - Growkm app"
@@ -59,19 +77,19 @@ Route::get('/user/dashboard', function () {
 
 //settings
 Route::get('/user/profile-info', function () {
-    return view('_users.settings.profile-info', [
+    return view('_users._settings.profile-info', [
         'title' => "Profile Information - Growkm app"
     ]);
 })->name('profile.info');
 
 Route::get('/user/account-info', function () {
-    return view('_users.settings.account-info', [
+    return view('_users._settings.account-info', [
         'title' => "Account Information - Growkm app"
     ]);
 })->name('account.info');
 
 Route::get('/user/change-password', function () {
-    return view('_users.settings.change-password', [
+    return view('_users._settings.change-password', [
         'title' => "Change Password - Growkm app"
     ]);
 })->name('change.password');
