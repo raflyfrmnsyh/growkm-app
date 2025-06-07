@@ -74,30 +74,101 @@
                 </div>
 
                 <div class="top-5-list w-full flex items-center justify-between gap-4 flex-wrap">
-                    <div class="card w-[49%] bg-white rounded-lg p-6">
-                        <h3 class="text-xl font-semibold mb-4">Top 5 Product</h3>
+                    <div class="card w-[49%] bg-white rounded-lg cursor-pointer">
+                        <div class="pb-6 border-b border-gray-200 px-6 pt-6 flex items-center justify-between">
+                            <h3 class="text-xl font-semibold">Top 5 Product</h3>
 
-                        <ul class="lists">
-                            @for ($i = 0; $i < 5; $i++)
-                                <div class="lists-item py-4 flex items-center gap-4 w-full">
-                                    <div
-                                        class="badge w-8 h-8 bg-secondaryColors-50 text-white rounded-md flex items-center justify-center">
-                                        {{ $i + 1 }}
-                                    </div>
-                                    <div class="flex items-center gap-4 justify-between w-full">
-                                        <h2 class="text-lg font-semibold">Nama Produk</h2>
-                                        <div class="flex items-center gap-1">
-                                            <h2 class="text-xl font-semibold">100</h2>
-                                            <sub>/ total terjual</sub>
-                                        </div>
-                                    </div>
-                                </div>
-                            @endfor
-                        </ul>
+                            <span class="text-gray-600">Minggu ini</span>
+                        </div>
+
+                        <table class="w-full text-sm text-left">
+                            <thead class="text-sm uppercase bg-gray-50">
+                                <tr>
+                                    <th class="text-center py-3 px-3">
+                                        Rank
+                                    </th>
+                                    <th class="text-start py-3 px-3 w-[40%]">
+                                        Product Name
+                                    </th>
+                                    <th class="text-start py-3 px-3">
+                                        Kategori
+                                    </th>
+                                    <th class="text-center py-3 px-3 ">
+                                        Total Sale
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-md">
+                                @for ($i = 0; $i < 5; $i++)
+                                    <tr
+                                        class="{{ $i < 4 ? 'border-b border-gray-100' : '' }} {{ in_array($i + 1, [2, 4]) ? 'bg-gray-50' : '' }} {{ $i == 4 ? 'rounded-b-md' : '' }}">
+                                        <td class="py-3 px-3 text-center {{ $i == 4 ? 'rounded-bl-md' : '' }}">
+                                            {{ $i + 1 }}
+                                        </td>
+                                        <td class="py-3 px-3 text-start">
+                                            Nama Product
+                                        </td>
+                                        <td class="py-3 px-3 text-start">
+                                            Nama Kategori
+                                        </td>
+                                        <td class="py-3 px-3 text-start {{ $i == 4 ? 'rounded-br-md' : '' }}">
+                                            Rp. 50.000
+                                        </td>
+                                    </tr>
+                                @endfor
+                            </tbody>
+                        </table>
+
+
                     </div>
-                    <div class="card w-[49%] bg-white rounded-lg p-6">
-                        <h3 class="text-xl font-semibold">Top 5 Event & Kelas</h3>
+                    <div class="card w-[49%] bg-white rounded-lg cursor-pointer">
+                        <div class="pb-6 border-b border-gray-200 px-6 pt-6 flex items-center justify-between">
+                            <h3 class="text-xl font-semibold">Top 5 Event & Kelas</h3>
+
+                            <span class="text-gray-600">Minggu ini</span>
+                        </div>
+
+                        <table class="w-full text-sm text-left">
+                            <thead class="text-sm uppercase bg-gray-50">
+                                <tr>
+                                    <th class="text-center py-3 px-3">
+                                        Rank
+                                    </th>
+                                    <th class="text-start py-3 px-3 w-[40%]">
+                                        Product Name
+                                    </th>
+                                    <th class="text-start py-3 px-3">
+                                        Kategori
+                                    </th>
+                                    <th class="text-center py-3 px-3 ">
+                                        Total Sale
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-md">
+                                @for ($i = 0; $i < 5; $i++)
+                                    <tr
+                                        class="{{ $i < 4 ? 'border-b border-gray-100' : '' }} {{ in_array($i + 1, [2, 4]) ? 'bg-gray-50' : '' }} {{ $i == 4 ? 'rounded-b-md' : '' }}">
+                                        <td class="py-3 px-3 text-center {{ $i == 4 ? 'rounded-bl-md' : '' }}">
+                                            {{ $i + 1 }}
+                                        </td>
+                                        <td class="py-3 px-3 text-start">
+                                            Nama Product
+                                        </td>
+                                        <td class="py-3 px-3 text-start">
+                                            Nama Kategori
+                                        </td>
+                                        <td class="py-3 px-3 text-start {{ $i == 4 ? 'rounded-br-md' : '' }}">
+                                            Rp. 50.000
+                                        </td>
+                                    </tr>
+                                @endfor
+                            </tbody>
+                        </table>
+
+
                     </div>
+
                 </div>
 
 
