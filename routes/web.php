@@ -56,3 +56,34 @@ Route::get('/user/dashboard', function () {
         'title' => "Dashboard - Growkm app"
     ]);
 });
+
+//course
+Route::get('/user/course-list-all', function () {
+    return view('_users.course.course-list-all', [
+        'title' => "Course List - Growkm app"
+    ]);
+})->name('course.all');
+
+Route::get('/user/course-list-just-course', function () {
+    return view('_users.course.course-list-just-course', [
+        'title' => "Course List - Growkm app"
+    ]);
+})->name('course.just.course');
+
+Route::get('/user/course-list-just-event', function () {
+    return view('_users.course.course-list-just-event', [
+        'title' => "Course List - Growkm app"
+    ]);
+})->name('course.just.event');
+
+Route::get('/user/course-list-all-done', function () {
+    return view('_users.course.course-list-all-done', [
+        'title' => "Course List - Growkm app"
+    ]);
+})->name('course.all.done');
+
+Route::get('/user/course/course-name', function () {
+    return view('_users.course.course-name', [
+        'title' => "Course Name - Growkm app"
+    ]);
+});
