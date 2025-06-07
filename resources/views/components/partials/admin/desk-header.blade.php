@@ -1,5 +1,5 @@
 <header
-    class=" desktop_header fixed w-[80%] hidden px-8 py-3 border-b-[1px] border-gray-300 bg-white lg:flex gap-4 justify-end items-center h-[80px]">
+    class=" desktop_header fixed w-[80%] hidden px-8 py-3 border-b-[1px] border-gray-300 bg-white lg:flex gap-4 justify-end items-center h-[80px] z-20">
 
     <div x-data="{ isOpen: false }" class="relative">
         <div class="profile-menu flex items-center gap-2 cursor-pointer" @click="isOpen = !isOpen">

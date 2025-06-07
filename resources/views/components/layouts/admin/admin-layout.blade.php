@@ -10,10 +10,25 @@
     @vite('resources/css/app.css')
 </head>
 
+<body class="bg-gray-100 flex flex-row justify-center items-start w-full h-full  relative">
 
 
-{{ $slot }}
+    <x-partials.admin.admin-sidebar></x-partials.admin.admin-sidebar>
 
+    <main class="w-full lg:w-[80%] lg:left-[20%] absolute ">
+        {{-- Mobile Header --}}
+        <x-partials.admin.mobile-header></x-partials.admin.mobile-header>
+
+        {{-- Desktop Header --}}
+        <x-partials.admin.desk-header></x-partials.admin.desk-header>
+
+
+        <section class="section_content flex flex-col items-start mx-8 py-[112px]">
+
+            {{ $slot }}
+        </section>
+    </main>
+</body>
 
 
 </html>

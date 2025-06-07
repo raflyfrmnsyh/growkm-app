@@ -11,6 +11,18 @@ Route::prefix('admin')->group(function () {
             'title' => "Dashboard - Growkm app"
         ]);
     })->name('admin.dashboard');
+
+    Route::get('/dashboard/transaksi/event', function () {
+        return view('_admin._transactions.events-page', [
+            'title' => 'Data Transaksi Event & Kelas'
+        ]);
+    })->name('admin.transaction-event');
+
+    Route::get('/dashboard/transaksi/product', function () {
+        return view('_admin._transactions.products-page', [
+            'title' => 'Data transaksi Product'
+        ]);
+    })->name('admin.transaction-product');
 });
 
 

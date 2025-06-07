@@ -8,25 +8,38 @@
             <span
                 class="menu-section w-full py-3 px-6 text-sm text-primaryColors-base font-medium uppercase opacity-45">Aktivitas</span>
             <li
-                class="flex items-center gap-4 px-6 py-3 w-full isActive cursor-pointer relative hover:bg-[#007f7310] transition-all duration-300 ease-in-out">
-                <x-icons.analytic-icon class="size-6 stroke-secondaryColors-base"></x-icons.analytic-icon>
-                <a href="{{ url('#') }}"
-                    class="text-secondaryColors-base mb-[1px] text-md font-medium">Dashboard</a>
-                <div class="line-active absolute left-0 w-[4px] h-full bg-secondaryColors-base rounded-r-lg">
-                </div>
+                class="flex items-center gap-4 px-6 py-3 w-full {{ request()->routeIs('admin.dashboard') ? 'isActive' : '' }} cursor-pointer relative hover:bg-[#007f7310] transition-all duration-300 ease-in-out">
+                <x-icons.analytic-icon
+                    class="size-6 {{ request()->routeIs('admin.dashboard') ? 'stroke-secondaryColors-base' : 'stroke-primaryColors-90' }}"></x-icons.analytic-icon>
+                <a href="{{ route('admin.dashboard') }}"
+                    class="{{ request()->routeIs('admin.dashboard') ? 'text-secondaryColors-base font-medium' : 'text-primaryColors-90 font-normal' }} mb-[1px] text-md">Dashboard</a>
+                @if (request()->routeIs('admin.dashboard'))
+                    <div class="line-active absolute left-0 w-[4px] h-full bg-secondaryColors-base rounded-r-lg"></div>
+                @endif
             </li>
             <li
-                class="flex items-center gap-4 px-6 py-3 w-full cursor-pointer relative hover:bg-[#007f7310] transition-all duration-300 ease-in-out">
-                <x-icons.transaction-icon class="size-6 stroke-primaryColors-90"></x-icons.transaction-icon>
-                <a href="{{ url('#') }}" class="text-primaryColors-90 mb-[1px] text-md font-normal">Transaksi
+                class="flex items-center gap-4 px-6 py-3 w-full {{ request()->routeIs('admin.transaction-event') ? 'isActive' : '' }} cursor-pointer relative hover:bg-[#007f7310] transition-all duration-300 ease-in-out">
+                <x-icons.transaction-icon
+                    class="size-6 {{ request()->routeIs('admin.transaction-event') ? 'stroke-secondaryColors-base' : 'stroke-primaryColors-90' }}"></x-icons.transaction-icon>
+                <a href="{{ route('admin.transaction-event') }}"
+                    class="{{ request()->routeIs('admin.transaction-event') ? 'text-secondaryColors-base font-medium' : 'text-primaryColors-90 font-normal' }} mb-[1px] text-md">Transaksi
                     Event & Kelas</a>
+                @if (request()->routeIs('admin.transaction-event'))
+                    <div class="line-active absolute left-0 w-[4px] h-full bg-secondaryColors-base rounded-r-lg"></div>
+                @endif
             </li>
             <li
-                class="flex items-center gap-4 px-6 py-3 w-full cursor-pointer relative hover:bg-[#007f7310] transition-all duration-300 ease-in-out">
-                <x-icons.transaction-01-icon class="size-6 stroke-primaryColors-90"></x-icons.transaction-01-icon>
-                <a href="{{ url('#') }}" class="text-primaryColors-90 mb-[1px] text-md font-normal">Transaksi
-                    Produk</a>
+                class="flex items-center gap-4 px-6 py-3 w-full {{ request()->routeIs('admin.transaction-product') ? 'isActive' : '' }} cursor-pointer relative hover:bg-[#007f7310] transition-all duration-300 ease-in-out">
+                <x-icons.transaction-01-icon
+                    class="size-6 {{ request()->routeIs('admin.transaction-product') ? 'stroke-secondaryColors-base' : 'stroke-primaryColors-90' }}"></x-icons.transaction-01-icon>
+                <a href="{{ route('admin.transaction-product') }}"
+                    class="{{ request()->routeIs('admin.transaction-product') ? 'text-secondaryColors-base font-medium' : 'text-primaryColors-90 font-normal' }} mb-[1px] text-md">Transaksi
+                    Product</a>
+                @if (request()->routeIs('admin.transaction-product'))
+                    <div class="line-active absolute left-0 w-[4px] h-full bg-secondaryColors-base rounded-r-lg"></div>
+                @endif
             </li>
+
         </ul>
 
         <ul class="flex flex-col gap-2">
