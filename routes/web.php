@@ -12,17 +12,39 @@ Route::prefix('admin')->group(function () {
         ]);
     })->name('admin.dashboard');
 
-    Route::get('/dashboard/transaksi/event', function () {
-        return view('_admin._transactions.events-page', [
-            'title' => 'Data Transaksi Event & Kelas'
-        ]);
-    })->name('admin.transaction-event');
+    Route::prefix('transaksi')->group(function () {
+        Route::get('/event', function () {
+            return view('_admin._transactions.events-page', [
+                'title' => 'Data Transaksi Event & Kelas'
+            ]);
+        })->name('admin.transaction-event');
 
-    Route::get('/dashboard/transaksi/product', function () {
-        return view('_admin._transactions.products-page', [
-            'title' => 'Data transaksi Product'
-        ]);
-    })->name('admin.transaction-product');
+        Route::get('product', function () {
+            return view('_admin._transactions.products-page', [
+                'title' => 'Data transaksi Product'
+            ]);
+        })->name('admin.transaction-product');
+    });
+
+    Route::prefix('manage')->group(function () {
+        Route::get('/event', function () {
+            return view('_admin._manage.event-data', [
+                'title' => 'Kelola data event'
+            ]);
+        })->name('admin.manage.event');
+
+        Route::get('/product', function () {
+            return view('_admin._manage.product-data', [
+                'title' => 'Kelola data Produk'
+            ]);
+        })->name('admin.manage.product');
+
+        Route::get('/admin', function () {
+            return view('_admin._manage.admin-data', [
+                'title' => 'Kelola data admin'
+            ]);
+        })->name('admin.manage.admin');
+    });
 });
 
 
