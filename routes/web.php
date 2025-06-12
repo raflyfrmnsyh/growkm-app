@@ -27,7 +27,7 @@ Route::get('/about-supplier-plus', function () {
 });
 
 Route::get('/auth/login', function () {
-    return view('_auth.sign-in', [
+    return view('_auth.signein', [
         'title' => "Login - Growkm app"
     ]);
 })->name('login');
