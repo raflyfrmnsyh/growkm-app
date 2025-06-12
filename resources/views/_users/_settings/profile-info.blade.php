@@ -14,12 +14,12 @@
 
         <section class="section_content flex items-start gap-4 mx-8 py-[112px]">
         <div class="flex flex-col items-center bg-gray-100 min-h-screen py-2 w-full">
-        <div class="w-full max-w-6xl bg-white rounded-lg shadow p-8">
+        <div class="w-full bg-white rounded-lg shadow p-8">
             {{-- Header --}}
             <div class="flex justify-between items-center mb-6">
                 <div>
                     <h1 class="text-2xl font-semibold">Edit Profile</h1>
-                    <p class="text-sm text-gray-500">Kelola informasi akun pribadimu di halaman ini.</p>
+                    <p class="text-base text-gray-500">Kelola informasi akun pribadimu di halaman ini.</p>
                 </div>
                 <div class="text-xs text-gray-400">
                     Dashboard / Settings / <span class="text-[#007F73] font-semibold">account settings</span>
@@ -40,7 +40,7 @@
                         JH
                     </div>
                     <div>
-                        <p class="text-sm mb-2">Upload foto baru dengan ukuran kurang dari 1 MB, dan bertipe JPG atau PNG.</p>
+                        <p class="text-base mb-2">Upload foto baru dengan ukuran kurang dari 1 MB, dan bertipe JPG atau PNG.</p>
 
                         <!-- Input file disembunyikan -->
                         <input type="file" id="fileInput" accept=".jpg,.jpeg,.png" style="display: none;" />
