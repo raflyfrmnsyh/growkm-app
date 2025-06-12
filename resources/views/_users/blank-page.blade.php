@@ -4,7 +4,7 @@
 </x-partials.head-info>
 
 <body class="bg-gray-100 flex flex-row justify-center items-start">
-    <x-dashboards.sidebar></x-dashboards.sidebar>
+    <x-partials.dashboard.sidebar></x-partials.dashboard.sidebar>
 
     <main class="w-full lg:w-[80%] lg:left-[20%] absolute ">
         {{-- Mobile Header --}}
@@ -13,7 +13,7 @@
         <x-partials.dashboard.desktop-header></x-partials.dashboard.desktop-header>
 
         <section class="section_content flex items-start gap-4 mx-8 py-[112px]">
-            ngoding disini
+            ngoding disini..
         </section>
     </main>
 

@@ -17,7 +17,7 @@
                                 <h5 class="_name font-medium">Rafly Firmansyah</h5>
                                 <x-icons.verify-icon></x-icons.verify-icon>
                             </div>
-                            <span class="text-sm text-gray-600">Basic Member</span>
+                            <span class="text-sm text-gray-600">Super Admin</span>
                         </div>
                     </div>
 
@@ -33,7 +33,7 @@
                         class="menu-section w-full py-3 text-sm text-primaryColors-base font-medium uppercase opacity-45">Aktivitas</span>
                     <li
                         class="flex items-center gap-4 px-6 py-3 w-full isActive cursor-pointer relative hover:bg-[#007f7310] transition-all duration-300 ease-in-out">
-                        <x-icons.dashboard-icon class="size-6 stroke-secondaryColors-base"></x-icons.dashboard-icon>
+                        <x-icons.analytic-icon class="size-6 stroke-secondaryColors-base"></x-icons.analytic-icon>
                         <a href="{{ url('#') }}"
                             class="text-secondaryColors-base mb-[1px] text-md font-medium">Dashboard</a>
                         <div class="line-active absolute left-0 w-[4px] h-full bg-secondaryColors-base rounded-r-lg">
@@ -41,43 +41,51 @@
                     </li>
                     <li
                         class="flex items-center gap-4 px-6 py-3 w-full cursor-pointer relative hover:bg-[#007f7310] transition-all duration-300 ease-in-out">
-                        <x-icons.computer-user class="size-6 stroke-primaryColors-90"></x-icons.computer-user>
-                        <a href="{{ url('#') }}" class="text-primaryColors-90 mb-[1px] text-md font-normal">Kelas &
-                            Event Saya</a>
+                        <x-icons.transaction-icon class="size-6 stroke-primaryColors-90"></x-icons.transaction-icon>
+                        <a href="{{ url('#') }}"
+                            class="text-primaryColors-90 mb-[1px] text-md font-normal">Transaksi
+                            Event & Kelas</a>
                     </li>
                     <li
                         class="flex items-center gap-4 px-6 py-3 w-full cursor-pointer relative hover:bg-[#007f7310] transition-all duration-300 ease-in-out">
-                        <x-icons.package-search class="size-6 stroke-primaryColors-90"></x-icons.package-search>
+                        <x-icons.transaction-01-icon
+                            class="size-6 stroke-primaryColors-90"></x-icons.transaction-01-icon>
                         <a href="{{ url('#') }}"
-                            class="text-primaryColors-90 mb-[1px] text-md font-normal">Supplier
-                            Saya</a>
+                            class="text-primaryColors-90 mb-[1px] text-md font-normal">Transaksi
+                            Produk</a>
                     </li>
                 </ul>
                 <ul class="flex flex-col gap-2">
                     <span
-                        class="menu-section w-full py-3 text-sm text-primaryColors-base font-medium uppercase opacity-45">Transaksi</span>
+                        class="menu-section w-full py-3 px-6 text-sm text-primaryColors-base font-medium uppercase opacity-45">Kelola
+                        Data</span>
                     <li
                         class="flex items-center gap-4 px-6 py-3 w-full cursor-pointer relative hover:bg-[#007f7310] transition-all duration-300 ease-in-out">
-                        <x-icons.history-transaction
-                            class="size-6 stroke-primaryColors-90"></x-icons.history-transaction>
-                        <a href="{{ url('#') }}" class="text-primaryColors-90 mb-[1px] text-md font-normal">Riwayat
-                            Transaksi</a>
+                        <x-icons.calendar class="size-6 stroke-primaryColors-90"></x-icons.calendar>
+                        <a href="{{ url('#') }}" class="text-primaryColors-90 mb-[1px] text-md font-normal">Kelola
+                            Event & Kelas</a>
+                    </li>
+                    <li
+                        class="flex items-center gap-4 px-6 py-3 w-full cursor-pointer relative hover:bg-[#007f7310] transition-all duration-300 ease-in-out">
+                        <x-icons.box-package class="size-6 stroke-primaryColors-90"></x-icons.box-package>
+                        <a href="{{ url('#') }}" class="text-primaryColors-90 mb-[1px] text-md font-normal">Kelola
+                            Produk</a>
+                    </li>
+                    <li
+                        class="flex items-center gap-4 px-6 py-3 w-full cursor-pointer relative hover:bg-[#007f7310] transition-all duration-300 ease-in-out">
+                        <x-icons.user-group class="size-6 stroke-primaryColors-90"></x-icons.user-group>
+                        <a href="{{ url('#') }}" class="text-primaryColors-90 mb-[1px] text-md font-normal">Kelola
+                            Admin</a>
                     </li>
                 </ul>
                 <ul class="flex flex-col gap-2">
                     <span
-                        class="menu-section w-full py-3 text-sm text-primaryColors-base font-medium uppercase opacity-45">Lainnya</span>
+                        class="menu-section w-full py-3 px-6 text-sm text-primaryColors-base font-medium uppercase opacity-45">Pengaturan</span>
                     <li
                         class="flex items-center gap-4 px-6 py-3 w-full cursor-pointer relative hover:bg-[#007f7310] transition-all duration-300 ease-in-out">
-                        <x-icons.settings class="size-6 stroke-primaryColors-90"></x-icons.settings>
-                        <a href="{{ url('#') }}"
-                            class="text-primaryColors-90 mb-[1px] text-md font-normal">Pengaturan</a>
-                    </li>
-                    <li
-                        class="flex items-center gap-4 px-6 py-3 w-full cursor-pointer relative hover:bg-[#007f7310] transition-all duration-300 ease-in-out">
-                        <x-icons.logout-icon class="size-6 stroke-primaryColors-90"></x-icons.logout-icon>
-                        <a href="{{ url('#') }}"
-                            class="text-primaryColors-90 mb-[1px] text-md font-normal">Logout</a>
+                        <x-icons.web-icon class="size-6 stroke-primaryColors-90"></x-icons.web-icon>
+                        <a href="{{ url('#') }}" class="text-primaryColors-90 mb-[1px] text-md font-normal">Web
+                            Settings</a>
                     </li>
                 </ul>
             </div>

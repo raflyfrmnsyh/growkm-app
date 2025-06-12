@@ -2,6 +2,58 @@
 
 use Illuminate\Support\Facades\Route;
 
+
+// Prefix Routing
+
+Route::prefix('admin')->group(function () {
+    Route::get('/dashboard', function () {
+        return view('_admin.dashboard', [
+            'title' => "Dashboard - Growkm app"
+        ]);
+    })->name('admin.dashboard');
+
+    Route::prefix('transaksi')->group(function () {
+        Route::get('/event', function () {
+            return view('_admin._transactions.events-page', [
+                'title' => 'Data Transaksi Event & Kelas'
+            ]);
+        })->name('admin.transaction-event');
+
+        Route::get('product', function () {
+            return view('_admin._transactions.products-page', [
+                'title' => 'Data transaksi Product'
+            ]);
+        })->name('admin.transaction-product');
+    });
+
+    Route::prefix('manage')->group(function () {
+        Route::get('/event', function () {
+            return view('_admin._manage.event-data', [
+                'title' => 'Kelola data event'
+            ]);
+        })->name('admin.manage.event');
+
+        Route::get('/product', function () {
+            return view('_admin._manage.product-data', [
+                'title' => 'Kelola data Produk'
+            ]);
+        })->name('admin.manage.product');
+
+        Route::get('/admin', function () {
+            return view('_admin._manage.admin-data', [
+                'title' => 'Kelola data admin'
+            ]);
+        })->name('admin.manage.admin');
+    });
+});
+
+
+
+
+
+
+// Basic Routing
+
 Route::get('/', function () {
     return view('landing-page', [
         'title' => "Home - Growkm app"
