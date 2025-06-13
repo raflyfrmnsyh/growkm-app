@@ -69,13 +69,13 @@
                 @endif
             </li>
             <li
-                class="flex items-center gap-4 px-6 py-3 w-full {{ request()->routeIs('admin.manage.admin') ? 'isActive' : '' }} cursor-pointer relative hover:bg-[#007f7310] transition-all duration-300 ease-in-out">
+                class="flex items-center gap-4 px-6 py-3 w-full {{ request()->routeIs('admin.manage.admin', 'admin.manage.add-admin') ? 'isActive' : '' }} cursor-pointer relative hover:bg-[#007f7310] transition-all duration-300 ease-in-out">
                 <x-icons.user-group
-                    class="size-6 {{ request()->routeIs('admin.manage.admin') ? 'stroke-secondaryColors-base' : 'stroke-primaryColors-90' }}"></x-icons.user-group>
+                    class="size-6 {{ request()->routeIs('admin.manage.admin', 'admin.manage.add-admin') ? 'stroke-secondaryColors-base' : 'stroke-primaryColors-90' }}"></x-icons.user-group>
                 <a href="{{ route('admin.manage.admin') }}"
-                    class="{{ request()->routeIs('admin.manage.admin') ? 'text-secondaryColors-base font-medium' : 'text-primaryColors-90 font-normal' }} mb-[1px] text-md">Kelola
+                    class="{{ request()->routeIs('admin.manage.admin', 'admin.manage.add-admin') ? 'text-secondaryColors-base font-medium' : 'text-primaryColors-90 font-normal' }} mb-[1px] text-md">Kelola
                     Admin</a>
-                @if (request()->routeIs('admin.manage.admin'))
+                @if (request()->routeIs('admin.manage.admin', 'admin.manage.add-admin'))
                     <div class="line-active absolute left-0 w-[4px] h-full bg-secondaryColors-base rounded-r-lg"></div>
                 @endif
             </li>
