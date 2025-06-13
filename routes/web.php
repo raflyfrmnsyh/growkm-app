@@ -150,3 +150,11 @@ Route::get('/user/change-password', function () {
         'title' => "Change Password - Growkm app"
     ]);
 })->name('change.password');
+
+
+//_details-product-data
+Route::get('/admin/manage/details-product-data', function () {
+    return view('_admin._manage._details-product-data.add-product', [
+                'title' => 'Kelola data Produk'
+            ]);
+        })->name('admin.manage.product');
