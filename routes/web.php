@@ -33,6 +33,12 @@ Route::prefix('admin')->group(function () {
             ]);
         })->name('admin.manage.event');
 
+        Route::get('/event/detail', function () {
+            return view('_admin._manage.detail-event-data', [
+                'title' => 'Kelola detail data event'
+            ]);
+        })->name('admin.manage.event');
+
         Route::get('/product', function () {
             return view('_admin._manage.product-data', [
                 'title' => 'Kelola data Produk'

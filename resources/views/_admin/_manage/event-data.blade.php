@@ -55,7 +55,7 @@
                     </div>
                 </div>
 
-                <a href="{{ url('#') }}"
+                <a href="{{ url('admin/manage/event/detail') }}"
                     class="inline-flex px-4 py-2 text-md font-semibold rounded-md border border-gray-200 bg-secondaryColors-base text-white hover:bg-secondaryColors-60 transition-all">Tambah
                     Data</a>
             </div>
