@@ -86,7 +86,7 @@
                         <td class="py-4 px-2 text-start">+620897667456</td>
                         <td class="py-4 px-2 text-center">Event Admin</td>
                         <td class="w-full py-4 flex items-center justify-center gap-2 px-6">
-                            <a href="{{ url('#') }}"
+                            <a href="{{ route('admin.manage.add-admin') }}"
                                 class="bg-secondaryColors-10 flex items-center justify-center w-auto gap-2 px-2 h-8 rounded-md hover:bg-secondaryColors-20">
                                 <x-icons.eye-01 class="size-5 stroke-secondaryColors-base "></x-icons.eye-01>
                             </a>

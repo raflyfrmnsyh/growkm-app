@@ -1,5 +1,5 @@
 <aside
-    class="desktop-sidebar w-[20%] bg-white border-r-[1px] border-gray-300 h-screen fixed top-0 left-0 z-50 hidden lg:block scroll">
+    class="desktop-sidebar w-[20%] bg-white border-r-[1px] border-gray-300 h-screen fixed top-0 left-0 z-30 hidden lg:block scroll">
     <div class="sidebar_head-logo px-6 py-4 border-b-[1px] border-gray-300 w-full h-[80px] flex items-center">
         <img src="{{ asset('image/logo-growkm.svg') }}" alt="logo" class="logo cursor-pointer w-[40%] h-auto">
     </div>

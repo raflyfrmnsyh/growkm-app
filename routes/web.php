@@ -39,11 +39,23 @@ Route::prefix('admin')->group(function () {
             ]);
         })->name('admin.manage.product');
 
+
+
+        /***
+         * Kelola Admin Routing
+         */
+
         Route::get('/admin', function () {
             return view('_admin._manage.admin-data', [
                 'title' => 'Kelola data admin'
             ]);
         })->name('admin.manage.admin');
+
+        Route::get('/admin/create', function () {
+            return view('_admin._manage.add-admin-data', [
+                'title' => "Tambah data admin",
+            ]);
+        })->name('admin.manage.add-admin');
     });
 });
 
