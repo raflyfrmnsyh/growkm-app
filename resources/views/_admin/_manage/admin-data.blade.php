@@ -18,7 +18,7 @@
                 </div>
             </form>
 
-            <div>
+            <div class="flex gap-4">
                 <div x-data="{ open: false }" class="relative inline-block text-left">
                     <div>
                         <button type="button" @click="open = !open"

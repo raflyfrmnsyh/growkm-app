@@ -15,29 +15,6 @@
 
     <div class="p-6 bg-white w-full">
         <form action="" method="POST" class="flex gap-2 flex-wrap justify-between items-start">
-            {{-- 
-                /**
-                    ** Event General information
-                    * event_title
-                    * desc
-                    * type ->default('seminar')
-                    * location ->default('link maps || link meet room')
-                    * tags
-                    * status ->default('Open Regist')
-                    * event_banner
-                    
-                    * event_start_datetime
-                    * event_end_datetime
-                    * event_dayleft
-                    * event_quota
-
-                    ** Event Cost information
-                    * paid or not
-                    * price
-                    
-
-                */
-            --}}
 
             <div class="w-full flex items-start justify-between gap-6">
                 <div class="event_informations w-[48%]">
@@ -216,7 +193,7 @@
                         <div class="flex items-center gap-4">
                             <input type="submit" value="Tambah Data"
                                 class="bg-secondaryColors-base px-4 py-3 font-semibold text-white rounded-md cursor-pointer hover:bg-secondaryColors-60 transition-all">
-                            <a href="{{ route('admin.manage.admin') }}"
+                            <a href="{{ route('admin.manage.event') }}"
                                 class="px-4 py-3 font-medium text-dark-base border border-gray-300 rounded-md ">Kembali</a>
                         </div>
                     </div>

@@ -43,12 +43,20 @@ Route::prefix('admin')->group(function () {
         })->name('admin.manage.add-event');
 
 
-
+        /**
+         * Kelola data produk
+         */
         Route::get('/product', function () {
             return view('_admin._manage.product-data', [
                 'title' => 'Kelola data Produk'
             ]);
         })->name('admin.manage.product');
+
+        Route::get('/add-product', function () {
+            return view('_admin._manage._create.add-product-data', [
+                'title' => "Tambah data produk"
+            ]);
+        })->name('admin.manage.product.add');
 
 
 
@@ -150,11 +158,3 @@ Route::get('/user/change-password', function () {
         'title' => "Change Password - Growkm app"
     ]);
 })->name('change.password');
-
-
-//_details-product-data
-Route::get('/admin/manage/details-product-data', function () {
-    return view('_admin._manage._details-product-data.add-product', [
-                'title' => 'Kelola data Produk'
-            ]);
-        })->name('admin.manage.product');
