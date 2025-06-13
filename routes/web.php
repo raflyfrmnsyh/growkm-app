@@ -2,6 +2,64 @@
 
 use Illuminate\Support\Facades\Route;
 
+
+// Prefix Routing
+
+Route::prefix('admin')->group(function () {
+    Route::get('/dashboard', function () {
+        return view('_admin.dashboard', [
+            'title' => "Dashboard - Growkm app"
+        ]);
+    })->name('admin.dashboard');
+
+    Route::prefix('transaksi')->group(function () {
+        Route::get('/event', function () {
+            return view('_admin._transactions.events-page', [
+                'title' => 'Data Transaksi Event & Kelas'
+            ]);
+        })->name('admin.transaction-event');
+
+        Route::get('product', function () {
+            return view('_admin._transactions.products-page', [
+                'title' => 'Data transaksi Product'
+            ]);
+        })->name('admin.transaction-product');
+    });
+
+    Route::prefix('manage')->group(function () {
+        Route::get('/event', function () {
+            return view('_admin._manage.event-data', [
+                'title' => 'Kelola data event'
+            ]);
+        })->name('admin.manage.event');
+
+        Route::get('/event/detail', function () {
+            return view('_admin._manage.detail-event-data', [
+                'title' => 'Kelola detail data event'
+            ]);
+        })->name('admin.manage.event');
+
+        Route::get('/product', function () {
+            return view('_admin._manage.product-data', [
+                'title' => 'Kelola data Produk'
+            ]);
+        })->name('admin.manage.product');
+
+        Route::get('/admin', function () {
+            return view('_admin._manage.admin-data', [
+                'title' => 'Kelola data admin'
+            ]);
+        })->name('admin.manage.admin');
+    });
+});
+
+
+
+
+
+
+// Basic Routing
+
 Route::get('/', function () {
     return view('landing-page', [
         'title' => "Home - Growkm app"
@@ -57,33 +115,21 @@ Route::get('/user/dashboard', function () {
     ]);
 });
 
-//course
-Route::get('/user/course-list-all', function () {
-    return view('_users.course.course-list-all', [
-        'title' => "Course List - Growkm app"
+//settings
+Route::get('/user/profile-info', function () {
+    return view('_users._settings.profile-info', [
+        'title' => "Profile Information - Growkm app"
     ]);
-})->name('course.all');
+})->name('profile.info');
 
-Route::get('/user/course-list-just-course', function () {
-    return view('_users.course.course-list-just-course', [
-        'title' => "Course List - Growkm app"
+Route::get('/user/account-info', function () {
+    return view('_users._settings.account-info', [
+        'title' => "Account Information - Growkm app"
     ]);
-})->name('course.just.course');
+})->name('account.info');
 
-Route::get('/user/course-list-just-event', function () {
-    return view('_users.course.course-list-just-event', [
-        'title' => "Course List - Growkm app"
+Route::get('/user/change-password', function () {
+    return view('_users._settings.change-password', [
+        'title' => "Change Password - Growkm app"
     ]);
-})->name('course.just.event');
-
-Route::get('/user/course-list-all-done', function () {
-    return view('_users.course.course-list-all-done', [
-        'title' => "Course List - Growkm app"
-    ]);
-})->name('course.all.done');
-
-Route::get('/user/course/course-name', function () {
-    return view('_users.course.course-name', [
-        'title' => "Course Name - Growkm app"
-    ]);
-});
+})->name('change.password');

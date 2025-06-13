@@ -45,7 +45,8 @@
             <li
                 class="flex items-center gap-4 px-6 py-3 w-full cursor-pointer relative hover:bg-[#007f7310] transition-all duration-300 ease-in-out">
                 <x-icons.settings class="size-6 stroke-primaryColors-90"></x-icons.settings>
-                <a href="{{ url('#') }}" class="text-primaryColors-90 mb-[1px] text-md font-normal">Pengaturan</a>
+                <a href="{{ route('profile.info') }}"
+                    class="text-primaryColors-90 mb-[1px] text-md font-normal">Pengaturan</a>
             </li>
             <li
                 class="flex items-center gap-4 px-6 py-3 w-full cursor-pointer relative hover:bg-[#007f7310] transition-all duration-300 ease-in-out">
