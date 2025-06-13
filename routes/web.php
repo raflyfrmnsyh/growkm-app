@@ -27,6 +27,9 @@ Route::prefix('admin')->group(function () {
     });
 
     Route::prefix('manage')->group(function () {
+
+        /** Kelola data event & kelas */
+
         Route::get('/event', function () {
             return view('_admin._manage.event-data', [
                 'title' => 'Kelola data event'
@@ -34,10 +37,12 @@ Route::prefix('admin')->group(function () {
         })->name('admin.manage.event');
 
         Route::get('/event/detail', function () {
-            return view('_admin._manage.detail-event-data', [
-                'title' => 'Kelola detail data event'
+            return view('_admin._manage._create.add-event-data', [
+                'title' => 'Tambah data event'
             ]);
-        })->name('admin.manage.event');
+        })->name('admin.manage.add-event');
+
+
 
         Route::get('/product', function () {
             return view('_admin._manage.product-data', [
@@ -58,7 +63,7 @@ Route::prefix('admin')->group(function () {
         })->name('admin.manage.admin');
 
         Route::get('/admin/create', function () {
-            return view('_admin._manage.add-admin-data', [
+            return view('_admin._manage._create.add-admin-data', [
                 'title' => "Tambah data admin",
             ]);
         })->name('admin.manage.add-admin');

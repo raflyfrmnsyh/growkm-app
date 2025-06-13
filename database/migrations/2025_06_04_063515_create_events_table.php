@@ -21,7 +21,7 @@ return new class extends Migration
             $table->enum('event_is_paid', ["Berbayar", "Gratis"])->default("Gratis");
             $table->decimal('event_price', 10, 2)->default(0.00);
             $table->integer('event_quota')->default(0);
-            $table->string('event_status', 50);
+            $table->string('event_status', 50)->default("Open Regist");
             $table->string('event_banner_img', 255)->nullable();
             $table->date('event_date');
             $table->time('event_start_time');
