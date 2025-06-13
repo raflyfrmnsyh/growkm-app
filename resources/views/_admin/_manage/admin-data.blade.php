@@ -55,7 +55,7 @@
                     </div>
                 </div>
 
-                <a href="{{ url('#') }}"
+                <a href="{{ route('admin.manage.add-admin') }}"
                     class="inline-flex px-4 py-2 text-md font-semibold rounded-md border border-gray-200 bg-secondaryColors-base text-white hover:bg-secondaryColors-60 transition-all">Tambah
                     Data</a>
             </div>
@@ -86,7 +86,7 @@
                         <td class="py-4 px-2 text-start">+620897667456</td>
                         <td class="py-4 px-2 text-center">Event Admin</td>
                         <td class="w-full py-4 flex items-center justify-center gap-2 px-6">
-                            <a href="{{ route('admin.manage.add-admin') }}"
+                            <a href="{{ url('#') }}"
                                 class="bg-secondaryColors-10 flex items-center justify-center w-auto gap-2 px-2 h-8 rounded-md hover:bg-secondaryColors-20">
                                 <x-icons.eye-01 class="size-5 stroke-secondaryColors-base "></x-icons.eye-01>
                             </a>
