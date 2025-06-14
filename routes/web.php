@@ -19,11 +19,19 @@ Route::prefix('admin')->group(function () {
             ]);
         })->name('admin.transaction-event');
 
+
+        // routing transaksi produk
         Route::get('product', function () {
-            return view('_admin._transactions.products-page', [
+            return view('_admin._transactions._product.all-products-transactions', [
                 'title' => 'Data transaksi Product'
             ]);
         })->name('admin.transaction-product');
+
+        Route::get('/detail-transaksi/{id}', function (String $id) {
+            return view('_admin._transactions._product.detail-product-transaction', [
+                'title' => 'Detail Product ' . $id
+            ]);
+        })->name('admin.transaction-product-detail');
     });
 
     Route::prefix('manage')->group(function () {
@@ -57,8 +65,6 @@ Route::prefix('admin')->group(function () {
                 'title' => "Tambah data produk"
             ]);
         })->name('admin.manage.product.add');
-
-
 
         /***
          * Kelola Admin Routing
