@@ -18,7 +18,7 @@
                 </div>
             </form>
 
-            <div>
+            <div class="flex gap-4">
                 <div x-data="{ open: false }" class="relative inline-block text-left">
                     <div>
                         <button type="button" @click="open = !open"
@@ -55,7 +55,7 @@
                     </div>
                 </div>
 
-                <a href="{{ url('#') }}"
+                <a href="{{ route('admin.manage.product.add') }}"
                     class="inline-flex px-4 py-2 text-md font-semibold rounded-md border border-gray-200 bg-secondaryColors-base text-white hover:bg-secondaryColors-60 transition-all">Tambah
                     Data</a>
             </div>

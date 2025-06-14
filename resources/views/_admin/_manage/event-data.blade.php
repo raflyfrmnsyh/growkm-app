@@ -18,13 +18,13 @@
                 </div>
             </form>
 
-            <div>
+            <div class="flex gap-4">
                 <div x-data="{ open: false }" class="relative inline-block text-left">
                     <div>
                         <button type="button" @click="open = !open"
                             class="inline-flex w-full items-center justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-md font-semibold text-gray-800 border border-gray-200 hover:bg-gray-50"
                             id="menu-button" aria-expanded="true" aria-haspopup="true">
-                            Semua Role
+                            Semua Waktu
                             <x-icons.arrow-down class="stroke-dark-base size-5"></x-icons.arrow-down>
                         </button>
                     </div>
@@ -41,21 +41,24 @@
                         <div class="py-1" role="none">
                             <a href="#"
                                 class="block px-4 py-3 text-md text-secondaryColors-base bg-secondaryColors-10 hover:bg-gray-50 hover:text-gray-800 active"
-                                role="menuitem" tabindex="-1" id="menu-item-0">Semua Role</a>
+                                role="menuitem" tabindex="-1" id="menu-item-0">Semua waktu</a>
                             <a href="#"
                                 class="block px-4 py-3 text-md text-gray-700 hover:bg-gray-50 hover:text-gray-800"
-                                role="menuitem" tabindex="-1" id="menu-item-1">Super Admin</a>
+                                role="menuitem" tabindex="-1" id="menu-item-1">Hari ini</a>
                             <a href="#"
                                 class="block px-4 py-3 text-md text-gray-700 hover:bg-gray-50 hover:text-gray-800"
-                                role="menuitem" tabindex="-1" id="menu-item-2">Event Admin</a>
+                                role="menuitem" tabindex="-1" id="menu-item-2">Minggu ini</a>
                             <a href="#"
                                 class="block px-4 py-3 text-md text-gray-700 hover:bg-gray-50 hover:text-gray-800"
-                                role="menuitem" tabindex="-1" id="menu-item-3">Product Admin</a>
+                                role="menuitem" tabindex="-1" id="menu-item-3">Bulan ini</a>
+                            <a href="#"
+                                class="block px-4 py-3 text-md text-gray-700 hover:bg-gray-50 hover:text-gray-800"
+                                role="menuitem" tabindex="-1" id="menu-item-3">Tahun ini</a>
                         </div>
                     </div>
                 </div>
 
-                <a href="{{ url('#') }}"
+                <a href="{{ route('admin.manage.add-event') }}"
                     class="inline-flex px-4 py-2 text-md font-semibold rounded-md border border-gray-200 bg-secondaryColors-base text-white hover:bg-secondaryColors-60 transition-all">Tambah
                     Data</a>
             </div>

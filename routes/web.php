@@ -19,31 +19,68 @@ Route::prefix('admin')->group(function () {
             ]);
         })->name('admin.transaction-event');
 
+
+        // routing transaksi produk
         Route::get('product', function () {
-            return view('_admin._transactions.products-page', [
+            return view('_admin._transactions._product.all-products-transactions', [
                 'title' => 'Data transaksi Product'
             ]);
         })->name('admin.transaction-product');
+
+        Route::get('/detail-transaksi/{id}', function (String $id) {
+            return view('_admin._transactions._product.detail-product-transaction', [
+                'title' => 'Detail Product ' . $id
+            ]);
+        })->name('admin.transaction-product-detail');
     });
 
     Route::prefix('manage')->group(function () {
+
+        /** Kelola data event & kelas */
+
         Route::get('/event', function () {
             return view('_admin._manage.event-data', [
                 'title' => 'Kelola data event'
             ]);
         })->name('admin.manage.event');
 
+        Route::get('/event/detail', function () {
+            return view('_admin._manage._create.add-event-data', [
+                'title' => 'Tambah data event'
+            ]);
+        })->name('admin.manage.add-event');
+
+
+        /**
+         * Kelola data produk
+         */
         Route::get('/product', function () {
             return view('_admin._manage.product-data', [
                 'title' => 'Kelola data Produk'
             ]);
         })->name('admin.manage.product');
 
+        Route::get('/add-product', function () {
+            return view('_admin._manage._create.add-product-data', [
+                'title' => "Tambah data produk"
+            ]);
+        })->name('admin.manage.product.add');
+
+        /***
+         * Kelola Admin Routing
+         */
+
         Route::get('/admin', function () {
             return view('_admin._manage.admin-data', [
                 'title' => 'Kelola data admin'
             ]);
         })->name('admin.manage.admin');
+
+        Route::get('/admin/create', function () {
+            return view('_admin._manage._create.add-admin-data', [
+                'title' => "Tambah data admin",
+            ]);
+        })->name('admin.manage.add-admin');
     });
 });
 

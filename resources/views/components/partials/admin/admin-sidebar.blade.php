@@ -1,5 +1,5 @@
 <aside
-    class="desktop-sidebar w-[20%] bg-white border-r-[1px] border-gray-300 h-screen fixed top-0 left-0 z-50 hidden lg:block scroll">
+    class="desktop-sidebar w-[20%] bg-white border-r-[1px] border-gray-300 h-screen fixed top-0 left-0 z-30 hidden lg:block scroll">
     <div class="sidebar_head-logo px-6 py-4 border-b-[1px] border-gray-300 w-full h-[80px] flex items-center">
         <img src="{{ asset('image/logo-growkm.svg') }}" alt="logo" class="logo cursor-pointer w-[40%] h-auto">
     </div>
@@ -69,13 +69,13 @@
                 @endif
             </li>
             <li
-                class="flex items-center gap-4 px-6 py-3 w-full {{ request()->routeIs('admin.manage.admin') ? 'isActive' : '' }} cursor-pointer relative hover:bg-[#007f7310] transition-all duration-300 ease-in-out">
+                class="flex items-center gap-4 px-6 py-3 w-full {{ request()->routeIs('admin.manage.admin', 'admin.manage.add-admin') ? 'isActive' : '' }} cursor-pointer relative hover:bg-[#007f7310] transition-all duration-300 ease-in-out">
                 <x-icons.user-group
-                    class="size-6 {{ request()->routeIs('admin.manage.admin') ? 'stroke-secondaryColors-base' : 'stroke-primaryColors-90' }}"></x-icons.user-group>
+                    class="size-6 {{ request()->routeIs('admin.manage.admin', 'admin.manage.add-admin') ? 'stroke-secondaryColors-base' : 'stroke-primaryColors-90' }}"></x-icons.user-group>
                 <a href="{{ route('admin.manage.admin') }}"
-                    class="{{ request()->routeIs('admin.manage.admin') ? 'text-secondaryColors-base font-medium' : 'text-primaryColors-90 font-normal' }} mb-[1px] text-md">Kelola
+                    class="{{ request()->routeIs('admin.manage.admin', 'admin.manage.add-admin') ? 'text-secondaryColors-base font-medium' : 'text-primaryColors-90 font-normal' }} mb-[1px] text-md">Kelola
                     Admin</a>
-                @if (request()->routeIs('admin.manage.admin'))
+                @if (request()->routeIs('admin.manage.admin', 'admin.manage.add-admin'))
                     <div class="line-active absolute left-0 w-[4px] h-full bg-secondaryColors-base rounded-r-lg"></div>
                 @endif
             </li>
