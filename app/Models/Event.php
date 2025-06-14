@@ -28,7 +28,9 @@ class Event extends Model
         'event_date',
         'event_start_time',
         'event_end_time',
-        'event_registration_deadline'
+        'event_registration_deadline',
+        'event_speaker_name',
+        'event_speaker_job'
     ];
 
     protected $casts = [
@@ -36,6 +38,6 @@ class Event extends Model
         'event_start_time' => 'datetime:H:i:s',
         'event_end_time' => 'datetime:H:i:s',
         'event_registration_deadline' => 'date',
-        'event_price' => 'decimal:2',
+        'event_price' => 'decimal:2'
     ];
 }

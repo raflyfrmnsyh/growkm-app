@@ -201,6 +201,17 @@
                             placeholder="Jumlah kuota peserta"
                             class="border border-gray-200 px-4 py-3 my-2 rounded-md w-full focus:outline-none focus:border-secondaryColors-base focus;border-2">
                     </div>
+                    <h1 class="font-semibold text-xl mb-4 pt-4">Informasi Pemateri</h1>
+                    <div class="mb-4 flex flex-col w-full">
+                        <label for="event_speaker_name" class="font-medium text-gray-800 w-full">Nama Pemateri</label>
+                        <input type="text" name="event_speaker_name" id="priceField" placeholder="Asep Surasep" required
+                            class="border border-gray-200 px-4 py-3 my-2 rounded-md w-full focus:outline-none focus:border-secondaryColors-base focus;border-2">
+                    </div>
+                    <div class="mb-4 flex flex-col w-full">
+                        <label for="event_speaker_job" class="font-medium text-gray-800 w-full">Pekerjaan Pemateri</label>
+                        <input type="text" name="event_speaker_job" id="priceField" placeholder="Head of GrowKM" required
+                            class="border border-gray-200 px-4 py-3 my-2 rounded-md w-full focus:outline-none focus:border-secondaryColors-base focus;border-2">
+                    </div>
                     <div class="w-full">
                         <div class="flex items-center gap-4">
                             <input type="submit" value="Tambah Data"

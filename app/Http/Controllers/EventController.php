@@ -29,6 +29,8 @@ class EventController extends Controller
             'end_date_time' => 'required|date|after:start_date_time',
             'event_registration_deadline' => 'required|date',
             'event_quota' => 'required|integer|min:0',
+            'event_speaker_name' => 'required|string|max:100',
+            'event_speaker_job' => 'required|string|max:100',
         ]);
 
         // Generate event ID baru
@@ -65,6 +67,8 @@ class EventController extends Controller
         $validated['event_location'] = $request->event_location;
         $validated['event_price'] = $request->event_price;
         $validated['event_quota'] = $request->event_quota;
+        $validated['event_speaker_name'] = $request->event_speaker_name;
+        $validated['event_speaker_job'] = $request->event_speaker_job;
 
         // Tanggal dan waktu
         $validated['event_date'] = Carbon::parse($request->start_date_time)->format('Y-m-d');
