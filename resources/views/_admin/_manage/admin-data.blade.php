@@ -91,6 +91,18 @@
                             <a href="#" class="bg-secondaryColors-10 flex items-center justify-center w-auto gap-2 px-2 h-8 rounded-md hover:bg-secondaryColors-20">
                                 <x-icons.eye-01 class="size-5 stroke-secondaryColors-base "></x-icons.eye-01>
                             </a>
+
+                            {{-- Tombol Edit --}}
+                            <a href="{{ route('admin.manage.edit-admin', $admin->id) }}"
+                            class="text-blue-600 hover:underline">Edit</a>
+
+                            {{-- Tombol Hapus --}}
+                            <form action="{{ route('admin.manage.delete-admin', $admin->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this admin?');">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="text-red-600 hover:underline">Hapus</button>
+                            </form>
+    
                         </td>
                     </tr>
                 @endforeach

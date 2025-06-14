@@ -37,6 +37,34 @@ class AdminController extends Controller
     return redirect()->route('admin.manage.admin')->with('success', 'Admin berhasil dihapus.');
 }
 
+    public function edit($id)
+{
+    $admin = Admin::findOrFail($id);
+
+    return view('_admin._manage._update.admin-update_data', [
+        'title' => 'Edit data admin',
+        'admin' => $admin
+    ]);
+}
+
+    public function update(Request $request, $id)
+    {
+        $admin = Admin::findOrFail($id);
+
+        $validated = $request->validate([
+            'username' => 'required|string|max:255',
+            'user_email' => 'required|email|max:255',
+            'user_phone' => 'required|string|max:15',
+            'user_gender' => 'required|in:M,F',
+            'user_address' => 'nullable|string',
+            'user_role' => 'required|string',
+        ]);
+
+        $admin->update($validated);
+
+        return redirect()->route('admin.manage.admin')->with('success', 'Data admin berhasil diperbarui.');
+    }
+
 
 
     public function store(Request $request)

@@ -77,6 +77,8 @@ Route::prefix('admin')->group(function () {
 
         Route::get('/admin/create', [AdminController::class, 'create'])->name('admin.manage.add-admin');
         Route::post('/admin/create', [AdminController::class, 'store'])->name('admin.manage.store-admin');
+        Route::get('/admin/edit/{id}', [AdminController::class, 'edit'])->name('admin.manage.edit-admin');
+        Route::put('/admin/edit/{id}', [AdminController::class, 'update'])->name('admin.manage.update-admin');
         Route::delete('/admin/delete/{id}', [AdminController::class, 'destroy'])->name('admin.manage.delete-admin');
 
 
