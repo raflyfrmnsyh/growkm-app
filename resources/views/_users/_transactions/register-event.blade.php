@@ -22,7 +22,7 @@
                 <div class="flex flex-col">
                     <div class="p-6 bg-white w-full rounded-t-lg border-b border-gray-200">
                         <div class="w-full flex justify-between">
-                            <h1 class="text-lg font-medium mb-4">Informasi Pengiriman</h1>
+                            <h1 class="text-lg font-medium mb-4">Pendaftaran Event</h1>
                             <a href="{{ url('#') }}" class="">
                                 <x-icons.address-edit class="size-6 stroke-gray-600"></x-icons.address-edit>
                             </a>
@@ -35,7 +35,7 @@
                         </div>
                     </div>
                     <div class="p-6 bg-white w-full border-b border-gray-200">
-                        <h1 class="text-md font-medium mb-2">Paket Pengiriman</h1>
+                        <h1 class="text-md font-medium mb-2">Paket Event</h1>
                         <div x-data="{ open: false, selected: 'Ekonomi (Rp12.000) - Estimasi 17 - 20 Jun' }" class="relative w-full mx-auto">
                             <!-- Button -->
                             <button @click="open = !open"
@@ -127,51 +127,21 @@
                         </div>
                     </div>
                 </div>
-                <div class="overflow-x-auto w-full">
-                    <div class="max-h-[420px] overflow-y-auto">
-                        <table class="w-full bg-white text-left">
-                            <thead class="text-sm uppercase bg-gray-50 sticky top-0">
-                                <tr>
-                                    <th class="py-4 px-2 w-12 h-12 text-center">#</th>
-                                    <th class="py-4 px-2 w-1/2">Item Produk</th>
-                                    <th class="py-4 px-2 text-center">Jumlah</th>
-                                    <th class="py-4 px-2">Harga</th>
-                                    <th class="py-4 px-2">Total</th>
-                                    <th class="py-4 px-2">Aksi</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @for ($i = 0; $i < 6; $i++)
-                                    <tr class="border-b border-gray-200">
-                                        <td class="text-center">{{ $i + 1 }}</td>
-                                        <td class="py-4 px-2 flex items-center gap-6">
-                                            <div
-                                                class="img w-16 h-16 flex items-center justify-center rounded-md bg-gray-50">
-                                                img
-                                            </div>
-                                            <div>
-                                                <h1 class="title-product font-medium">Fjallraven - Foldsack No.1
-                                                    Backpack</h1>
-                                                <span class="text-gray-500">tags, tags, tags</span>
-                                            </div>
-                                        </td>
-                                        <td class="py-4 px-2 text-center">1x</td>
-                                        <td class="py-4 px-2">Rp.0</td>
-                                        <td class="py-4 px-2 font-semibold">Rp. 80.000</td>
-                                        <td>
-                                            <x-icons.delete-01 class="stroke-red-500 size-6"></x-icons.delete-01>
-                                        </td>
-                                    </tr>
-                                @endfor
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
 
             </div>
 
 
-            <div class="bg-white w-[30%]">
+            <div class=" w-[30%]">
+                <div class=" bg-white mb-4 rounded-lg">
+                    <div class="w-full h-[188px] flex items-center justify-center  bg-gray-200 rounded-t-lg ">
+                        ...
+                    </div>
+                    <div class="py-4 px-4">
+
+                        <h2>Judul Event or Course</h2>
+                        <span>Lorem, ipsum dolor sit amet</span>
+                    </div>
+                </div>
                 <div class="bg-white w-full rounded-lg border border-gray-200">
                     <h2 class="p-4 border-b border-gray-200 font-bold flex items-center justify-between">Ringkasan
                         Pesanan

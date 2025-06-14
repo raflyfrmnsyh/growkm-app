@@ -168,7 +168,7 @@ Route::get('/user/change-password', function () {
 
 
 Route::get('/test', function () {
-    return view('_users._transactions.create-transaction', [
+    return view('_users._transactions.register-event', [
         'title' => "List"
     ]);
 });
