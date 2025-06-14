@@ -147,6 +147,7 @@ Route::get('/user/dashboard', function () {
 });
 
 //settings
+
 Route::get('/user/profile-info', function () {
     return view('_users._settings.profile-info', [
         'title' => "Profile Information - Growkm app"
@@ -164,3 +165,10 @@ Route::get('/user/change-password', function () {
         'title' => "Change Password - Growkm app"
     ]);
 })->name('change.password');
+
+
+Route::get('/test', function () {
+    return view('_users._transactions.create-transaction', [
+        'title' => "List"
+    ]);
+});
