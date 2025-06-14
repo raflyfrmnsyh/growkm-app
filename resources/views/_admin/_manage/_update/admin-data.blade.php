@@ -88,10 +88,24 @@
                             {{ $admin->user_role === 'M' ? 'Event Admin' : 'Product Admin' }}
                         </td>
                         <td class="w-full py-4 flex items-center justify-center gap-2 px-6">
-                            <a href="#" class="bg-secondaryColors-10 flex items-center justify-center w-auto gap-2 px-2 h-8 rounded-md hover:bg-secondaryColors-20">
-                                <x-icons.eye-01 class="size-5 stroke-secondaryColors-base "></x-icons.eye-01>
-                            </a>
-                        </td>
+    {{-- Tombol Edit --}}
+    <a href="{{ route('admin.manage.edit-admin', $admin->id) }}"
+        class="bg-yellow-100 flex items-center justify-center w-auto gap-2 px-2 h-8 rounded-md hover:bg-yellow-200">
+        <x-icons.pencil-edit class="size-5 stroke-yellow-600"></x-icons.pencil-edit>
+    </a>
+
+    {{-- Tombol Delete --}}
+    <form action="{{ route('admin.manage.delete-admin', $admin->id) }}" method="POST"
+        onsubmit="return confirm('Yakin ingin menghapus admin ini?');">
+        @csrf
+        @method('DELETE')
+        <button type="submit"
+            class="bg-red-100 flex items-center justify-center w-auto gap-2 px-2 h-8 rounded-md hover:bg-red-200">
+            <x-icons.trash-01 class="size-5 stroke-red-600"></x-icons.trash-01>
+        </button>
+    </form>
+</td>
+
                     </tr>
                 @endforeach
 

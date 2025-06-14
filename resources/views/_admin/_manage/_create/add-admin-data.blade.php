@@ -14,7 +14,9 @@
     </div>
 
     <div class="p-6 bg-white w-full">
-        <form action="" method="POST" class="flex gap-2 flex-wrap justify-between items-start">
+        <form action="{{ route('admin.manage.store-admin') }}" method="POST" class="flex gap-2 flex-wrap justify-between items-start">
+    @csrf
+
             {{-- username, user_email, user_phone, user_gender, user_address, user_profile, user_role --}}
 
             <div class="mb-4 flex flex-col w-full md:w-[48%]">
@@ -25,7 +27,8 @@
             <div class="mb-4 flex flex-col w-full md:w-[48%]">
                 <label for="email" class="font-medium text-gray-800 w-full">Email</label>
                 <input type="email" name="user_email" id="EmailField" placeholder="example@email.com" required
-                    class="border border-gray-200 px-4 py-3 my-2 rounded-md w-full focus:outline-none focus:border-secondaryColors-base focus;border-2">
+                class="border border-gray-200 px-4 py-3 my-2 rounded-md w-full focus:outline-none focus:border-secondaryColors-base focus:border-2">
+
             </div>
             <div class="mb-4 flex flex-col w-full md:w-[48%]">
                 <label for="user_phone" class="font-medium text-gray-800 w-full">No. Ponsel</label>

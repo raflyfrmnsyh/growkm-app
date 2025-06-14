@@ -1,9 +1,12 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AdminController;
+
 
 
 // Prefix Routing
+
 
 Route::prefix('admin')->group(function () {
     Route::get('/dashboard', function () {
@@ -70,17 +73,13 @@ Route::prefix('admin')->group(function () {
          * Kelola Admin Routing
          */
 
-        Route::get('/admin', function () {
-            return view('_admin._manage.admin-data', [
-                'title' => 'Kelola data admin'
-            ]);
-        })->name('admin.manage.admin');
+        Route::get('/admin', [AdminController::class, 'index'])->name('admin.manage.admin');
 
-        Route::get('/admin/create', function () {
-            return view('_admin._manage._create.add-admin-data', [
-                'title' => "Tambah data admin",
-            ]);
-        })->name('admin.manage.add-admin');
+        Route::get('/admin/create', [AdminController::class, 'create'])->name('admin.manage.add-admin');
+        Route::post('/admin/create', [AdminController::class, 'store'])->name('admin.manage.store-admin');
+        Route::delete('/admin/delete/{id}', [AdminController::class, 'destroy'])->name('admin.manage.delete-admin');
+
+
     });
 });
 
@@ -164,3 +163,5 @@ Route::get('/user/change-password', function () {
         'title' => "Change Password - Growkm app"
     ]);
 })->name('change.password');
+
+
