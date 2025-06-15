@@ -62,11 +62,13 @@ Route::prefix('admin')->group(function () {
         /**
          * Kelola data produk
          */
-        Route::get('/product', function () {
-            return view('_admin._manage.product-data', [
-                'title' => 'Kelola data Produk'
-            ]);
-        })->name('admin.manage.product');
+      //  Route::get('/product', function () {
+      //     return view('_admin._manage.product-data', [
+      //          'title' => 'Kelola data Produk'
+      //      ]);
+      //  })->name('admin.manage.product');
+
+        Route::get('/product', [App\Http\Controllers\ProductController::class, 'index'])->name('admin.manage.product');
 
         Route::get('/add-product', function () {
             return view('_admin._manage._create.add-product-data', [
@@ -74,6 +76,13 @@ Route::prefix('admin')->group(function () {
             ]);
         })->name('admin.manage.product.add');
 
+        Route::post('/product/store', [App\Http\Controllers\ProductController::class, 'store'])->name('admin.manage.product.store');
+
+        Route::get('/product/detail/{product_id}', [App\Http\Controllers\ProductController::class, 'show'])->name('admin.manage.product.detail');
+
+        Route::put('/product/update/{product_id}', [App\Http\Controllers\ProductController::class, 'update'])->name('admin.manage.product.update');
+
+        Route::delete('/product/delete/{product_id}', [App\Http\Controllers\ProductController::class, 'destroy'])->name('admin.manage.product.destroy');
 
         /***
          * Kelola Admin Routing
@@ -246,3 +255,17 @@ Route::get('/', function () {
         'title' => 'Growkm - Solusi Berkembang UMKM'
     ]);
 })->name('landing.page');
+
+
+//suppliers
+Route::get('/user/supplier/products', function () {
+    return view('_users._suppliers.all-product', [
+        'title' => 'All Products - Growkm app'
+    ]);
+})->name('products.all');
+
+Route::get('/user/supplier/products/{id}', function ($id) {
+    return view('_users._suppliers.details-product', [
+        'title' => 'Product Details - Growkm app'
+    ]);
+})->name('products.details');
