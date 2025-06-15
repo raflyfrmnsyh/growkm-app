@@ -6,29 +6,32 @@
 <body class="bg-gray-100 flex flex-row justify-center items-start">
     <x-partials.dashboard.sidebar></x-partials.dashboard.sidebar>
 
-    <main class="w-full lg:w-[80%] lg:left-[20%] absolute ">
+    <main class="w-full lg:w-[80%] lg:left-[20%] absolute">
         {{-- Mobile Header --}}
         <x-partials.dashboard.mobile-header></x-partials.dashboard.mobile-header>
         {{-- Desktop Header --}}
         <x-partials.dashboard.desktop-header></x-partials.dashboard.desktop-header>
 
         <section class="section_content flex flex-col items-start mx-8 py-[112px]">
+            {{-- Header Section --}}
             <div
-                class="p-6 bg-white w-full gap-8 rounded-t-md flex lg:flex-row flex-col items-center justify-between border-b border-gray-200">
-                <h1 class="font-semibold text-lg">Event & Kelas Saya</h1>
+                class="p-6 bg-white w-full gap-8 rounded-t-md flex lg:flex-row flex-col items-center justify-between border-b border-gray-200 z-10">
+                <h1 class="font-semibold text-xl">Event & Kelas Saya</h1>
 
-                <div class="flex flex-col md:flex-row items-center gap-4 w-full lg:w-auto justify-between lg:justify-end ">
-
-                    <form action="#" method="get">
+                <div
+                    class="flex flex-col md:flex-row items-center gap-4 w-full lg:w-auto justify-between lg:justify-end">
+                    {{-- Search Form --}}
+                    <form action="#" method="get" class="w-full md:w-auto p-0 m-0">
                         @csrf
-                        <div
-                            class="input-bx border border-gray-200 py-2 px-4 rounded-md w-[320px] flex items-center justify-between gap-2">
-                            <input type="text" name="searchBox" id="searchBox" placeholder="Cari sesuatu"
-                                class="outline-none w-full ">
-                            <x-icons.searach-01 class="size-5 stroke-gray-200"></x-icons.searach-01>
+                        <div class="relative w-[320px]">
+                            <input type="text" name="searchBox" id="searchBox" placeholder="Cari event atau kelas..."
+                                class="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:border-secondaryColors-base focus:ring-1 focus:ring-secondaryColors-base outline-none transition-all">
+                            <x-icons.searach-01
+                                class="absolute right-3 top-1/2 -translate-y-1/2 size-5 stroke-gray-400"></x-icons.searach-01>
                         </div>
                     </form>
 
+                    {{-- Filter Dropdown --}}
                     <div class="flex gap-4">
                         <div x-data="{ open: false }" class="relative inline-block text-left">
                             <div>
@@ -40,7 +43,8 @@
                                 </button>
                             </div>
 
-                            <div x-show="open" @click.away="open = false" x-transition:enter="transition ease-out duration-100"
+                            <div x-show="open" @click.away="open = false"
+                                x-transition:enter="transition ease-out duration-100"
                                 x-transition:enter-start="transform opacity-0 scale-95"
                                 x-transition:enter-end="transform opacity-100 scale-100"
                                 x-transition:leave="transition ease-in duration-75"
@@ -68,45 +72,59 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
 
+                    </div>
                 </div>
             </div>
-            <div class="overflow-x-auto w-full bg-white px-6 py-4 flex flex-wrap flex-rows-4 gap-y-4 gap-x-6">
-                @for ($i = 0; $i < 10; $i++)
-                <div class="overflow-hidden w-full sm:w-[calc(50%-12px)] md:w-[calc(33.333%-16px)] lg:w-[calc(25%-18px)] p-3 border rounded-lg shadow-sm transition hover:shadow-lg">
-                    <img
-                        alt=""
-                        src="{{ asset('image/courses-1.png') }}"
-                        class="w-full h-auto"
-                    />
 
-                    <div class="bg-white p-2">
-                        <time datetime="" class="block text-xs text-gray-500"> 10th Oct 2022 </time>
-
-                        <a href="#">
-                            <h3 class="mt-0.5 text-lg text-gray-900">How to position your furniture for positivity</h3>
-                        </a>
-
-                        <p class="mt-1 line-clamp-3 text-sm/relaxed text-gray-500 font-semibold">
-                            Rp. 80.000
-                        </p>
-
-                        <div class="my-2 w-full border-t-2 border-light-60"></div>
-
-                        <div class="flex justify-between items-center">
-                            <div class="flex items-center gap-2">
-                                <img src="{{ asset('image/author.png')}}" class="w-5.5 h-5.5 rounded-full">
-                                <span class="text-base text-gray">Rafly Firmansyah</span>
+            {{-- Events Grid --}}
+            <div class="w-full bg-white px-6 py-8">
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                    @foreach ($data as $item)
+                        <article
+                            class="group bg-white rounded-lg border border-gray-200 overflow-hidden transition-all cursor-pointer">
+                            {{-- Event Image --}}
+                            <div class="relative w-full h-[156px] overflow-hidden">
+                                <img src="{{ asset('image/courses-1.png') }}" alt="Event thumbnail"
+                                    class="w-full h-full object-cover transition-transform">
                             </div>
-                        </div>
-                    </div>
+
+                            {{-- Event Content --}}
+                            <div class="p-4">
+                                <time datetime="2022-10-10"
+                                    class="text-xs text-gray-500">{{ $item['event_date'] }}</time>
+
+                                <a href="{{ route('event-detail', ['id' => $item['event_id']]) }}" class="block mt-1">
+                                    <h3
+                                        class="text-md font-semibold text-gray-900 line-clamp-2 group-hover:text-secondaryColors-base transition-colors">
+                                        {{ $item['event_title'] }}
+                                    </h3>
+                                </a>
+
+                                <p class="mt-2 text-lg font-semibold text-secondaryColors-base">
+                                    Rp {{ $item['event_price'] }}
+                                </p>
+
+                                <div class="mt-4 pt-4 border-t border-gray-100">
+                                    <div class="flex items-center gap-2">
+                                        <img src="{{ asset('image/author.png') }}" alt="Author avatar"
+                                            class="w-8 h-8 rounded-full object-cover">
+                                        <span class="text-sm text-gray-600">{{ $item['event_speaker'] }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+                    @endforeach
                 </div>
-                @endfor
             </div>
         </section>
     </main>
 
+    @if (session('success'))
+        <script>
+            alert("{{ session('success') }}");
+        </script>
+    @endif
 </body>
 
 </html>

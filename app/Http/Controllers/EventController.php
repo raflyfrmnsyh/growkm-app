@@ -7,14 +7,15 @@ use App\Models\Event;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Log;
 use Carbon\Carbon;
 
 class EventController extends Controller
 {
     public function store(Request $request)
     {
-        \Log::info('Waktu Server: ' . now());
-        \Log::info('Waktu Jakarta: ' . now()->setTimezone('Asia/Jakarta'));
+        Log::info('Waktu Server: ' . now());
+        Log::info('Waktu Jakarta: ' . now()->setTimezone('Asia/Jakarta'));
 
         // Validasi data
         $validated = $request->validate([
@@ -48,7 +49,7 @@ class EventController extends Controller
 
         // Format angka menjadi 3 digit
         $formattedNumber = str_pad($nextNumber, 3, '0', STR_PAD_LEFT);
-        $validated['event_id'] = '#TRXEVT' . $formattedNumber;
+        $validated['event_id'] = 'TRXEVT' . $formattedNumber;
 
         // Handle file upload
         if ($request->hasFile('event_banner_img')) {

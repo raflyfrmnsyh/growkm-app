@@ -1,10 +1,13 @@
 <?php
 
+use App\Models\Event;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EventController;
+use App\Http\Controllers\ParticipantRegistController;
+use App\Models\ParticipantRegist;
 
-
-// Prefix Routing
+// Prefix Routing Admin
 
 Route::prefix('admin')->group(function () {
     Route::get('/dashboard', function () {
@@ -14,11 +17,7 @@ Route::prefix('admin')->group(function () {
     })->name('admin.dashboard');
 
     Route::prefix('transaksi')->group(function () {
-        Route::get('/event', function () {
-            return view('_admin._transactions.events-page', [
-                'title' => 'Data Transaksi Event & Kelas'
-            ]);
-        })->name('admin.transaction-event');
+        Route::get('/event', [ParticipantRegistController::class, 'showDataParticipant'])->name('admin.transaction-event');
 
 
         // routing transaksi produk
@@ -74,6 +73,7 @@ Route::prefix('admin')->group(function () {
             ]);
         })->name('admin.manage.product.add');
 
+
         /***
          * Kelola Admin Routing
          */
@@ -94,88 +94,134 @@ Route::prefix('admin')->group(function () {
 
 
 
+// Prefix Routing user
+
+Route::prefix('user')->group(function () {
+
+    // main dashboard
+    Route::get('/dashboard', function () {
+        return view('_users.dashboard', [
+            'title' => 'Dashboard user'
+        ]);
+    })->name('user.dashboard');
+
+    //settings
+
+    Route::prefix('setting')->group(function () {
+        Route::get('//profile-info', function () {
+            return view('_users._settings.profile-info', [
+                'title' => "Profile Information - Growkm app"
+            ]);
+        })->name('profile.info');
+
+        Route::get('/account-info', function () {
+            return view('_users._settings.account-info', [
+                'title' => "Account Information - Growkm app"
+            ]);
+        })->name('account.info');
+
+        Route::get('/change-password', function () {
+            return view('_users._settings.change-password', [
+                'title' => "Change Password - Growkm app"
+            ]);
+        })->name('change.password');
+    });
+
+    Route::prefix('event')->group(function () {
+        Route::get('/list', function () {
+            $data = Event::select(
+                'event_id',
+                'event_title',
+                'event_date',
+                'event_speaker_name',
+                'event_speaker_job',
+                'event_price'
+            )->get();
+
+            $processedEvents = $data->map(function ($event) {
+                return [
+                    'event_id' => $event->event_id,
+                    'event_title' => $event->event_title,
+                    'event_date' => Carbon::parse($event->event_date)->format('d M Y'),
+                    'event_speaker' => $event->event_speaker_name,
+                    'event_speaker_job' => $event->event_speaker_job,
+                    'event_price' => $event->event_price
+                ];
+            });
+
+            return view('_users._events.events-data', [
+                'title' => "Events Data - Growkm app",
+                'data' => $processedEvents
+            ]);
+        })->name('events.data');
+
+        Route::get('/detail-event/{id}', function ($id) {
+
+            $getData = Event::select('*')->where('event_id', $id)->first();
+
+            $data =  [
+                'event_id' => $id,
+                'event_title' => $getData->event_title,
+                'event_description' => $getData->event_description,
+                'event_type' => $getData->event_type,
+                'event_quota' => $getData->event_quota,
+                'event_tags' => explode(',', $getData->event_tags),
+                'event_banner_img' => $getData->event_banner_img,
+                'event_price' => $getData->event_price,
+                'event_date' => Carbon::parse($getData->event_date)->format('d M Y')
+            ];;
+            return view('_users._events.event-detail', [
+                'title' => "Detail Event",
+                'data' => $data
+            ]);
+        })->name('event-detail');
+    });
+
+    Route::prefix('product')->group(function () {
+        // routing product role user
+    });
+
+    // transaction routing
+
+    Route::prefix('transaction')->group(function () {
+        Route::get('/event/{id}', function ($id) {
+            $getData = Event::select('*')->where('event_id', $id)->first();
+            $data = [
+                'event_id' => $id,
+                'event_price' => $getData['event_price'],
+                'event_quota' => $getData['event_quota']
+            ];
+            return view('_users._transactions.register-event', [
+                'title' => "Halaman register event",
+                'data' => $data
+            ]);
+        })->name('register.event');
+
+        Route::post('/regist-process', [ParticipantRegistController::class, 'store'])->name('participant.register');
+    });
+});
+
+
+
+Route::prefix('auth')->group(function () {
+    Route::get('/auth/login', function () {
+        return view('_auth.sign-in', [
+            'title' => "Login - Growkm app"
+        ]);
+    });
+
+    Route::get('/auth/register', function () {
+        return view('_auth.sign-up', [
+            'title' => "Register - Growkm app"
+        ]);
+    });
+});
 
 
 
 // Basic Routing
-
 Route::get('/', function () {
     return view('landing-page', [
-        'title' => "Home - Growkm app"
+        'title' => 'Growkm - Solusi Berkembang UMKM'
     ]);
-});
-
-Route::get('/our-team', function () {
-    return view('landingpage/our-team', [
-        'title' => "Tim Growkm"
-    ]);
-});
-
-Route::get('/our-partner', function () {
-    return view('landingpage/our-partner', [
-        'title' => "Partner Growkm"
-    ]);
-});
-
-Route::get('/about-supplier-plus', function () {
-    return view('landingpage/about-supplier-plus', [
-        'title' => "Tentang Supplier Plus"
-    ]);
-});
-
-Route::get('/auth/login', function () {
-    return view('_auth.sign-in', [
-        'title' => "Login - Growkm app"
-    ]);
-});
-
-Route::get('/auth/register', function () {
-    return view('_auth.sign-up', [
-        'title' => "Register - Growkm app"
-    ]);
-});
-
-Route::get('/auth/forgot-password', function () {
-    return view('_auth.forgot-password', [
-        'title' => "Lupa Password - Growkm app"
-    ]);
-});
-
-Route::get('/auth/reset-password', function () {
-    return view('_auth.reset-password', [
-        'title' => "Reset Password - Growkm app"
-    ]);
-});
-
-
-Route::get('/user/dashboard', function () {
-    return view('_users.dashboard', [
-        'title' => "Dashboard - Growkm app"
-    ]);
-});
-
-//settings
-
-Route::get('/user/profile-info', function () {
-    return view('_users._settings.profile-info', [
-        'title' => "Profile Information - Growkm app"
-    ]);
-})->name('profile.info');
-
-Route::get('/user/account-info', function () {
-    return view('_users._settings.account-info', [
-        'title' => "Account Information - Growkm app"
-    ]);
-})->name('account.info');
-
-Route::get('/user/change-password', function () {
-    return view('_users._settings.change-password', [
-        'title' => "Change Password - Growkm app"
-    ]);
-})->name('change.password');
-
-Route::get('/user/events', function () {
-    return view('_users._events.events-data', [
-        'title' => "Events Data - Growkm app"
-    ]);
-})->name('events.data');
+})->name('landing.page');
