@@ -1,11 +1,12 @@
 <?php
 
 use App\Models\Event;
+use App\Models\Product;
 use Illuminate\Support\Carbon;
+use App\Models\ParticipantRegist;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\ParticipantRegistController;
-use App\Models\ParticipantRegist;
 
 // Prefix Routing Admin
 
@@ -179,6 +180,26 @@ Route::prefix('user')->group(function () {
 
     Route::prefix('product')->group(function () {
         // routing product role user
+
+        Route::get('/list', function () {
+
+
+
+
+            return view('_users._suppliers.product-list', [
+                'title' => "List data produk",
+            ]);
+        })->name('product.list');
+
+        Route::get('/checkout/{id}', function ($id) {
+
+
+
+            return view('_users._transactions.create-product-transaction', [
+                'title' => "checkout",
+
+            ]);
+        });
     });
 
     // transaction routing
