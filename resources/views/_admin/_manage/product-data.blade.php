@@ -92,7 +92,8 @@
                             <div class="flex flex-col">
                                 <span class="font-medium">{{ $product->product_name }}</span>
                                 <span class="text-sm text-gray-500">
-                                    Min. Order: {{ $product->product_min_order }} {{ $product->product_min_order_unit }}
+                                    Min. Order: {{ $product->product_min_order }}
+                                    {{ $product->product_min_order_unit }}
                                 </span>
                             </div>
                         </td>
@@ -100,8 +101,9 @@
                             @php
                                 $categories = json_decode($product->product_category);
                             @endphp
-                            @foreach($categories as $category)
-                                <span class="inline-block bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded mr-1 mb-1">{{ $category }}</span>
+                            @foreach ($categories as $category)
+                                <span
+                                    class="inline-block bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded mr-1 mb-1">{{ $category }}</span>
                             @endforeach
                         </td>
                         <td class="py-4 px-2 text-start">{{ $product->product_stock }}</td>
@@ -109,16 +111,21 @@
                             Rp. {{ number_format($product->product_price, 0, ',', '.') }}
                         </td>
                         <td class="py-4 px-2 text-center">
-                            @if($product->product_stock > 10)
-                                <span class="bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded">Tersedia</span>
+                            @if ($product->product_stock > 10)
+                                <span
+                                    class="bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded">Tersedia</span>
                             @elseif($product->product_stock > 0)
-                                <span class="bg-yellow-100 text-yellow-800 text-xs font-medium px-2.5 py-0.5 rounded">Hampir Habis</span>
+                                <span
+                                    class="bg-yellow-100 text-yellow-800 text-xs font-medium px-2.5 py-0.5 rounded">Hampir
+                                    Habis</span>
                             @else
-                                <span class="bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded">Habis</span>
+                                <span
+                                    class="bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded">Habis</span>
                             @endif
                         </td>
                         <td class="w-full py-4 flex items-center justify-center gap-2 px-6">
-                                 <a href="{{ route('admin.manage.product.detail', $product->product_id) }}"                                class="bg-secondaryColors-10 flex items-center justify-center w-auto gap-2 px-2 h-8 rounded-md hover:bg-secondaryColors-20">
+                            <a href="{{ route('admin.manage.product.detail', $product->product_id) }}"
+                                class="bg-secondaryColors-10 flex items-center justify-center w-auto gap-2 px-2 h-8 rounded-md hover:bg-secondaryColors-20">
                                 <x-icons.eye-01 class="size-5 stroke-secondaryColors-base"></x-icons.eye-01>
                             </a>
                         </td>
@@ -127,8 +134,10 @@
                     <tr>
                         <td colspan="8" class="text-center py-6">
                             <div class="flex flex-col items-center justify-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-gray-400 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-gray-400 mb-2"
+                                    fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                                 </svg>
                                 <p class="text-gray-600">Belum ada produk yang tersedia</p>
                             </div>
@@ -139,71 +148,87 @@
         </table>
     </div>
     <div class="p-6 bg-white w-full rounded-b-lg flex items-center justify-between">
-        <span>Showing {{ $products->firstItem() }} to {{ $products->lastItem() }} of {{ $products->total() }} entries</span>
+        <span>Showing {{ $products->firstItem() }} to {{ $products->lastItem() }} of {{ $products->total() }}
+            entries</span>
 
         {{-- Pagination --}}
         @if ($products->hasPages())
-        <ul class="flex justify-center gap-1 text-gray-900">
-            {{-- Previous Page Link --}}
-            @if ($products->onFirstPage())
-                <li>
-                    <span class="grid size-8 place-content-center rounded border border-gray-200 opacity-50 cursor-not-allowed">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="size-4" viewBox="0 0 20 20" fill="currentColor">
-                            <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
-                        </svg>
-                    </span>
-                </li>
-            @else
-                <li>
-                    <a href="{{ $products->previousPageUrl() }}"
-                    class="grid size-8 place-content-center rounded border border-gray-200 transition-colors hover:bg-gray-50 rtl:rotate-180"
-                    aria-label="Halaman sebelumnya">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="size-4" viewBox="0 0 20 20" fill="currentColor">
-                            <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
-                        </svg>
-                    </a>
-                </li>
-            @endif
-
-            {{-- Pagination Elements --}}
-            @foreach ($products->getUrlRange(1, $products->lastPage()) as $page => $url)
-                @if ($page == $products->currentPage())
+            <ul class="flex justify-center gap-1 text-gray-900">
+                {{-- Previous Page Link --}}
+                @if ($products->onFirstPage())
                     <li>
-                        <span class="block size-8 rounded border border-secondaryColors-base bg-secondaryColors-base text-center text-sm/8 font-medium text-white">
-                            {{ $page }}
+                        <span
+                            class="grid size-8 place-content-center rounded border border-gray-200 opacity-50 cursor-not-allowed">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="size-4" viewBox="0 0 20 20"
+                                fill="currentColor">
+                                <path fill-rule="evenodd"
+                                    d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
+                                    clip-rule="evenodd" />
+                            </svg>
                         </span>
                     </li>
                 @else
                     <li>
-                        <a href="{{ $url }}"
-                        class="block size-8 rounded border border-gray-200 text-center text-sm/8 font-medium transition-colors hover:bg-gray-50">
-                            {{ $page }}
+                        <a href="{{ $products->previousPageUrl() }}"
+                            class="grid size-8 place-content-center rounded border border-gray-200 transition-colors hover:bg-gray-50 rtl:rotate-180"
+                            aria-label="Halaman sebelumnya">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="size-4" viewBox="0 0 20 20"
+                                fill="currentColor">
+                                <path fill-rule="evenodd"
+                                    d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
+                                    clip-rule="evenodd" />
+                            </svg>
                         </a>
                     </li>
                 @endif
-            @endforeach
 
-            {{-- Next Page Link --}}
-            @if ($products->hasMorePages())
-                <li>
-                    <a href="{{ $products->nextPageUrl() }}"
-                    class="grid size-8 place-content-center rounded border border-gray-200 transition-colors hover:bg-gray-50 rtl:rotate-180"
-                    aria-label="Halaman berikutnya">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="size-4" viewBox="0 0 20 20" fill="currentColor">
-                            <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
-                        </svg>
-                    </a>
-                </li>
-            @else
-                <li>
-                    <span class="grid size-8 place-content-center rounded border border-gray-200 opacity-50 cursor-not-allowed">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="size-4" viewBox="0 0 20 20" fill="currentColor">
-                            <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
-                        </svg>
-                    </span>
-                </li>
-            @endif
-        </ul>
+                {{-- Pagination Elements --}}
+                @foreach ($products->getUrlRange(1, $products->lastPage()) as $page => $url)
+                    @if ($page == $products->currentPage())
+                        <li>
+                            <span
+                                class="block size-8 rounded border border-secondaryColors-base bg-secondaryColors-base text-center text-sm/8 font-medium text-white">
+                                {{ $page }}
+                            </span>
+                        </li>
+                    @else
+                        <li>
+                            <a href="{{ $url }}"
+                                class="block size-8 rounded border border-gray-200 text-center text-sm/8 font-medium transition-colors hover:bg-gray-50">
+                                {{ $page }}
+                            </a>
+                        </li>
+                    @endif
+                @endforeach
+
+                {{-- Next Page Link --}}
+                @if ($products->hasMorePages())
+                    <li>
+                        <a href="{{ $products->nextPageUrl() }}"
+                            class="grid size-8 place-content-center rounded border border-gray-200 transition-colors hover:bg-gray-50 rtl:rotate-180"
+                            aria-label="Halaman berikutnya">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="size-4" viewBox="0 0 20 20"
+                                fill="currentColor">
+                                <path fill-rule="evenodd"
+                                    d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                                    clip-rule="evenodd" />
+                            </svg>
+                        </a>
+                    </li>
+                @else
+                    <li>
+                        <span
+                            class="grid size-8 place-content-center rounded border border-gray-200 opacity-50 cursor-not-allowed">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="size-4" viewBox="0 0 20 20"
+                                fill="currentColor">
+                                <path fill-rule="evenodd"
+                                    d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                                    clip-rule="evenodd" />
+                            </svg>
+                        </span>
+                    </li>
+                @endif
+            </ul>
         @endif
     </div>
 </x-layouts.admin.admin-layout>

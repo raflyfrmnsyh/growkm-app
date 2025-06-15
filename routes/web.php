@@ -5,8 +5,10 @@ use App\Models\Product;
 use Illuminate\Support\Carbon;
 use App\Models\ParticipantRegist;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Request;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\ParticipantRegistController;
+use App\Http\Controllers\TransactionController;
 
 // Prefix Routing Admin
 
@@ -41,11 +43,6 @@ Route::prefix('admin')->group(function () {
 
         Route::get('/event', [EventController::class, 'index'])->name('admin.manage.event');
 
-        // Route::get('/event', function () {
-        //     return view('_admin._manage.event-data', [
-        //         'title' => 'Kelola data event'
-        //     ]);
-        // })->name('admin.manage.event');
 
         Route::get('/event/detail', function () {
             return view('_admin._manage._create.add-event-data', [
@@ -62,11 +59,7 @@ Route::prefix('admin')->group(function () {
         /**
          * Kelola data produk
          */
-      //  Route::get('/product', function () {
-      //     return view('_admin._manage.product-data', [
-      //          'title' => 'Kelola data Produk'
-      //      ]);
-      //  })->name('admin.manage.product');
+
 
         Route::get('/product', [App\Http\Controllers\ProductController::class, 'index'])->name('admin.manage.product');
 
@@ -83,6 +76,13 @@ Route::prefix('admin')->group(function () {
         Route::put('/product/update/{product_id}', [App\Http\Controllers\ProductController::class, 'update'])->name('admin.manage.product.update');
 
         Route::delete('/product/delete/{product_id}', [App\Http\Controllers\ProductController::class, 'destroy'])->name('admin.manage.product.destroy');
+
+        Route::get('/product/detail/{id}', function ($id) {
+            return view('_admin._manage._product.product-detail', [
+                'title' => "Detail Produk",
+                'id' => $id
+            ]);
+        })->name('user.product.detail');
 
         /***
          * Kelola Admin Routing
@@ -192,23 +192,50 @@ Route::prefix('user')->group(function () {
 
         Route::get('/list', function () {
 
+            $data = Product::orderBy('created_at', 'desc')->paginate(10);
 
+            $data->getCollection()->transform(function ($item) {
+                return [
+                    'product_id' => $item->product_id,
+                    'product_name' => $item->product_name,
+                    'product_image' => $item->product_image,
+                    'product_price' => $item->product_price,
+                    'product_sell' => $item->product_price + ($item->product_price * 0.20)
+                ];
+            });
 
-
-            return view('_users._suppliers.product-list', [
+            return view('_users._suppliers.all-product', [
                 'title' => "List data produk",
+                'data' => $data
             ]);
         })->name('product.list');
 
+
         Route::get('/checkout/{id}', function ($id) {
 
-
-
-            return view('_users._transactions.create-product-transaction', [
+            return view('_users._transactions.create-transaction', [
                 'title' => "checkout",
+                'id' => $id
 
             ]);
-        });
+        })->name('create.order.product');
+
+
+
+
+        //suppliers
+        Route::get('/user/supplier/products', function () {
+            return view('_users._suppliers.all-product', [
+                'title' => 'All Products - Growkm app'
+            ]);
+        })->name('products.all');
+
+        Route::get('/user/supplier/products/{id}', function ($id) {
+            return view('_users._suppliers.details-product', [
+                'title' => 'Product Details - Growkm app',
+                'id' => $id
+            ]);
+        })->name('products.details');
     });
 
     // transaction routing
@@ -228,6 +255,8 @@ Route::prefix('user')->group(function () {
         })->name('register.event');
 
         Route::post('/regist-process', [ParticipantRegistController::class, 'store'])->name('participant.register');
+
+        Route::post('/create/order-product', [TransactionController::class, 'store'])->name('create.transaction.product');
     });
 });
 
@@ -255,17 +284,3 @@ Route::get('/', function () {
         'title' => 'Growkm - Solusi Berkembang UMKM'
     ]);
 })->name('landing.page');
-
-
-//suppliers
-Route::get('/user/supplier/products', function () {
-    return view('_users._suppliers.all-product', [
-        'title' => 'All Products - Growkm app'
-    ]);
-})->name('products.all');
-
-Route::get('/user/supplier/products/{id}', function ($id) {
-    return view('_users._suppliers.details-product', [
-        'title' => 'Product Details - Growkm app'
-    ]);
-})->name('products.details');
