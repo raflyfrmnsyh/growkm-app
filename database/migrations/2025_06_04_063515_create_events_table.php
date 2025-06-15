@@ -26,6 +26,9 @@ return new class extends Migration
             $table->date('event_date');
             $table->time('event_start_time');
             $table->time('event_end_time');
+            $table->dateTime('event_registration_deadline')->nullable();
+            $table->string('event_speaker_name', 100)->nullable();
+            $table->string('event_speaker_job', 100)->nullable();
 
             $table->timestamps();
         });

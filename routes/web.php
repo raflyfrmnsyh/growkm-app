@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\EventController;
 
 
 // Prefix Routing
@@ -38,17 +39,24 @@ Route::prefix('admin')->group(function () {
 
         /** Kelola data event & kelas */
 
-        Route::get('/event', function () {
-            return view('_admin._manage.event-data', [
-                'title' => 'Kelola data event'
-            ]);
-        })->name('admin.manage.event');
+        Route::get('/event', [EventController::class, 'index'])->name('admin.manage.event');
+
+        // Route::get('/event', function () {
+        //     return view('_admin._manage.event-data', [
+        //         'title' => 'Kelola data event'
+        //     ]);
+        // })->name('admin.manage.event');
 
         Route::get('/event/detail', function () {
             return view('_admin._manage._create.add-event-data', [
                 'title' => 'Tambah data event'
             ]);
         })->name('admin.manage.add-event');
+
+        Route::post('/event/store', [EventController::class, 'store'])
+            ->name('admin.manage.event.store');
+
+        Route::get('/event/detail/{event_id}', [EventController::class, 'show'])->name('admin.manage.event.detail');
 
 
         /**
@@ -166,9 +174,8 @@ Route::get('/user/change-password', function () {
     ]);
 })->name('change.password');
 
-
-Route::get('/test', function () {
-    return view('_users._transactions.register-event', [
-        'title' => "List"
+Route::get('/user/events', function () {
+    return view('_users._events.events-data', [
+        'title' => "Events Data - Growkm app"
     ]);
-});
+})->name('events.data');
