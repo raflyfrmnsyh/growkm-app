@@ -6,9 +6,10 @@ use Illuminate\Support\Carbon;
 use App\Models\ParticipantRegist;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Request;
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\EventController;
-use App\Http\Controllers\ParticipantRegistController;
 use App\Http\Controllers\TransactionController;
+use App\Http\Controllers\ParticipantRegistController;
 
 // Prefix Routing Admin
 
@@ -96,17 +97,13 @@ Route::prefix('admin')->group(function () {
          * Kelola Admin Routing
          */
 
-        Route::get('/admin', function () {
-            return view('_admin._manage.admin-data', [
-                'title' => 'Kelola data admin'
-            ]);
-        })->name('admin.manage.admin');
+        Route::get('/admin', [AdminController::class, 'index'])->name('admin.manage.admin');
 
-        Route::get('/admin/create', function () {
-            return view('_admin._manage._create.add-admin-data', [
-                'title' => "Tambah data admin",
-            ]);
-        })->name('admin.manage.add-admin');
+        Route::get('/admin/create', [AdminController::class, 'create'])->name('admin.manage.add-admin');
+        Route::post('/admin/create', [AdminController::class, 'store'])->name('admin.manage.store-admin');
+        Route::get('/admin/edit/{id}', [AdminController::class, 'edit'])->name('admin.manage.edit-admin');
+        Route::put('/admin/edit/{id}', [AdminController::class, 'update'])->name('admin.manage.update-admin');
+        Route::delete('/admin/delete/{id}', [AdminController::class, 'destroy'])->name('admin.manage.delete-admin');
     });
 });
 
