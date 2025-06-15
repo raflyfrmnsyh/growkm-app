@@ -77,7 +77,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($admins as $index => $admin)
+                @forelse ($admins as $index => $admin)
                     <tr class="border-b border-gray-200">
                         <td class="text-center">{{ $index + 1 }}</td>
                         <td class="py-4 px-2">{{ '#ADM' . str_pad($admin->id, 4, '0', STR_PAD_LEFT) }}</td>
@@ -87,25 +87,41 @@
                         <td class="py-4 px-2 text-center">
                             {{ $admin->user_role === 'M' ? 'Event Admin' : 'Product Admin' }}
                         </td>
-                        <td class="w-full py-4 flex items-center justify-center gap-2 px-6">
-                            <a href="#" class="bg-secondaryColors-10 flex items-center justify-center w-auto gap-2 px-2 h-8 rounded-md hover:bg-secondaryColors-20">
-                                <x-icons.eye-01 class="size-5 stroke-secondaryColors-base "></x-icons.eye-01>
-                            </a>
+                        <td class="py-4 px-2 text-center align-middle">
+                            <div class="flex items-center justify-center gap-2">
+                                {{-- Tombol Edit / Lihat --}}
+                                <a href="{{ route('admin.manage.edit-admin', $admin->id) }}"
+                                    class="bg-secondaryColors-10 flex items-center justify-center w-8 h-8 rounded-md hover:bg-secondaryColors-20">
+                                    <x-icons.eye-01 class="size-5 stroke-secondaryColors-base" />
+                                </a>
 
-                            {{-- Tombol Edit --}}
-                            <a href="{{ route('admin.manage.edit-admin', $admin->id) }}"
-                            class="text-blue-600 hover:underline">Edit</a>
+                                {{-- Tombol Hapus --}}
+                                <form action="{{ route('admin.manage.delete-admin', $admin->id) }}" method="POST"
+                                    onsubmit="return confirm('Are you sure you want to delete this admin?');" class="inline">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit"
+                                        class="bg-red-100 flex items-center justify-center w-8 h-8 rounded-md hover:bg-red-200">
+                                        <x-icons.delete-01 class="size-5 stroke-red-600" />
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
 
-                            {{-- Tombol Hapus --}}
-                            <form action="{{ route('admin.manage.delete-admin', $admin->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this admin?');">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="text-red-600 hover:underline">Hapus</button>
-                            </form>
-    
+                    </tr>
+
+                    @empty
+                    <tr>
+                        <td colspan="7" class="py-12 text-center text-gray-500">
+                            <div class="flex flex-col items-center justify-center gap-4">
+                                <x-icons.empty-box class="w-12 h-12 stroke-gray-300" />
+                                <p class="text-lg font-medium">Belum ada data admin.</p>
+                                <p class="text-sm text-gray-400">Klik tombol "Tambah Data" untuk menambahkan admin pertama.</p>
+                            </div>
                         </td>
                     </tr>
-                @endforeach
+
+                @endforelse
 
             </tbody>
         </table>
