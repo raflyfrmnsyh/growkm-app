@@ -69,19 +69,6 @@ class AdminController extends Controller
 
     public function store(Request $request)
     {
-        // $validated = $request->validate([
-        //     'username' => 'required|string|max:255',
-        //     'user_email' => 'required|email|max:255',
-        //     'user_phone' => 'required|string|max:15',
-        //     'user_gender' => 'required|in:M,F',
-        //     'user_address' => 'nullable|string',
-        //     'user_password' => 'required|min:6',
-        //     'user_role' => 'required|string',
-        // ]);
-
-        // $validated['user_password'] = bcrypt($validated['user_password']);
-
-        // Admin::create($validated);
         Admin::create($request->all());
         return redirect()->route('admin.manage.admin')->with('success', 'Admin berhasil ditambahkan');
     }
