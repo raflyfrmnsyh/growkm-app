@@ -5,6 +5,9 @@
 /public/storage
 /storage/logs/laravel.log
 /storage/*.key
+/storage/framework/cache/*
+/storage/framework/sessions/*
+/storage/framework/views/*
 /vendor
 .env
 .env.backup
