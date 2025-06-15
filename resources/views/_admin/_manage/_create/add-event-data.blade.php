@@ -176,23 +176,28 @@
                             placeholder="Link Maps Vanue atau Zoom Meet Link" required
                             class="border border-gray-200 px-4 py-3 my-2 rounded-md w-full focus:outline-none focus:border-secondaryColors-base focus;border-2">
                     </div>
+                    <div class="mb-4 flex flex-col w-full">
+                        <label for="event_date" class="font-medium text-gray-800 w-full">Tanggal Event</label>
+                        <input type="date" name="event_date" id="nameField"
+                            placeholder="Link Maps Vanue atau Zoom Meet Link" required
+                            class="border border-gray-200 px-4 py-3 my-2 rounded-md w-full focus:outline-none focus:border-secondaryColors-base focus;border-2">
+                    </div>
                     <div class="mb-7 flex items-center w-full gap-2">
                         <div class="flex flex-col gap-2 w-full">
-                            <label for="start_date_time" class="font-medium text-gray-800 w-full">Waktu awal</label>
-                            <input type="datetime-local" name="start_date_time" aria-label="Mulai"
+                            <label for="event_start_time" class="font-medium text-gray-800 w-full">Waktu awal</label>
+                            <input type="time" name="event_start_time" aria-label="Mulai"
                                 class="flex-1 px-3 py-2 border border-gray-200 rounded-md focus:outline-none focus:border-secondaryColors-base" />
                         </div>
                         <span class="text-gray-500 self-center translate-y-4">-</span>
                         <div class="flex flex-col gap-2 w-full">
-                            <label for="start_date_time" class="font-medium text-gray-800 w-full">Waktu Akhir</label>
-                            <input type="datetime-local" name="end_date_time" aria-label="Selesai"
+                            <label for="event_end_time" class="font-medium text-gray-800 w-full">Waktu Akhir</label>
+                            <input type="time" name="event_end_time" aria-label="Selesai"
                                 class="flex-1 px-3 py-2 border border-gray-200 rounded-md focus:outline-none focus:border-secondaryColors-base" />
                         </div>
                     </div>
                     <div class="mb-4 flex flex-col w-full">
                         <label for="event_registration_deadline" class="font-medium text-gray-800 w-full">Set batas pendaftaran</label>
-                        <input type="datetime-local" name="event_registration_deadline" id="nameField"
-                            placeholder="Link Maps Vanue atau Zoom Meet Link" required
+                        <input type="datetime-local" name="event_registration_deadline" id="nameField" required
                             class="border border-gray-200 px-4 py-3 my-2 rounded-md w-full focus:outline-none focus:border-secondaryColors-base focus;border-2">
                     </div>
                     <div class="mb-4 flex flex-col w-full">

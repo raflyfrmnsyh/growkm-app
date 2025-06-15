@@ -44,7 +44,7 @@ Route::prefix('admin')->group(function () {
         Route::get('/event', [EventController::class, 'index'])->name('admin.manage.event');
 
 
-        Route::get('/event/detail', function () {
+        Route::get('/event/add', function () {
             return view('_admin._manage._create.add-event-data', [
                 'title' => 'Tambah data event'
             ]);
@@ -54,6 +54,14 @@ Route::prefix('admin')->group(function () {
             ->name('admin.manage.event.store');
 
         Route::get('/event/detail/{event_id}', [EventController::class, 'show'])->name('admin.manage.event.detail');
+
+        Route::delete('/event/delete/{event_id}', [EventController::class, 'destroy'])
+            ->name('admin.manage.event.delete');
+
+        Route::get('/event/{event_id}/view', [EventController::class, 'view'])->name('admin.manage.event.view');
+
+        Route::put('/event/update/{event_id}', [EventController::class, 'update'])
+            ->name('admin.manage.event.update');
 
 
         /**
