@@ -90,7 +90,7 @@
                                 <span class="font-medium">{{ $event->event_title }}</span>
                                 <span class="text-sm text-gray-500">
                                     {{ \Carbon\Carbon::parse($event->event_date)->format('d/m/y') }} -
-                                    {{ $event->event_start_time }} s/d {{ $event->event_end_time }}
+                                    {{ \Carbon\Carbon::parse($event->event_start_time)->format('H:i') }} s/d {{ \Carbon\Carbon::parse($event->event_end_time)->format('H:i') }}
                                 </span>
                             </div>
                         </td>
@@ -109,10 +109,19 @@
                             @endif
                         </td>
                         <td class="w-full py-4 flex items-center justify-center gap-2 px-6">
-                            <a href="{{ route('admin.manage.event.detail', $event->event_id) }}"
+                            <a href="{{ route('admin.manage.event.view', $event->event_id) }}"
                                 class="bg-secondaryColors-10 flex items-center justify-center w-auto gap-2 px-2 h-8 rounded-md hover:bg-secondaryColors-20">
                                 <x-icons.eye-01 class="size-5 stroke-secondaryColors-base "></x-icons.eye-01>
                             </a>
+                            <form action="{{ route('admin.manage.event.delete', $event->event_id) }}" method="POST">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit"
+                                        class="bg-red-100 flex items-center justify-center w-auto gap-2 px-2 h-8 rounded-md hover:bg-red-200"
+                                        onclick="return confirm('Apakah Anda yakin ingin menghapus event ini?')">
+                                    <x-icons.delete-01 class="size-5 stroke-red-500"></x-icons.delete-01>
+                                </button>
+                            </form>
                         </td>
                     </tr>
                 @empty

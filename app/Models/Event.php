@@ -34,10 +34,8 @@ class Event extends Model
     ];
 
     protected $casts = [
+        'tags_event' => 'array',
         'event_date' => 'date',
-        'event_start_time' => 'datetime:H:i:s',
-        'event_end_time' => 'datetime:H:i:s',
-        'event_registration_deadline' => 'date',
-        'event_price' => 'decimal:2'
+        'event_registration_deadline' => 'datetime'
     ];
 }
