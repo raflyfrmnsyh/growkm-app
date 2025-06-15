@@ -1,15 +1,15 @@
 <x-layouts.admin.admin-layout>
-    <x-slot:title>{{ $title ? $title : 'Tambah data' }}</x-slot:title>
+    <x-slot:title>{{ $title ? $title : 'Update Data' }}</x-slot:title>
 
     <div
         class="p-6 bg-white w-full gap-8 rounded-t-md flex lg:flex-row flex-col items-end justify-between border-b border-gray-200">
-        <h1 class="font-semibold text-lg">Tambah Data Produk</h1>
+        <h1 class="font-semibold text-lg">Update Data Produk</h1>
 
         <div class="flex flex-col md:flex-row items-center gap-2 w-full lg:w-auto justify-between lg:justify-end">
             <a href="{{ route('admin.manage.product') }}" class="opacity-50 hover:opacity-100 transition-all">Kelola
                 Produk</a>
             <span>/</span>
-            <span class="font-medium text-secondaryColors-base">Tambah data</span>
+            <span class="font-medium text-secondaryColors-base">Update Data</span>
         </div>
     </div>
 
@@ -25,13 +25,14 @@
             </div>
         @endif
 
-        <form action="{{ route('admin.manage.product.store') }}" method="POST" enctype="multipart/form-data" class="flex gap-2 flex-wrap justify-between items-start">
+        <form action="{{ route('admin.manage.product.update', $product->product_id) }}" method="POST" enctype="multipart/form-data" class="flex gap-2 flex-wrap justify-between items-start">
             @csrf
+            @method('PUT')
             <div class="w-full flex items-start justify-between gap-6">
-                <div class="product_informations w-[48%]">
+                <div class="product_informations w-full">
                     <h1 class="font-semibold text-xl mb-4">Informasi Produk</h1>
                     <div x-data="{
-                        preview: null,
+                        preview: '{{ asset($product->product_image) }}',
                         updatePreview(event) {
                             const file = event.target.files[0];
                             if (file) {
@@ -78,6 +79,7 @@
                             <input id="product_image" name="product_image" type="file" class="hidden" accept="image/*"
                                 @change="updatePreview" x-ref="fileInput" />
                         </label>
+                        <input type="hidden" name="_old_product_image" value="{{ $product->product_image }}">
                         @error('product_image')
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                         @enderror
@@ -85,7 +87,7 @@
                     <div class="mb-4 flex flex-col w-full">
                         <label for="product_name" class="font-medium text-gray-800 w-full">Nama Produk</label>
                         <input type="text" name="product_name" id="nameField" placeholder="Masukkan nama produk"
-                            required value="{{ old('product_name') }}"
+                            required value="{{ old('product_name', $product->product_name) }}"
                             class="border border-gray-200 px-4 py-3 my-2 rounded-md w-full focus:outline-none focus:border-secondaryColors-base focus;border-2">
                         @error('product_name')
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
@@ -94,7 +96,7 @@
                     <div class="mb-4 flex flex-col w-full">
                         <label for="product_description" class="font-medium text-gray-800 w-full">Deskripsi Produk</label>
                         <textarea name="product_description" id="descField" rows="3" placeholder="Deskripsi produk"
-                            class="border border-gray-200 px-4 py-3 my-2 rounded-md w-full focus:outline-none focus:border-secondaryColors-base focus;border-2 resize-none">{{ old('product_description') }}</textarea>
+                            class="border border-gray-200 px-4 py-3 my-2 rounded-md w-full focus:outline-none focus:border-secondaryColors-base focus;border-2 resize-none">{{ old('product_description', $product->product_description) }}</textarea>
                         @error('product_description')
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                         @enderror
@@ -104,7 +106,7 @@
                         <label for="product_category" class="font-medium text-gray-800 w-full mb-1">Kategori
                             Produk</label>
                         <div x-data="{
-                            product_categories: {{ old('product_category') ? json_encode(old('product_category')) : '[]' }},
+                            product_categories: {{ old('product_category') ? json_encode(old('product_category')) : ($product->product_category ? $product->product_category : '[]') }},
                             categories: [
                                 { id: 1, name: 'Elektronik' },
                                 { id: 2, name: 'Fashion' },
@@ -155,19 +157,19 @@
 
                     <div class="mb-4 flex flex-col w-full">
                         <label for="product_tags" class="font-medium text-gray-800 w-full">Tags Produk</label>
-                        <input type="text" name="product_tags" id="tagsField" placeholder="Pisahkan dengan koma, cth: baju, kaos, pria" value="{{ old('product_tags') }}"
+                        <input type="text" name="product_tags" id="tagsField" placeholder="Pisahkan dengan koma, cth: baju, kaos, pria" value="{{ old('product_tags', $product->product_tags) }}"
                             class="border border-gray-200 px-4 py-3 my-2 rounded-md w-full focus:outline-none focus:border-secondaryColors-base focus;border-2">
                         @error('product_tags')
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                         @enderror
                     </div>
                 </div>
-                <div class="product-details w-[48%]">
+                <div class="product-details w-full">
                     <h1 class="font-semibold text-xl mb-4">Detail Produk</h1>
 
                     <div class="mb-4 flex flex-col w-full">
                         <label for="product_price" class="font-medium text-gray-800 w-full">Harga Produk</label>
-                        <input type="text" name="product_price" id="priceField" placeholder="Rp." required value="{{ old('product_price') }}"
+                        <input type="text" name="product_price" id="priceField" placeholder="Rp." required value="{{ old('product_price', $product->product_price) }}"
                             class="border border-gray-200 px-4 py-3 my-2 rounded-md w-full focus:outline-none focus:border-secondaryColors-base focus;border-2">
                         @error('product_price')
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
@@ -176,7 +178,7 @@
 
                     <div class="mb-4 flex flex-col w-full">
                         <label for="product_stock" class="font-medium text-gray-800 w-full">Stok Produk</label>
-                        <input type="number" min="0" name="product_stock" id="stockField" required value="{{ old('product_stock') }}"
+                        <input type="number" min="0" name="product_stock" id="stockField" required value="{{ old('product_stock', $product->product_stock) }}"
                             placeholder="Jumlah stok produk"
                             class="border border-gray-200 px-4 py-3 my-2 rounded-md w-full focus:outline-none focus:border-secondaryColors-base focus;border-2">
                         @error('product_stock')
@@ -186,18 +188,18 @@
                     <div class="mb-4 flex flex-col w-full">
                         <label for="product_min_order" class="font-medium text-gray-800 w-full">Min Order</label>
                         <div class="flex gap-2">
-                            <input type="number" min="1" name="product_min_order" id="minOrderField" value="{{ old('product_min_order') }}"
+                            <input type="number" min="1" name="product_min_order" id="minOrderField" value="{{ old('product_min_order', $product->product_min_order) }}"
                                 required placeholder="Jumlah minimal order"
                                 class="border border-gray-200 px-4 py-3 my-2 rounded-md w-2/3 focus:outline-none focus:border-secondaryColors-base focus:border-2">
                             <div class="relative w-1/3">
                                 <select name="product_min_order_unit" id="minOrderUnit" required
                                     class="border border-gray-200 px-4 py-3 my-2 rounded-md w-full focus:outline-none focus:border-secondaryColors-base focus:border-2 appearance-none">
                                     <option value="">Pilih Satuan</option>
-                                    <option value="pcs" {{ old('product_min_order_unit') == 'pcs' ? 'selected' : '' }}>PCS</option>
-                                    <option value="kg" {{ old('product_min_order_unit') == 'kg' ? 'selected' : '' }}>KG</option>
-                                    <option value="liter" {{ old('product_min_order_unit') == 'liter' ? 'selected' : '' }}>Liter</option>
-                                    <option value="meter" {{ old('product_min_order_unit') == 'meter' ? 'selected' : '' }}>Meter</option>
-                                    <option value="item" {{ old('product_min_order_unit') == 'item' ? 'selected' : '' }}>Item</option>
+                                    <option value="pcs" {{ old('product_min_order_unit', $product->product_min_order_unit) == 'pcs' ? 'selected' : '' }}>PCS</option>
+                                    <option value="kg" {{ old('product_min_order_unit', $product->product_min_order_unit) == 'kg' ? 'selected' : '' }}>KG</option>
+                                    <option value="liter" {{ old('product_min_order_unit', $product->product_min_order_unit) == 'liter' ? 'selected' : '' }}>Liter</option>
+                                    <option value="meter" {{ old('product_min_order_unit', $product->product_min_order_unit) == 'meter' ? 'selected' : '' }}>Meter</option>
+                                    <option value="item" {{ old('product_min_order_unit', $product->product_min_order_unit) == 'item' ? 'selected' : '' }}>Item</option>
                                 </select>
                                 <div
                                     class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
@@ -212,10 +214,13 @@
                         @error('product_min_order')
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                         @enderror
+                        @error('product_min_order_unit')
+                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                        @enderror
                     </div>
                     <div class="w-full">
                         <div class="flex items-center gap-4">
-                            <input type="submit" value="Tambah Data"
+                            <input type="submit" value="Update Data"
                                 class="bg-secondaryColors-base px-4 py-3 font-semibold text-white rounded-md cursor-pointer hover:bg-secondaryColors-60 transition-all">
                             <a href="{{ route('admin.manage.product') }}"
                                 class="px-4 py-3 font-medium text-dark-base border border-gray-300 rounded-md ">Kembali</a>
