@@ -158,3 +158,17 @@ Route::get('/user/change-password', function () {
         'title' => "Change Password - Growkm app"
     ]);
 })->name('change.password');
+
+
+//suppliers
+Route::get('/user/supplier/products', function () {
+    return view('_users._suppliers.all-product', [
+        'title' => 'All Products - Growkm app'
+    ]);
+})->name('products.all');
+
+Route::get('/user/supplier/products/{id}', function ($id) {
+    return view('_users._suppliers.details-product', [
+        'title' => 'Product Details - Growkm app'
+    ]);
+})->name('products.details');
