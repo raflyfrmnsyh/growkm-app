@@ -40,7 +40,7 @@
 
                     <div class="bg-white p-2">
                         <a href="#">
-                            <h3 class="mt-0.5 text-lg text-gray-900 line-clamp-2">Baju Koko Proa Dewasa Model Akhtar</h3>
+                            <h3 class="mt-0.5 text-lg text-gray-900 line-clamp-2">Baju Koko Pria Dewasa Model Akhtar</h3>
                         </a>
 
                         <p class="mt-1 text-sm/relaxed text-gray-500">Harga Beli</p>
