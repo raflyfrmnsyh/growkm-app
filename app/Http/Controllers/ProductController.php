@@ -51,7 +51,7 @@ class ProductController extends Controller
 
         // Convert product_category array to JSON string
         $validated['product_category'] = json_encode($validated['product_category']);
-        
+
         // Product tags are already handled as string by validation.
 
         // Create product
@@ -99,7 +99,29 @@ class ProductController extends Controller
 
     public function index()
     {
-        $products = Product::orderBy('created_at', 'desc')->paginate(10);
+        // $products = Product::orderBy('created_at', 'desc')->paginate(10);
+        $products = Product::select(
+            'product_id',
+            'product_name',
+            'product_category',
+            'product_price',
+            'product_stock',
+            'product_min_order'
+        )->orderBy('created_at', 'desc')->paginate(10);
+
+
+        $products->getCollection()->transform(
+            function ($item) {
+                return [
+                    'product_id' => $item->product_id,
+                    'product_name' => $item->product_name,
+                    'product_category' => explode(',', $item->product_category),
+                    'product_price' => $item->product_price,
+                    'product_stock' => $item->product_stock,
+                    'product_min_order' => $item->product_min_order
+                ];
+            }
+        );
 
         return view('_admin._manage.product-data', [
             'title' => 'Kelola data Produk',

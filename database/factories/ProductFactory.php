@@ -23,10 +23,10 @@ class ProductFactory extends Factory
             'product_description' => $this->faker->paragraph,
             'product_price' => $this->faker->randomFloat(2, 1000, 100000),
             'product_stock' => $this->faker->numberBetween(0, 100),
-            'product_category' => $this->faker->word,
+            'product_category' => implode(',', $this->faker->words(3)),
             'product_image' => $this->faker->imageUrl(640, 480, 'product'),
             'product_min_order' => $this->faker->numberBetween(1, 5),
-            'product_tags' => implode(',', $this->faker->words(3)),
+            'product_tags' => $this->faker->word,
         ];
     }
 }

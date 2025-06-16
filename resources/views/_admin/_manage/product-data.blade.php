@@ -85,36 +85,34 @@
             </thead>
             <tbody>
                 @forelse ($products as $index => $product)
+                    {{-- @dd($product) --}}
                     <tr class="border-b border-gray-200">
                         <td class="text-center gap-2 px-6">{{ $index + 1 }}</td>
-                        <td class="py-4 px-2">{{ $product->product_id }}</td>
+                        <td class="py-4 px-2">{{ $product['product_id'] }}</td>
                         <td class="py-4 px-2">
                             <div class="flex flex-col">
-                                <span class="font-medium">{{ $product->product_name }}</span>
+                                <span class="font-medium">{{ $product['product_name'] }}</span>
                                 <span class="text-sm text-gray-500">
-                                    Min. Order: {{ $product->product_min_order }}
-                                    {{ $product->product_min_order_unit }}
+                                    Min. Order: {{ $product['product_min_order'] . ' unit' }}
                                 </span>
                             </div>
                         </td>
                         <td class="py-4 px-2">
-                            @php
-                                $categories = json_decode($product->product_category);
-                            @endphp
-                            @foreach ($categories as $category)
+
+                            @foreach ($product['product_category'] as $category)
                                 <span
                                     class="inline-block bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded mr-1 mb-1">{{ $category }}</span>
                             @endforeach
                         </td>
-                        <td class="py-4 px-2 text-start">{{ $product->product_stock }}</td>
+                        <td class="py-4 px-2 text-start">{{ $product['product_stock'] }}</td>
                         <td class="py-4 px-2 text-end">
-                            Rp. {{ number_format($product->product_price, 0, ',', '.') }}
+                            Rp. {{ number_format($product['product_price'], 0, ',', '.') }}
                         </td>
                         <td class="py-4 px-2 text-center">
-                            @if ($product->product_stock > 10)
+                            @if ($product['product_stock'] > 10)
                                 <span
                                     class="bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded">Tersedia</span>
-                            @elseif($product->product_stock > 0)
+                            @elseif($product['product_stock'] > 0)
                                 <span
                                     class="bg-yellow-100 text-yellow-800 text-xs font-medium px-2.5 py-0.5 rounded">Hampir
                                     Habis</span>
@@ -124,7 +122,7 @@
                             @endif
                         </td>
                         <td class="w-full py-4 flex items-center justify-center gap-2 px-6">
-                            <a href="{{ route('admin.manage.product.detail', $product->product_id) }}"
+                            <a href="{{ route('admin.manage.product.detail', $product['product_id']) }}"
                                 class="bg-secondaryColors-10 flex items-center justify-center w-auto gap-2 px-2 h-8 rounded-md hover:bg-secondaryColors-20">
                                 <x-icons.eye-01 class="size-5 stroke-secondaryColors-base"></x-icons.eye-01>
                             </a>
@@ -231,4 +229,5 @@
             </ul>
         @endif
     </div>
+
 </x-layouts.admin.admin-layout>
