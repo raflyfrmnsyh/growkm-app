@@ -66,8 +66,8 @@ Route::prefix('admin')->group(function () {
 
         Route::put('/product/update/{product_id}', [App\Http\Controllers\ProductController::class, 'update'])->name('admin.manage.product.update');
 
-        Route::delete('/product/delete/{product_id}', [App\Http\Controllers\ProductController::class, 'destroy'])->name('admin.manage.product.destroy');
-
+        Route::delete('/product/delete/{product_id}', [App\Http\Controllers\ProductController::class, 'destroy'])
+        ->name('admin.manage.product.delete');
 
         /***
          * Kelola Admin Routing

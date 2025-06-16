@@ -118,9 +118,21 @@
                             @endif
                         </td>
                         <td class="w-full py-4 flex items-center justify-center gap-2 px-6">
-                                 <a href="{{ route('admin.manage.product.detail', $product->product_id) }}"                                class="bg-secondaryColors-10 flex items-center justify-center w-auto gap-2 px-2 h-8 rounded-md hover:bg-secondaryColors-20">
+                                 <a href="{{ route('admin.manage.product.detail', $product->product_id) }}" 
+                                 class="bg-secondaryColors-10 flex items-center justify-center w-auto gap-2 px-2 h-8 rounded-md hover:bg-secondaryColors-20">
                                 <x-icons.eye-01 class="size-5 stroke-secondaryColors-base"></x-icons.eye-01>
                             </a>
+
+                            <form id="delete-product-form-{{ $product->product_id }}" action="{{ route('admin.manage.product.delete', $product->product_id) }}" method="POST">
+                                @csrf
+                                @method('DELETE')
+                                <button type="button"
+                                    class="bg-red-100 flex items-center justify-center w-auto gap-2 px-2 h-8 rounded-md hover:bg-red-200"
+                                    data-product-id="{{ $product->product_id }}"
+                                    onclick="confirmDelete(this)">
+                                    <x-icons.delete-01 class="size-5 stroke-red-500"></x-icons.delete-01>
+                                </button>
+                            </form>
                         </td>
                     </tr>
                 @empty
@@ -207,3 +219,16 @@
         @endif
     </div>
 </x-layouts.admin.admin-layout>
+
+<script>
+function confirmDelete(button) {
+    if (confirm('Apakah Anda yakin ingin menghapus product ini?')) {
+        const productId = button.dataset.productId;
+        console.log('Attempting to delete product with ID:', productId);
+        const form = document.getElementById(`delete-product-form-${productId}`);
+        if (form) {
+            form.submit();
+        }
+    }
+}
+</script>

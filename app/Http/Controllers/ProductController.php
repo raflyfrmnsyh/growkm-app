@@ -7,6 +7,7 @@ use App\Models\Product;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller
 {
@@ -25,22 +26,7 @@ class ProductController extends Controller
             'product_tags' => 'nullable|string|max:255',
         ]);
 
-        // Generate product ID baru
-        $lastProduct = Product::where('product_id', 'like', 'TRXPRD%')
-            ->orderBy('created_at', 'desc')
-            ->first();
-
-        if ($lastProduct) {
-            // Ambil angka terakhir dari ID
-            $lastNumber = (int) substr($lastProduct->product_id, 8);
-            $nextNumber = $lastNumber + 1;
-        } else {
-            $nextNumber = 1;
-        }
-
-        // Format angka menjadi 3 digit
-        $formattedNumber = str_pad($nextNumber, 3, '0', STR_PAD_LEFT);
-        $validated['product_id'] = 'TRXPRD' . $formattedNumber;
+        $validated['product_id'] = Str::uuid(); //untuk membuat ID benar-benar unik, tidak ada duplikasi
 
         // Handle file upload
         if ($request->hasFile('product_image')) {
@@ -94,7 +80,7 @@ class ProductController extends Controller
 
         $product->update($validated);
 
-        return redirect()->route('admin.manage.product.detail', $product->product_id)->with('success', 'Product updated successfully!');
+        return redirect()->route('admin.manage.product')->with('success', 'Product updated successfully!');
     }
 
     public function index()
@@ -115,19 +101,25 @@ class ProductController extends Controller
             'title' => $product->product_name . ' Details',
             'product' => $product,
         ]);
+
+        $event->update($validated);
+
+        return redirect()->route('admin.manage.product')->with('succes', 'Product berhasil diperbarui!');
     }
 
     public function destroy($product_id)
     {
         $product = Product::where('product_id', $product_id)->firstOrFail();
 
-        // Delete product image if it exists
+        // Hapus gambar banner jika ada
         if ($product->product_image) {
             Storage::delete(str_replace('/storage', 'public', $product->product_image));
         }
 
+        // Hapus product dari database
         $product->delete();
 
-        return redirect()->route('admin.manage.product')->with('success', 'Product deleted successfully!');
+        return redirect()->route('admin.manage.product')
+                        ->with('success', 'Product berhasil dihapus!');
     }
 }
