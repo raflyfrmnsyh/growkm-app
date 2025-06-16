@@ -8,12 +8,27 @@ use Illuminate\Support\Facades\Hash;
 
 class AdminController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $admins = Admin::all();
+        $query = Admin::query();
+
+        // Cek apakah ada input pencarian
+        if ($request->has('searchBox') && $request->searchBox !== '') {
+            $search = $request->searchBox;
+            $query->where(function ($q) use ($search) {
+                $q->where('username', 'like', "%$search%")
+                ->orWhere('user_phone', 'like', "%$search%")
+                ->orWhere('user_email', 'like', "%$search%");
+            });
+        }
+
+        // Ambil data 10 per halaman
+        $admins = $query->orderBy('created_at', 'desc')->paginate(2);
+
+        // Kirim ke view
         return view('_admin._manage.admin-data', [
             'title' => 'Kelola data admin',
-            'admins' => $admins
+            'admins' => $admins,
         ]);
     }
 

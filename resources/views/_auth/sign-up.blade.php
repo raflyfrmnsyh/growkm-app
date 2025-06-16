@@ -1,311 +1,118 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Sign Up - GrowKM</title>
+<x-layouts.client-side-layout>
+    <x-slot:title>Register - GrowKM</x-slot:title>
+    
+<div class="pb-8 md:pb-12 lg:pb-16" > 
 
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-
-    <!-- Alpine JS -->
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;800&family=Syne:wght@600&family=Urbanist:wght@400;500;700&display=swap" rel="stylesheet">
-
-    <style>
-        body {
-            background-color: #FDFDFD;
-            font-family: 'Urbanist', sans-serif;
-        }
-        .jakarta {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-        }
-        .syne {
-            font-family: 'Syne', sans-serif;
-        }
-        .urbanist {
-            font-family: 'Urbanist', sans-serif;
-        }
-        .auth-card {
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-        }
-        .teal-primary {
-            color: #003C43;
-        }
-        .teal-secondary {
-            color: #007F73;
-        }
-        .bg-teal-primary {
-            background-color: #003C43;
-        }
-        .border-teal-primary {
-            border-color: #003C43;
-        }
-        .bg-teal-secondary {
-            background-color: #007F73;
-        }
-    </style>
-</head>
-<body class="min-h-screen flex items-center justify-center py-10">
-    <div class="w-full max-w-[547px] mx-auto p-10 bg-white auth-card rounded-xl"
-    x-data="formhandler()">
+    <x-layouts.register-layout>
 
 
-        <!-- Logo Container -->
-        <div class="flex justify-center mb-8">
-            <a href="/" class="block w-[124px] md:w-auto">
-                <img src="{{ @asset('image/logo-growkm.svg') }}" alt="logo" class="mx-auto h-[42px]">
-            </a>
-        </div>
+        <form method="POST" action="{{ route('register.store') }}" class="flex gap-2 flex-wrap justify-between items-start">
+            @csrf
 
-        <!-- Form Container -->
-        <div class="flex flex-col gap-8">
-            <!-- Header Container -->
-            <div class="text-center">
-                <h1 class="jakarta font-extrabold text-3xl text-[#072326]">Get Started Now </h1>
-                <p class="urbanist text-lg text-[#072326] opacity-60">Discover the power features enchance business efficiency</p>
+            <!-- Name -->
+            <div class="mb-4 flex flex-col w-full md:w-[48%]">
+                <label for="user_name" class="font-medium text-gray-800 w-full">Full Name</label>
+                <input type="text" id="user_name" name="user_name" value="{{ old('user_name') }}" placeholder="John Doe" required
+                    class="border border-gray-200 px-4 py-3 my-2 rounded-md w-full focus:outline-none focus:border-secondaryColors-base focus:border-2
+                    @error('user_name') input-error @enderror">
+                @error('user_name')
+                    <p class="error-message">{{ $message }}</p>
+                @enderror
             </div>
 
-            <!-- Input Fields Container -->
-            <div class="flex flex-col gap-3.5">
-                <!-- Nama -->
-                <div class="flex flex-col gap-3.5">
-                    <label for="name" class="jakarta font-medium text-base text-[#072326]">Nama Lengkap</label>
-                    <input type="text"
-                           id="name"
-                           x-model="name"
-                           class="w-full h-[54px] px-[14px] py-[10px] border border-[#072326] rounded-[8px] focus:outline-none focus:ring-2 focus:ring-[#003C43]"
-                           :class="errors.name ? 'border-red-500 ring-red-500' : 'border-[#072326] focus:ring-[#003C43]'"
-                           >
-                    <p x-show="errors.name" x-text="errors.name" class="text-sm text-red-600 mt-1"></p>
-                </div>
+            <!-- Email -->
+            <div class="mb-4 flex flex-col w-full md:w-[48%]">
+                <label for="email" class="font-medium text-gray-800 w-full">Email</label>
+                <input type="email" id="email" name="email" value="{{ old('email') }}" placeholder="example@email.com" required
+                    class="border border-gray-200 px-4 py-3 my-2 rounded-md w-full focus:outline-none focus:border-secondaryColors-base focus:border-2
+                    @error('email') input-error @enderror">
+                @error('email')
+                    <p class="error-message">{{ $message }}</p>
+                @enderror
+            </div>
 
-                <!-- Email -->
-                <div class="flex flex-col gap-3.5">
-                    <label for="email" class="jakarta font-medium text-base text-[#072326]">Email</label>
-                    <div class="relative">
-                        <input type="email"
-                        id="email"
-                        x-model="email"
-                        class="w-full h-[54px] px-[14px] py-[10px] border border-[#072326] rounded-[8px] focus:outline-none focus:ring-2 focus:ring-[#003C43]"
-                        :class="errors.email ? 'border-red-500 ring-red-500' : 'border-teal-primary ring-teal-primary'">
+            <!-- Password -->
+            <div class="mb-4 flex flex-col w-full md:w-[48%]">
+                <label for="password" class="font-medium text-gray-800 w-full">Password</label>
+                <input type="password" id="password" name="password" placeholder="••••••••" required
+                    class="border border-gray-200 px-4 py-3 my-2 rounded-md w-full focus:outline-none focus:border-secondaryColors-base focus:border-2
+                    @error('password') input-error @enderror">
+                @error('password')
+                    <p class="error-message">{{ $message }}</p>
+                @enderror
+            </div>
 
-                        <div class="absolute right-[14px] top-1/2 transform -translate-y-1/2">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M7 9L12 12.5L17 9" stroke="#777777" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                <path d="M2 17V7C2 6.46957 2.21071 5.96086 2.58579 5.58579C2.96086 5.21071 3.46957 5 4 5H20C20.5304 5 21.0391 5.21071 21.4142 5.58579C21.7893 5.96086 22 6.46957 22 7V17C22 17.5304 21.7893 18.0391 21.4142 18.4142C21.0391 18.7893 20.5304 19 20 19H4C3.46957 19 2.96086 18.7893 2.58579 18.4142C2.21071 18.0391 2 17.5304 2 17Z" stroke="#777777" stroke-width="1.5"/>
-                            </svg>
-                        </div>
+            <!-- Confirm Password -->
+            <div class="mb-4 flex flex-col w-full md:w-[48%]">
+                <label for="password_confirmation" class="font-medium text-gray-800 w-full">Confirm Password</label>
+                <input type="password" id="password_confirmation" name="password_confirmation" placeholder="••••••••" required
+                    class="border border-gray-200 px-4 py-3 my-2 rounded-md w-full focus:outline-none focus:border-secondaryColors-base focus:border-2">
+            </div>
+
+            <!-- Gender -->
+            <div class="mb-4 flex flex-col w-full md:w-[48%]">
+                <label for="user_gender" class="font-medium text-gray-800 w-full">Gender</label>
+                <div class="relative">
+                    <select name="user_gender" id="user_gender" required
+                            class="block appearance-none my-2 w-full bg-white border border-gray-200 px-4 py-3 pr-8 rounded-md leading-tight focus:outline-none transition focus:border-2 focus:border-secondaryColors-40
+                            @error('user_gender') input-error @enderror">
+                        <option value="">Pilih Gender</option>
+                        <option value="male" {{ old('user_gender') == 'male' ? 'selected' : '' }}>Male</option>
+                        <option value="female" {{ old('user_gender') == 'female' ? 'selected' : '' }}>Female</option>
+                    </select>
+                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-400">
+                        <svg class="fill-current h-4 w-4" viewBox="0 0 20 20">
+                            <path d="M7 7l3-3 3 3m0 6l-3 3-3-3" />
+                        </svg>
                     </div>
-                    <p x-show="errors.email" x-text="errors.email" class="text-sm text-red-600 mt-1"></p>
                 </div>
-
-                <!-- Password -->
-                <div class="flex flex-col gap-3.5">
-                    <label for="password" class="jakarta font-medium text-base text-[#072326]">Password</label>
-                    <div class="relative">
-                        <input :type="showPassword ? 'text' : 'password'"
-                                id="password"
-                                x-model="password"
-                                class="w-full h-[54px] px-[14px] py-[10px] border border-[#072326] rounded-[8px] focus:outline-none focus:ring-2 focus:ring-[#003C43]"
-                                :class="errors.password ? 'border-red-500 ring-red-500' : 'border-teal-primary ring-teal-primary'">
-                        <button type="button"
-                                @click.prevent="showPassword = !showPassword"
-                                class="absolute right-[14px] top-1/2 transform -translate-y-1/2">
-                            <svg x-show="!showPassword" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M2 12C2 12 5 5 12 5C19 5 22 12 22 12C22 12 19 19 12 19C5 19 2 12 2 12Z" stroke="#777777" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                <path d="M12 15C13.6569 15 15 13.6569 15 12C15 10.3431 13.6569 9 12 9C10.3431 9 9 10.3431 9 12C9 13.6569 10.3431 15 12 15Z" stroke="#777777" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                            </svg>
-                            <svg x-show="showPassword" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M2 12C2 12 5 5 12 5C19 5 22 12 22 12" stroke="#777777" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                <path d="M22 12C22 12 19 19 12 19C5 19 2 12 2 12" stroke="#777777" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                <path d="M15 12C15 13.6569 13.6569 15 12 15C10.3431 15 9 13.6569 9 12C9 10.3431 10.3431 9 12 9C13.6569 9 15 10.3431 15 12Z" stroke="#777777" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                <path d="M4 4L20 20" stroke="#777777" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                            </svg>
-                        </button>
-                    </div>
-                    <p x-show="errors.password" x-text="errors.password" class="text-sm text-red-600 mt-1"></p>
-                </div>
-
-                <!-- Konfirmasi Password -->
-                <div class="flex flex-col gap-3.5">
-                    <label for="confirmPassword" class="jakarta font-medium text-base text-[#072326]">Konfirmasi Password</label>
-                    <div class="relative">
-                        <input :type="showPassword ? 'text' : 'password'"
-                                id="confirmPassword"
-                                x-model="confirmPassword"
-                                class="w-full h-[54px] px-[14px] py-[10px] border border-[#072326] rounded-[8px] focus:outline-none focus:ring-2 focus:ring-[#003C43]"
-                                :class="errors.confirmPassword ? 'border-red-500 ring-red-500' : ''"
-                                >
-                    </div>
-                    <p x-show="errors.confirmPassword" x-text="errors.confirmPassword" class="text-sm text-red-600 mt-1"></p>
-                </div>
+                @error('user_gender')
+                    <p class="error-message">{{ $message }}</p>
+                @enderror
             </div>
 
-            <!-- Terms Container -->
-            <div class="flex items-center justify-between py-2.5">
-                <div class="flex items-center gap-2">
-                    <input type="checkbox"
-                            id="terms"
-                            x-model="agreeToTerms"
-                            class="w-5 h-5 border border-[#7D7D7D] rounded-md focus:ring-[#003C43]">
-                    <label for="terms" class="urbanist font-medium text-lg text-[#072326] opacity-60">
-                        Saya menyetujui syarat dan ketentuan
-                    </label>
+            <!-- Phone -->
+            <div class="mb-4 flex flex-col w-full md:w-[48%]">
+                <label for="user_phone" class="font-medium text-gray-800 w-full">Phone</label>
+                <input type="tel" name="user_phone" id="user_phone" value="{{ old('user_phone') }}"
+                    placeholder="081234567890" maxlength="14" required
+                    class="border border-gray-200 px-4 py-3 my-2 rounded-md w-full focus:outline-none focus:border-secondaryColors-base focus:border-2
+                    @error('user_phone') input-error @enderror">
+                @error('user_phone')
+                    <p class="error-message">{{ $message }}</p>
+                @enderror
+            </div>
+
+            <!-- Address -->
+            <div class="mb-4 flex flex-col w-full">
+                <label for="user_address" class="font-medium text-gray-800 w-full">Address</label>
+                <textarea name="user_address" id="user_address" rows="3" placeholder="Alamat lengkap"
+                        class="border border-gray-200 px-4 py-3 my-2 rounded-md w-full focus:outline-none focus:border-secondaryColors-base focus:border-2 resize-none">{{ old('user_address') }}</textarea>
+            </div>
+
+            <!-- Profile Picture -->
+            <div class="mb-4 flex flex-col w-full md:w-[48%]">
+                <label for="user_profile" class="font-medium text-gray-800 w-full">Profile Picture (URL)</label>
+                <input type="text" name="user_profile" id="user_profile"
+                    placeholder="https://example.com/profile.jpg"
+                    class="border border-gray-200 px-4 py-3 my-2 rounded-md w-full focus:outline-none focus:border-secondaryColors-base focus:border-2"
+                    value="{{ old('user_profile') }}">
+                <p class="text-sm text-gray-500 mt-1">Kosongkan jika tidak ingin menambahkan</p>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="w-full">
+                <div class="flex items-center gap-4">
+                    <input type="submit" value="Register"
+                        class="bg-secondaryColors-base px-4 py-3 font-semibold text-white rounded-md cursor-pointer hover:bg-secondaryColors-60 transition-all">
+                    <a href="{{ route('login') }}"
+                    class="px-4 py-3 font-medium text-dark-base border border-gray-300 rounded-md">Kembali ke Login</a>
                 </div>
             </div>
-            <p x-show="errors.terms" x-text="errors.terms" class="text-sm text-red-600 mt-1"></p>
+        </form>
+    </x-layouts.register-layout>
 
-            <!-- Button Container -->
-            <div class="flex flex-col gap-4">
-                <!-- Tombol Submit -->
-                <button type="button"
-                        @click.prevent="submitForm"
-                        class="jakarta bg-teal-primary text-white py-3.5 rounded-md font-semibold w-full flex items-center justify-center"
-                        :class="{ 'opacity-75 cursor-not-allowed': loading }"
-                        :disabled="loading">
-                    <span x-show="!loading">Sign Up</span>
-                    <svg x-show="loading" class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
-                        </path>
-                    </svg>
-                    <span x-show="loading">Memproses...</span>
-                </button>
+</div>
 
-                <button class="flex items-center justify-center gap-2 w-full border border-[#072326] rounded-[8px] py-3 hover:bg-gray-50 transition-all">
-                    <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google" class="w-5 h-5">
-                    <span class="text-gray-700 font-medium text-sm">Masuk dengan Google</span>
-                </button>
-
-                <!-- Tombol Masuk -->
-                <p class="urbanist font-medium text-lg text-center text-[#777777]">
-                    Sudah punya akun? <a href="{{ route('login') }}" class="text-[#072326] font-semibold underline"     >Sign in</a>
-                </p>
-            </div>
-            <!-- Footer Container -->
-            <div class="flex flex-col gap-4 mt-4">
-
-                <p class="urbanist font-medium text-sm text-center text-[#777777]">
-                    This site is protected by reCAPTCHA and the Google
-                    <a href="https://policies.google.com/privacy" target="_blank" class=" text-[#072326] font-semibold underline">Privacy Policy</a> and
-                            <a href="https://policies.google.com/terms" target="_blank" class=" text-[#072326] font-semibold underline">Terms of Service</a> apply.
-                </p>
-
-
-            </div>
-        </div>
-    </div>
-</body>
-
-<script>
-function formhandler() {
-    return {
-    name: '',
-    email: '', // ditambahkan
-    password: '',
-    confirmPassword: '',
-    agreeToTerms: false,
-    rememberMe: false,
-    showPassword: false,
-    loading: false,
-    errors: {
-        name: '',
-        email: '',
-        password: '',
-        confirmPassword: '',
-        terms: ''
-    },
-    errorMessage: '',
-    showError: false,
-
-    submitForm() {
-        this.loading = true;
-        this.errors = {
-            name: '',
-            email: '',
-            password: '',
-            confirmPassword: '',
-            terms: ''
-        };
-        this.showError = false;
-        this.errorMessage = '';
-
-        setTimeout(() => {
-            let hasError = false;
-
-            // Validasi Nama
-            if (!this.name) {
-                this.errors.name = 'Name is required';
-                hasError = true;
-            }
-
-            // Validasi Email
-            if (!this.email) {
-                this.errors.email = 'Email must be filled';
-                hasError = true;
-            } else if (!this.email.includes('@')) {
-                this.errors.email = 'Email must use "@"';
-                hasError = true;
-            } else if (!this.email.includes('.')) {
-                this.errors.email = 'Domain email not valid';
-                hasError = true;
-            }
-
-            // Validasi Password
-            if (!this.password) {
-                this.errors.password = 'Please enter your password';
-                hasError = true;
-            } else if (this.password.length < 8) {
-                this.errors.password = 'Password must be at least 8 characters';
-                hasError = true;
-            } else if (this.password.length > 20) {
-                this.errors.password = 'Password must be less than 20 characters';
-                hasError = true;
-            } else if (!this.password.match(/[A-Z]/)) {
-                this.errors.password = 'Must include at least one uppercase letter';
-                hasError = true;
-            } else if (!this.password.match(/[a-z]/)) {
-                this.errors.password = 'Must include at least one lowercase letter';
-                hasError = true;
-            } else if (!this.password.match(/[0-9]/)) {
-                this.errors.password = 'Must include at least one number';
-                hasError = true;
-            } else if (!this.password.match(/[@$!%*?&]/)) {
-                this.errors.password = 'Must include at least one special character (@$!%*?&)';
-                hasError = true;
-            }
-            
-
-
-            // Validasi Konfirmasi Password
-            if (!this.confirmPassword) {
-                this.errors.confirmPassword = 'confirm the password';
-                hasError = true;
-            } else if (this.password !== this.confirmPassword) {
-                this.errors.confirmPassword = 'passwords do not match';
-                hasError = true;
-            }
-
-            // Validasi Terms
-            if (!this.agreeToTerms) {
-                this.errors.terms = 'you must agree to the terms and conditions';
-                hasError = true;
-            }
-
-            this.loading = false;
-
-            if (hasError) {
-                this.showError = true;
-                this.errorMessage = 'Please fix the errors above.';
-                return;
-            }
-
-        }, 800);
-    }
-};
-}
-</script>
-</html>
+    
+</x-layouts.client-side-layout>

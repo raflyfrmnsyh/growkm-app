@@ -154,11 +154,6 @@
                         </label>
                     </div>
 
-                    <a href="{{ route('forgot.password') }}" class="urbanist font-medium text-[18px] leading-[22px] text-[#072326] underline">
-                        Forgot password?
-                    </a>
-                </div>
-
                 <!-- Button Container -->
                 <div class="flex flex-col gap-4 mt-4">
                     <!-- Sign In Button -->
@@ -186,92 +181,16 @@
                     <div class="flex justify-center items-center gap-2">
                         <p class="urbanist font-medium text-[18px] leading-[22px] text-[#072326] opacity-60">
                             Don't have an account?
-                        </p>        
+                        </p>
                         <a href="{{route('register')}}" class="urbanist font-medium text-[18px] leading-[22px] text-[#072326] font-semibold underline">
                             Sign Up
                         </a>
                     </div>
                     <!-- Footer Container -->
-                    <div class="flex flex-col gap-4 mt-4">
-
-                        <p class="urbanist font-medium text-sm text-center text-[#777777]">
-                            This site is protected by reCAPTCHA and the Google
-                            <a href="https://policies.google.com/privacy" target="_blank" class=" text-[#072326] font-semibold underline">Privacy Policy</a> and
-                            <a href="https://policies.google.com/terms" target="_blank" class=" text-[#072326] font-semibold underline">Terms of Service</a> apply.
-                        </p>
-                    </div>
                 </div>
             </form>
         </div>
     </div>
 </body>
-
-<script>
-    function formhandler()  {
-        return {
-            email: '',
-            password: '',
-            rememberMe: false,
-            showPassword: false,
-            loading: false,
-            errors: {
-                email: '',
-                password: ''
-            },
-            errorMessage: '',
-            showError: false,
-
-            submitForm() {
-                this.loading = true;
-                this.errors.email = '';
-                this.errors.password = '';
-
-                setTimeout(() => {
-                    let hasError = false;
-
-                    if (!this.email) {
-                        this.errors.email = 'Please enter your email address';
-                        hasError = true;
-                    } else if (!this.email.includes('@')) {
-                        this.errors.email = 'Please include "@" in your email address';
-                        hasError = true;
-                    } else if (!this.email.includes('.com')) {
-                        this.errors.email = 'Email must end with a valid domain like ".com"';
-                        hasError = true;
-                    }
-
-                    if (!this.password) {
-                        this.errors.password = 'Please enter your password';
-                        hasError = true;
-                    } else if (this.password.length < 8) {
-                        this.errors.password = 'Password must be at least 8 characters';
-                        hasError = true;
-                    } else if (this.password.length > 20) {
-                        this.errors.password = 'Password must be less than 20 characters';
-                        hasError = true;
-                    } else if (!this.password.match(/[A-Z]/)) {
-                        this.errors.password = 'Must include at least one uppercase letter';
-                        hasError = true;
-                    } else if (!this.password.match(/[a-z]/)) {
-                        this.errors.password = 'Must include at least one lowercase letter';
-                        hasError = true;
-                    } else if (!this.password.match(/[0-9]/)) {
-                        this.errors.password = 'Must include at least one number';
-                        hasError = true;
-                    } else if (!this.password.match(/[@$!%*?&]/)) {
-                        this.errors.password = 'Must include at least one special character (@$!%*?&)';
-                        hasError = true;
-                    }
-
-                    this.loading = false;
-
-                    if (!hasError) {
-                        alert('Form submitted successfully!');
-                    }
-                }, 1000);
-            }
-        };
-    }
-</script>
 </html>
 

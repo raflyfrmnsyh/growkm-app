@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\Auth\RegisterController;
+
 
 
 
@@ -122,23 +124,20 @@ Route::get('/auth/login', function () {
     ]);
 })->name('login');
 
-Route::get('/auth/register', function () {
-    return view('_auth.sign-up', [
-        'title' => "Register - Growkm app"
+Route::get('/auth/tes', function () {
+    return view('_auth.tes', [
+        'title' => "tes"
     ]);
-})->name('register');
+})->name('l');
 
-Route::get('/auth/forgot-password', function () {
-    return view('_auth.forgot-password', [
-        'title' => "Lupa Password - Growkm app"
-    ]);
-})->name('forgot.password');
 
-Route::get('/auth/reset-password', function () {
-    return view('_auth.reset-password', [
-        'title' => "Reset Password - Growkm app"
-    ]);
-});
+// Route register
+Route::get('/auth/register', [RegisterController::class, 'show'])->name('register');
+Route::post('/auth/register', [RegisterController::class, 'store'])->name('register.store');
+
+
+
+
 
 
 Route::get('/user/dashboard', function () {

@@ -8,7 +8,7 @@
 
         <div class="flex flex-col md:flex-row items-center gap-4 w-full lg:w-auto justify-between lg:justify-end">
 
-            <form action="#" method="get">
+            <form action="{{ route('admin.manage.admin') }}" method="get" method="get">
                 @csrf
                 <div
                     class="input-bx border border-gray-200 py-2 px-4 rounded-md w-[320px] flex items-center justify-between gap-2">
@@ -44,9 +44,6 @@
                                 role="menuitem" tabindex="-1" id="menu-item-0">Semua Role</a>
                             <a href="#"
                                 class="block px-4 py-3 text-md text-gray-700 hover:bg-gray-50 hover:text-gray-800"
-                                role="menuitem" tabindex="-1" id="menu-item-1">Super Admin</a>
-                            <a href="#"
-                                class="block px-4 py-3 text-md text-gray-700 hover:bg-gray-50 hover:text-gray-800"
                                 role="menuitem" tabindex="-1" id="menu-item-2">Event Admin</a>
                             <a href="#"
                                 class="block px-4 py-3 text-md text-gray-700 hover:bg-gray-50 hover:text-gray-800"
@@ -79,7 +76,7 @@
             <tbody>
                 @forelse ($admins as $index => $admin)
                     <tr class="border-b border-gray-200">
-                        <td class="text-center">{{ $index + 1 }}</td>
+                        <td class="text-center">{{ $admins->firstItem() + $index }}</td>
                         <td class="py-4 px-2">{{ '#ADM' . str_pad($admin->id, 4, '0', STR_PAD_LEFT) }}</td>
                         <td class="py-4 px-2">{{ $admin->created_at->format('d/m/y - H:i') }}</td>
                         <td class="py-4 px-2">{{ $admin->username }}</td>
@@ -114,7 +111,7 @@
                     <tr>
                         <td colspan="7" class="py-12 text-center text-gray-500">
                             <div class="flex flex-col items-center justify-center gap-4">
-                                <x-icons.empty-box class="w-12 h-12 stroke-gray-300" />
+                                <x-icons.user-group class="w-12 h-12 stroke-gray-300" />
                                 <p class="text-lg font-medium">Belum ada data admin.</p>
                                 <p class="text-sm text-gray-400">Klik tombol "Tambah Data" untuk menambahkan admin pertama.</p>
                             </div>
@@ -125,10 +122,16 @@
 
             </tbody>
         </table>
-    </div>
-    <div class="p-6 bg-white w-full rounded-b-lg flex items-center justify-between">
-        <span>Showing 1 to 10 of 57 entries</span>
 
-        {{-- Pagination --}}
+
+    <div class="p-6 bg-white w-full rounded-b-lg flex flex-col md:flex-row items-center justify-between gap-4">
+        <span class="text-sm text-gray-600">
+            Menampilkan {{ $admins->firstItem() }} sampai {{ $admins->lastItem() }} dari total {{ $admins->total() }} data
+        </span>
+
+        <div class="flex justify-center md:justify-end w-full md:w-auto">
+            {{ $admins->withQueryString()->links() }}
+        </div>
     </div>
+
 </x-layouts.admin.admin-layout>

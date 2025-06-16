@@ -327,16 +327,16 @@ namespace App\Models {
      * @property string|null $user_address
      * @property string $user_phone
      * @property string $user_gender
-     * @property string $user_password
-     * @property string $user_email
+     * @property string $password
+     * @property string $email
      * @property string $user_name
-     * @property mixed $user_id
+     * @property int $user_id
      * @property-read \Illuminate\Database\Eloquent\Collection<int, \Illuminate\Notifications\DatabaseNotification> $notifications
      * @property-read int|null $notifications_count
      * @method static \Illuminate\Database\Eloquent\Builder<User>|User whereUserId($value)
      * @method static \Illuminate\Database\Eloquent\Builder<User>|User whereUserName($value)
-     * @method static \Illuminate\Database\Eloquent\Builder<User>|User whereUserEmail($value)
-     * @method static \Illuminate\Database\Eloquent\Builder<User>|User whereUserPassword($value)
+     * @method static \Illuminate\Database\Eloquent\Builder<User>|User whereEmail($value)
+     * @method static \Illuminate\Database\Eloquent\Builder<User>|User wherePassword($value)
      * @method static \Illuminate\Database\Eloquent\Builder<User>|User whereUserGender($value)
      * @method static \Illuminate\Database\Eloquent\Builder<User>|User whereUserPhone($value)
      * @method static \Illuminate\Database\Eloquent\Builder<User>|User whereUserAddress($value)
