@@ -22,14 +22,7 @@ Route::prefix('admin')->group(function () {
 
     Route::prefix('transaksi')->group(function () {
         Route::get('/event', [ParticipantRegistController::class, 'showDataParticipant'])->name('admin.transaction-event');
-
-
-        // routing transaksi produk
-        Route::get('product', function () {
-            return view('_admin._transactions._product.all-products-transactions', [
-                'title' => 'Data transaksi Product'
-            ]);
-        })->name('admin.transaction-product');
+        Route::get('/product-all', [TransactionController::class, 'showtb'])->name('admin.transaction-product');
 
         Route::get('/detail-transaksi/{id}', function (String $id) {
             return view('_admin._transactions._product.detail-product-transaction', [
@@ -50,6 +43,8 @@ Route::prefix('admin')->group(function () {
                 'title' => 'Tambah data event'
             ]);
         })->name('admin.manage.add-event');
+
+
 
         Route::post('/event/store', [EventController::class, 'store'])
             ->name('admin.manage.event.store');
@@ -199,6 +194,7 @@ Route::prefix('user')->group(function () {
 
             $data = Product::orderBy('created_at', 'desc')->paginate(10);
 
+            // If product_sell is an accessor, you don't need this transform
             $data->getCollection()->transform(function ($item) {
                 return [
                     'product_id' => $item->product_id,
@@ -218,9 +214,22 @@ Route::prefix('user')->group(function () {
 
         Route::get('/checkout/{id}', function ($id) {
 
+            $dataCollection = Product::select(
+                'product_name',
+                'product_price',
+                'product_image'
+            )->where('product_id', $id)->first();
+
+            $data = [
+                'product_id' => $id,
+                'product_name' => $dataCollection['product_name'],
+                'product_price' => $dataCollection['product_price'],
+                'product_image' => $dataCollection['product_image']
+            ];
+
             return view('_users._transactions.create-transaction', [
                 'title' => "checkout",
-                'id' => $id
+                'data' => $data
 
             ]);
         })->name('create.order.product');
@@ -236,9 +245,33 @@ Route::prefix('user')->group(function () {
         })->name('products.all');
 
         Route::get('/user/supplier/products/{id}', function ($id) {
+
+            $dataCollection = Product::select(
+                'product_name',
+                'product_description',
+                'product_price',
+                'product_image',
+                'product_stock',
+                'product_category',
+                'product_tags',
+                'product_min_order'
+            )->where('product_id', $id)->orderBy('created_at', 'asc')->first();
+
+            $data = [
+                'product_id' => $id,
+                'product_name' => $dataCollection['product_name'],
+                'product_desc' => $dataCollection['product_description'],
+                'product_price' => $dataCollection['product_price'],
+                'product_img' => $dataCollection['product_image'],
+                'product_category' => $dataCollection['product_category'],
+                'product_stock' => $dataCollection['product_stock'],
+                'product_tags' => explode(',', $dataCollection['product_tags']),
+                'min_order' => $dataCollection['product_min_order']
+            ];
+
             return view('_users._suppliers.details-product', [
                 'title' => 'Product Details - Growkm app',
-                'id' => $id
+                'data' => $data
             ]);
         })->name('products.details');
     });

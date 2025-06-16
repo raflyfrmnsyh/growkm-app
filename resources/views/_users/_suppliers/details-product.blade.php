@@ -14,15 +14,15 @@
             <div class="max-w-7xl mx-auto">
                 <div class="bg-white rounded-2xl shadow-sm p-8">
                     <!-- Header -->
-                    <div class="flex flex-col items-center justify-center mb-8 pb-6 border-b border-gray-100">
-                        <h1 class="text-xl font-medium text-gray-900 mb-4">Detail Produk</h1>
+                    <div class="flex  items-center justify-between mb-8 pb-6 border-b border-gray-100">
+                        <h1 class="text-xl font-medium text-gray-900 ">Detail Produk</h1>
                         <!-- Breadcrumb -->
                         <div class="flex items-center gap-2 text-sm text-gray-500">
-                            <a href="#" class="hover:text-[#007F73] transition-colors">Fashion Muslim</a>
-                            <span>/</span>
-                            <a href="#" class="hover:text-[#007F73] transition-colors">Pakaian Muslim Pria</a>
-                            <span>/</span>
-                            <span class="text-gray-700">Baju Koko Pria</span>
+                            <a href="{{ route('product.list') }}" class="">Semua produk</a>
+                            @foreach ($data['product_tags'] as $item)
+                                <span>/</span>
+                                <span class="hover:text-[#007F73] transition-colors">{{ $item }}</span>
+                            @endforeach
                         </div>
                     </div>
 
@@ -38,30 +38,30 @@
                             </div>
                         </div>
 
+                        {{-- @dd($data) --}}
                         <!-- Product Info -->
                         <div class="space-y-8">
                             <div>
-                                <h1 class="text-2xl font-semibold text-gray-900 mb-2">MOSQU Baju Koko Pria Dewasa Model
-                                    Akhtar</h1>
-                                <div class="text-3xl font-bold text-[#007F73]">Rp 100.000 - 250.000</div>
+                                <h1 class="text-2xl font-semibold text-gray-900 mb-2">{{ $data['product_name'] }}</h1>
+                                <div class="text-3xl font-bold text-[#007F73]">Rp.{{ round($data['product_price']) }}
+                                </div>
                             </div>
 
                             <div class="space-y-4">
                                 <div class="flex justify-between items-center py-3 border-b border-gray-100">
                                     <span class="text-gray-600">Stok Tersedia</span>
-                                    <span class="font-medium">1.000 unit</span>
+                                    <span class="font-medium">{{ $data['product_stock'] }} unit</span>
                                 </div>
                                 <div class="flex justify-between items-center py-3 border-b border-gray-100">
                                     <span class="text-gray-600">Kategori</span>
-                                    <span class="text-[#007F73]">Fashion Muslim, Pakaian Muslim Pria, Baju Koko
-                                        Pria</span>
+                                    <span class="text-[#007F73]">{{ implode(' , ', $data['product_tags']) }}</span>
                                 </div>
                                 <div class="flex justify-between items-center py-3 border-b border-gray-100">
                                     <span class="text-gray-600">Minimal Pembelian</span>
-                                    <span class="font-medium">5 unit</span>
+                                    <span class="font-medium">{{ $data['min_order'] }} unit</span>
                                 </div>
                             </div>
-                            <a href="{{ route('create.order.product', ['id' => $id]) }}"
+                            <a href="{{ route('create.order.product', ['id' => $data['product_id']]) }}"
                                 class="w-full bg-[#007F73] text-white py-3.5 rounded-xl font-medium hover:bg-[#006A5F] transition-all duration-200 shadow-sm hover:shadow-md flex items-center justify-center gap-2 group">
                                 <svg xmlns="http://www.w3.org/2000/svg"
                                     class="h-5 w-5 group-hover:scale-110 transition-transform" fill="none"
@@ -79,8 +79,7 @@
                         <h3 class="text-lg font-medium text-gray-900 mb-4">Deskripsi Produk</h3>
                         <div class="prose prose-gray max-w-none">
                             <p class="text-gray-600 leading-relaxed">
-                                NOTED !!!<br>
-                                PASANG HARGA DI MARKETPLACE : Rp 107.500
+                                {{ $data['product_desc'] }}
                             </p>
                         </div>
                     </div>

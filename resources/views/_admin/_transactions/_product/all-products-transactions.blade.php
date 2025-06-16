@@ -1,8 +1,5 @@
 <x-layouts.admin.admin-layout>
-    <x-slot:title>{{ $title }}</x-slot:title>
-
-
-
+    <x-slot:title>{{ $title }}</x-slot:title>)
     <div class="py-4 px-6 bg-white w-full gap-8 rounded-t-md flex lg:flex-row flex-col items-center justify-between ">
         <h1 class="font-semibold text-lg w-auto text-center lg:text-start">Data Transaksi Product</h1>
 
@@ -74,22 +71,22 @@
                     <th class="py-4 px-2">Transaction ID</th>
                     <th class="py-4 px-2">Created At</th>
                     <th class="py-4 px-2">Nama Pelanggan</th>
-                    <th class="py-4 px-2">Deskripsi Pesanan</th>
+                    <th class="py-4 px-2">Alamat pengiriman</th>
                     <th class="py-4 px-2">Total Payment</th>
                     <th class="py-4 px-2 text-center">Payment status</th>
                     <th class="text-center p-4">Action</th>
                 </tr>
             </thead>
             <tbody>
-                @for ($i = 0; $i < 10; $i++)
+                @foreach ($data as $item => $data)
                     <tr class="border-b border-gray-200">
-                        <td class="text-center">{{ $i + 1 }}</td>
-                        <td class="py-4 px-2">{{ '#TRXPRT00' . $i + 1 }}</td>
-                        <td class="py-4 px-2">07/06/25 - 22:35</td>
-                        <td class="py-4 px-2">Jhon dae</td>
-                        <td class="py-4 px-2">Bisnis Digital with Growkm</td>
-                        <td class="py-4 px-2 text-center">Rp. 0</td>
-                        <td class="py-4 px-2 text-center">Pesanan Selesai</td>
+                        <td class="text-center"></td>
+                        <td class="py-4 px-2">{{ '#' . $data['id'] }}</td>
+                        <td class="py-4 px-2">{{ $data['tanggal_masuk'] }}</td>
+                        <td class="py-4 px-2">{{ $data['customer_name'] }}</td>
+                        <td class="py-4 px-2">{{ $data['customer_address'] }}</td>
+                        <td class="py-4 px-2 text-center">{{ 'Rp.' . $data['total'] }}</td>
+                        <td class="py-4 px-2 text-center">{{ $data['status'] }}</td>
                         <td class="w-full py-4 flex items-center justify-center gap-2 px-6">
                             <a href="{{ route('admin.transaction-product-detail', 3) }}"
                                 class="bg-secondaryColors-10 flex items-center justify-center w-8 h-8 rounded-md hover:bg-secondaryColors-20">
@@ -97,7 +94,7 @@
                             </a>
                         </td>
                     </tr>
-                @endfor
+                @endforeach
             </tbody>
         </table>
     </div>

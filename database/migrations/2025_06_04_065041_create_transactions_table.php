@@ -26,7 +26,7 @@ return new class extends Migration
             $table->timestamps();
 
             // Foreign Key Constraint
-            $table->foreign('user_id')->references('user_id')->on('users')->onDelete('cascade');
+            // $table->foreign('user_id')->references('user_id')->on('users')->onDelete('cascade');
         });
 
         Schema::create('orders', function (Blueprint $table) {
