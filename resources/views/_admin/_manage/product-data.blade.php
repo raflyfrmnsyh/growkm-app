@@ -39,22 +39,28 @@
                         role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1"
                         style="display: none;">
                         <div class="py-1" role="none">
-                            <a href="#"
+                            {{-- Tautan untuk menampilkan semua kategori. Tidak ada parameter 'category' yang dikirim. --}}
+                            <a href="{{ route('admin.manage.product') }}"
                                 class="block px-4 py-3 text-md text-secondaryColors-base bg-secondaryColors-10 hover:bg-gray-50 hover:text-gray-800 active"
                                 role="menuitem" tabindex="-1" id="menu-item-0">Semua Kategori</a>
-                            <a href="#"
+                            {{-- Tautan untuk memfilter produk berdasarkan kategori 'Elektronik'. --}}
+                            <a href="{{ route('admin.manage.product', ['category' => 'Elektronik']) }}"
                                 class="block px-4 py-3 text-md text-gray-700 hover:bg-gray-50 hover:text-gray-800"
                                 role="menuitem" tabindex="-1" id="menu-item-1">Elektronik</a>
-                            <a href="#"
+                            {{-- Tautan untuk memfilter produk berdasarkan kategori 'Fashion'. --}}
+                            <a href="{{ route('admin.manage.product', ['category' => 'Fashion']) }}"
                                 class="block px-4 py-3 text-md text-gray-700 hover:bg-gray-50 hover:text-gray-800"
                                 role="menuitem" tabindex="-1" id="menu-item-2">Fashion</a>
-                            <a href="#"
+                            {{-- Tautan untuk memfilter produk berdasarkan kategori 'Makanan'. --}}
+                            <a href="{{ route('admin.manage.product', ['category' => 'Makanan']) }}"
                                 class="block px-4 py-3 text-md text-gray-700 hover:bg-gray-50 hover:text-gray-800"
                                 role="menuitem" tabindex="-1" id="menu-item-3">Makanan</a>
-                            <a href="#"
+                            {{-- Tautan untuk memfilter produk berdasarkan kategori 'Kesehatan'. --}}
+                            <a href="{{ route('admin.manage.product', ['category' => 'Kesehatan']) }}"
                                 class="block px-4 py-3 text-md text-gray-700 hover:bg-gray-50 hover:text-gray-800"
                                 role="menuitem" tabindex="-1" id="menu-item-4">Kesehatan</a>
-                            <a href="#"
+                            {{-- Tautan untuk memfilter produk berdasarkan kategori 'Olahraga'. --}}
+                            <a href="{{ route('admin.manage.product', ['category' => 'Olahraga']) }}"
                                 class="block px-4 py-3 text-md text-gray-700 hover:bg-gray-50 hover:text-gray-800"
                                 role="menuitem" tabindex="-1" id="menu-item-5">Olahraga</a>
                         </div>
@@ -92,7 +98,7 @@
                             <div class="flex flex-col">
                                 <span class="font-medium">{{ $product->product_name }}</span>
                                 <span class="text-sm text-gray-500">
-                                    Min. Order: {{ $product->product_min_order }} {{ $product->product_min_order_unit }}
+                                    Min. Order: {{ $product->product_min_order }}
                                 </span>
                             </div>
                         </td>

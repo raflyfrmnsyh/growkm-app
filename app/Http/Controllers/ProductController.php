@@ -26,7 +26,23 @@ class ProductController extends Controller
             'product_tags' => 'nullable|string|max:255',
         ]);
 
-        $validated['product_id'] = Str::uuid(); //untuk membuat ID benar-benar unik, tidak ada duplikasi
+        // Generate product ID baru
+        $lastProduct = Product::where('product_id', 'like', 'TRXPRD%')
+            ->orderBy('created_at', 'desc')
+            ->first();
+
+        if ($lastProduct) {
+            // Ambil angka terakhir dari ID
+            $lastNumber = (int) substr($lastProduct->product_id, 8);
+            $nextNumber = $lastNumber + 1;
+        } else {
+            $nextNumber = 1;
+        }
+
+        // Format angka menjadi 3 digit
+        $formattedNumber = str_pad($nextNumber, 3, '0', STR_PAD_LEFT);
+        $validated['product_id'] = 'TRXPRD' . $formattedNumber;
+
 
         // Handle file upload
         if ($request->hasFile('product_image')) {
@@ -83,9 +99,24 @@ class ProductController extends Controller
         return redirect()->route('admin.manage.product')->with('success', 'Product updated successfully!');
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $products = Product::orderBy('created_at', 'desc')->paginate(10);
+        // Mengambil semua produk dari database, diurutkan berdasarkan tanggal pembuatan terbaru
+        // dan dipaginasi untuk 10 item per halaman.
+        $products = Product::orderBy('created_at', 'desc');
+
+        // Memeriksa apakah ada parameter 'category' dalam request URL.
+        // Jika ada, kita akan memfilter produk berdasarkan kategori tersebut.
+        if ($request->has('category')) {
+            $category = $request->input('category');
+            // Menambahkan kondisi WHERE untuk memfilter produk berdasarkan kategori.
+            // Karena 'product_category' disimpan sebagai JSON string yang berisi array kategori,
+            // kita menggunakan whereJsonContains untuk mencari kategori di dalam string JSON.
+            $products->whereJsonContains('product_category', $category);
+        }
+
+        // Mengambil hasil paginasi setelah semua filter diterapkan.
+        $products = $products->paginate(10);
 
         return view('_admin._manage.product-data', [
             'title' => 'Kelola data Produk',
@@ -102,7 +133,7 @@ class ProductController extends Controller
             'product' => $product,
         ]);
 
-        $event->update($validated);
+        $product->update($validated);
 
         return redirect()->route('admin.manage.product')->with('succes', 'Product berhasil diperbarui!');
     }
