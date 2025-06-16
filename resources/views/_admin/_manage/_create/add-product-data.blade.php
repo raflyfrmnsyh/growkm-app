@@ -176,9 +176,11 @@
 
                     <div class="mb-4 flex flex-col w-full">
                         <label for="product_stock" class="font-medium text-gray-800 w-full">Stok Produk</label>
-                        <input type="number" min="0" name="product_stock" id="stockField" required value="{{ old('product_stock') }}"
-                            placeholder="Jumlah stok produk"
-                            class="border border-gray-200 px-4 py-3 my-2 rounded-md w-full focus:outline-none focus:border-secondaryColors-base focus;border-2">
+                        <div class="flex gap-2">
+                            <input type="number" min="0" name="product_stock" id="stockField" required value="{{ old('product_stock') }}"
+                                placeholder="Jumlah stok produk"
+                                class="border border-gray-200 px-4 py-3 my-2 rounded-md w-full focus:outline-none focus:border-secondaryColors-base focus;border-2">
+                        </div>
                         @error('product_stock')
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                         @enderror
@@ -190,14 +192,12 @@
                                 required placeholder="Jumlah minimal order"
                                 class="border border-gray-200 px-4 py-3 my-2 rounded-md w-2/3 focus:outline-none focus:border-secondaryColors-base focus:border-2">
                             <div class="relative w-1/3">
-                                <select name="product_min_order_unit" id="minOrderUnit" required
+                                <select name="product_unit" id="minOrderUnit" required
                                     class="border border-gray-200 px-4 py-3 my-2 rounded-md w-full focus:outline-none focus:border-secondaryColors-base focus:border-2 appearance-none">
                                     <option value="">Pilih Satuan</option>
-                                    <option value="pcs" {{ old('product_min_order_unit') == 'pcs' ? 'selected' : '' }}>PCS</option>
-                                    <option value="kg" {{ old('product_min_order_unit') == 'kg' ? 'selected' : '' }}>KG</option>
-                                    <option value="liter" {{ old('product_min_order_unit') == 'liter' ? 'selected' : '' }}>Liter</option>
-                                    <option value="meter" {{ old('product_min_order_unit') == 'meter' ? 'selected' : '' }}>Meter</option>
-                                    <option value="item" {{ old('product_min_order_unit') == 'item' ? 'selected' : '' }}>Item</option>
+                                    <option value="pcs" {{ old('product_unit') == 'pcs' ? 'selected' : '' }}>PCS</option>
+                                    <option value="kg" {{ old('product_unit') == 'kg' ? 'selected' : '' }}>KG</option>
+                                    <option value="item" {{ old('product_unit') == 'item' ? 'selected' : '' }}>Item</option>
                                 </select>
                                 <div
                                     class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">

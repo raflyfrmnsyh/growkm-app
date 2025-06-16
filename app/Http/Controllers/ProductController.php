@@ -23,17 +23,18 @@ class ProductController extends Controller
             'product_price' => 'required|numeric',
             'product_stock' => 'required|integer|min:0',
             'product_min_order' => 'required|integer|min:1',
+            'product_unit' => 'required|string|max:255',
             'product_tags' => 'nullable|string|max:255',
         ]);
 
         // Generate product ID baru
         $lastProduct = Product::where('product_id', 'like', 'TRXPRD%')
-            ->orderBy('created_at', 'desc')
+        ->orderByRaw('CAST(SUBSTR(product_id, 7) AS UNSIGNED) DESC') // Mengurutkan berdasarkan bagian numerik ID
             ->first();
 
         if ($lastProduct) {
             // Ambil angka terakhir dari ID
-            $lastNumber = (int) substr($lastProduct->product_id, 8);
+            $lastNumber = (int) substr($lastProduct->product_id, 6); // Perhatikan indeksnya berubah menjadi 6 karena 'TRXPRD' ada 6 karakter.
             $nextNumber = $lastNumber + 1;
         } else {
             $nextNumber = 1;
@@ -42,7 +43,6 @@ class ProductController extends Controller
         // Format angka menjadi 3 digit
         $formattedNumber = str_pad($nextNumber, 3, '0', STR_PAD_LEFT);
         $validated['product_id'] = 'TRXPRD' . $formattedNumber;
-
 
         // Handle file upload
         if ($request->hasFile('product_image')) {
@@ -74,6 +74,7 @@ class ProductController extends Controller
             'product_price' => 'required|numeric',
             'product_stock' => 'required|integer|min:0',
             'product_min_order' => 'required|integer|min:1',
+            'product_unit' => 'required|string|max:255',
             'product_tags' => 'nullable|string|max:255',
         ]);
 

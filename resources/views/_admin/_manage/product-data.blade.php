@@ -8,7 +8,7 @@
 
         <div class="flex flex-col md:flex-row items-center gap-4 w-full lg:w-auto justify-between lg:justify-end">
 
-            <form action="#" method="get">
+            <form action="/product" method="get">
                 @csrf
                 <div
                     class="input-bx border border-gray-200 py-2 px-4 rounded-md w-[320px] flex items-center justify-between gap-2">

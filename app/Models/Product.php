@@ -19,6 +19,7 @@ class Product extends Model
         'product_stock',
         'product_category',
         'product_min_order',
+        'product_unit',
         'product_tags',
     ];
 }
