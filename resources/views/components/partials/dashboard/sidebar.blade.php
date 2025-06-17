@@ -59,7 +59,10 @@
             <li
                 class="flex items-center gap-4 px-6 py-3 w-full cursor-pointer relative hover:bg-[#007f7310] transition-all duration-300 ease-in-out">
                 <x-icons.logout-icon class="size-6 stroke-primaryColors-90"></x-icons.logout-icon>
-                <a href="{{ url('#') }}" class="text-primaryColors-90 mb-[1px] text-md font-normal">Logout</a>
+                <a href="{{ route('auth.logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="text-primaryColors-90 mb-[1px] text-md font-normal">Logout</a>
+                <form id="logout-form" action="{{ route('auth.logout') }}" method="POST" style="display: none;">
+                    @csrf
+                </form>
             </li>
         </ul>
     </div>

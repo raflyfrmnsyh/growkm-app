@@ -7,13 +7,14 @@ use App\Models\ParticipantRegist;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Request;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\ParticipantRegistController;
 
 // Prefix Routing Admin
 
-Route::prefix('admin')->group(function () {
+Route::prefix('admin')->middleware('admin')->group(function () {
     Route::get('/dashboard', function () {
         return view('_admin.dashboard', [
             'title' => "Dashboard - Growkm app"
@@ -111,7 +112,7 @@ Route::prefix('admin')->group(function () {
 
 // Prefix Routing user
 
-Route::prefix('user')->group(function () {
+Route::prefix('user')->middleware('user')->group(function () {
 
     // main dashboard
     Route::get('/dashboard', function () {
@@ -268,12 +269,9 @@ Route::prefix('user')->group(function () {
 
 
 Route::prefix('auth')->group(function () {
-    Route::get('/auth/login', function () {
-        return view('_auth.sign-in', [
-            'title' => "Login - Growkm app"
-        ]);
-    });
-
+    Route::get('/login', [AuthController::class, 'show'])->name('auth.login');
+    Route::post('/login', [AuthController::class, 'login'])->name('auth.login.process');
+    Route::post('/logout', [AuthController::class, 'logout'])->name('auth.logout');
     Route::get('/auth/register', function () {
         return view('_auth.sign-up', [
             'title' => "Register - Growkm app"
