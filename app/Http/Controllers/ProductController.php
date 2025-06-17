@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class ProductController extends Controller
 {
@@ -100,25 +101,42 @@ class ProductController extends Controller
         return redirect()->route('admin.manage.product')->with('success', 'Product updated successfully!');
     }
 
+    /**
+     * Menampilkan daftar produk dengan fitur pencarian dan filter kategori
+     * Menggunakan stored procedure 'search_products' untuk efisiensi query
+     *
+     * @param Request $request
+     * @return \Illuminate\View\View
+     */
     public function index(Request $request)
     {
-        // Mengambil semua produk dari database, diurutkan berdasarkan tanggal pembuatan terbaru
-        // dan dipaginasi untuk 10 item per halaman.
-        $products = Product::orderBy('created_at', 'desc');
+        // Mengambil parameter pencarian dari request
+        $searchTerm = $request->input('searchBox');
+        $category = $request->input('category');
 
-        // Memeriksa apakah ada parameter 'category' dalam request URL.
-        // Jika ada, kita akan memfilter produk berdasarkan kategori tersebut.
-        if ($request->has('category')) {
-            $category = $request->input('category');
-            // Menambahkan kondisi WHERE untuk memfilter produk berdasarkan kategori.
-            // Karena 'product_category' disimpan sebagai JSON string yang berisi array kategori,
-            // kita menggunakan whereJsonContains untuk mencari kategori di dalam string JSON.
-            $products->whereJsonContains('product_category', $category);
-        }
+        // Memanggil stored procedure search_products
+        // Parameter pertama: kata kunci pencarian
+        // Parameter kedua: kategori yang dipilih
+        $products = DB::select('CALL search_products(?, ?)', [$searchTerm, $category]);
 
-        // Mengambil hasil paginasi setelah semua filter diterapkan.
-        $products = $products->paginate(10);
+        // Konfigurasi pagination
+        $perPage = 10; // Jumlah item per halaman
+        $currentPage = LengthAwarePaginator::resolveCurrentPage(); // Mendapatkan halaman saat ini
+        $currentItems = array_slice($products, ($currentPage - 1) * $perPage, $perPage);
 
+        // Membuat instance paginator untuk menangani pagination
+        $products = new LengthAwarePaginator(
+            $currentItems,
+            count($products),
+            $perPage,
+            $currentPage,
+            [
+                'path' => $request->url(),
+                'query' => $request->query() // Mempertahankan parameter query (searchBox, category)
+            ]
+        );
+
+        // Mengirim data ke view
         return view('_admin._manage.product-data', [
             'title' => 'Kelola data Produk',
             'products' => $products

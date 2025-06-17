@@ -7,16 +7,20 @@
         <h1 class="font-semibold text-lg">Kelola Data Produk</h1>
 
         <div class="flex flex-col md:flex-row items-center gap-4 w-full lg:w-auto justify-between lg:justify-end">
-
-            <form action="/product" method="get">
-                @csrf
-                <div
-                    class="input-bx border border-gray-200 py-2 px-4 rounded-md w-[320px] flex items-center justify-between gap-2">
-                    <input type="text" name="searchBox" id="searchBox" placeholder="Cari produk"
-                        class="outline-none w-full ">
-                    <x-icons.searach-01 class="size-5 stroke-gray-200"></x-icons.searach-01>
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-4">
+                    {{-- Form pencarian produk --}}
+                    <form action="{{ route('admin.manage.product') }}" method="get" class="flex items-center gap-4">
+                        {{-- Input pencarian --}}
+                        <div class="input-bx border border-gray-200 py-2 px-4 rounded-md w-[320px] flex items-center justify-between gap-2">
+                            <input type="text" name="searchBox" id="searchBox" placeholder="Cari produk" class="outline-none w-full" value="{{ request('searchBox') }}"> {{-- Menampilkan nilai pencarian sebelumnya --}}
+                            <button type="submit" class="bg-transparent border-none p-0 m-0 cursor-pointer">
+                                <x-icons.searach-01 class="size-5 stroke-gray-200"></x-icons.searach-01>
+                            </button>
+                        </div>
+                    </form>
                 </div>
-            </form>
+            </div>
 
             <div class="flex gap-4">
                 <div x-data="{ open: false }" class="relative inline-block text-left">
