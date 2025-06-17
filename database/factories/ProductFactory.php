@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -26,6 +27,7 @@ class ProductFactory extends Factory
             'product_category' => implode(',', $this->faker->words(3)),
             'product_image' => $this->faker->imageUrl(640, 480, 'product'),
             'product_min_order' => $this->faker->numberBetween(1, 5),
+            'product_unit' => Arr::random(['PCS', 'KG', 'Liter', 'Meter']),
             'product_tags' => $this->faker->word,
         ];
     }

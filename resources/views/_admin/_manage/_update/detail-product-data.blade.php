@@ -108,7 +108,9 @@
                         <label for="product_category" class="font-medium text-gray-800 w-full mb-1">Kategori
                             Produk</label>
                         <div x-data="{
-                            product_categories: {{ old('product_category') ? json_encode(old('product_category')) : ($product->product_category ? $product->product_category : '[]') }},
+                            product_categories: {{ old('product_category')
+                                ? json_encode(old('product_category'))
+                                : json_encode(explode(',', $product->product_category ?? '')) }},
                             categories: [
                                 { id: 1, name: 'Elektronik' },
                                 { id: 2, name: 'Fashion' },
@@ -199,23 +201,23 @@
                                 placeholder="Jumlah minimal order"
                                 class="border border-gray-200 px-4 py-3 my-2 rounded-md w-2/3 focus:outline-none focus:border-secondaryColors-base focus:border-2">
                             <div class="relative w-1/3">
-                                <select name="product_min_order_unit" id="minOrderUnit" required
+                                <select name="product_unit" id="minOrderUnit" required
                                     class="border border-gray-200 px-4 py-3 my-2 rounded-md w-full focus:outline-none focus:border-secondaryColors-base focus:border-2 appearance-none">
                                     <option value="">Pilih Satuan</option>
                                     <option value="pcs"
-                                        {{ old('product_min_order_unit', $product->product_min_order_unit) == 'pcs' ? 'selected' : '' }}>
+                                        {{ old('product_unit', $product->product_unit) == 'pcs' ? 'selected' : '' }}>
                                         PCS</option>
                                     <option value="kg"
-                                        {{ old('product_min_order_unit', $product->product_min_order_unit) == 'kg' ? 'selected' : '' }}>
+                                        {{ old('product_unit', $product->product_unit) == 'kg' ? 'selected' : '' }}>
                                         KG</option>
                                     <option value="liter"
-                                        {{ old('product_min_order_unit', $product->product_min_order_unit) == 'liter' ? 'selected' : '' }}>
+                                        {{ old('product_unit', $product->product_unit) == 'liter' ? 'selected' : '' }}>
                                         Liter</option>
                                     <option value="meter"
-                                        {{ old('product_min_order_unit', $product->product_min_order_unit) == 'meter' ? 'selected' : '' }}>
+                                        {{ old('product_unit', $product->product_unit) == 'meter' ? 'selected' : '' }}>
                                         Meter</option>
                                     <option value="item"
-                                        {{ old('product_min_order_unit', $product->product_min_order_unit) == 'item' ? 'selected' : '' }}>
+                                        {{ old('product_unit', $product->product_unit) == 'item' ? 'selected' : '' }}>
                                         Item</option>
                                 </select>
                                 <div
@@ -231,7 +233,7 @@
                         @error('product_min_order')
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                         @enderror
-                        @error('product_min_order_unit')
+                        @error('product_unit')
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                         @enderror
                     </div>

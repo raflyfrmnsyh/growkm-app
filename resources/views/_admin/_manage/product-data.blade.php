@@ -8,13 +8,12 @@
 
         <div class="flex flex-col md:flex-row items-center gap-4 w-full lg:w-auto justify-between lg:justify-end">
 
-            <form action="#" method="get">
-                @csrf
+            <form id="searchForm" action="{{ route('admin.manage.product') }}" method="get">
                 <div
                     class="input-bx border border-gray-200 py-2 px-4 rounded-md w-[320px] flex items-center justify-between gap-2">
                     <input type="text" name="searchBox" id="searchBox" placeholder="Cari produk"
-                        class="outline-none w-full ">
-                    <x-icons.searach-01 class="size-5 stroke-gray-200"></x-icons.searach-01>
+                        value="{{ request('searchBox') }}" class="outline-none w-full">
+                    <x-icons.searach-01 class="size-5 stroke-gray-200" />
                 </div>
             </form>
 
@@ -39,22 +38,34 @@
                         role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1"
                         style="display: none;">
                         <div class="py-1" role="none">
-                            <a href="#"
+                            {{-- Tautan untuk menampilkan semua kategori. Tidak ada parameter 'category' yang dikirim. --}}
+                            {{-- Semua Kategori --}}
+                            <a href="{{ route('admin.manage.product', ['searchBox' => request('searchBox')]) }}"
                                 class="block px-4 py-3 text-md text-secondaryColors-base bg-secondaryColors-10 hover:bg-gray-50 hover:text-gray-800 active"
                                 role="menuitem" tabindex="-1" id="menu-item-0">Semua Kategori</a>
-                            <a href="#"
+
+                            {{-- Elektronik --}}
+                            <a href="{{ route('admin.manage.product', ['category' => 'Elektronik', 'searchBox' => request('searchBox')]) }}"
                                 class="block px-4 py-3 text-md text-gray-700 hover:bg-gray-50 hover:text-gray-800"
                                 role="menuitem" tabindex="-1" id="menu-item-1">Elektronik</a>
-                            <a href="#"
+
+                            {{-- Fashion --}}
+                            <a href="{{ route('admin.manage.product', ['category' => 'Fashion', 'searchBox' => request('searchBox')]) }}"
                                 class="block px-4 py-3 text-md text-gray-700 hover:bg-gray-50 hover:text-gray-800"
                                 role="menuitem" tabindex="-1" id="menu-item-2">Fashion</a>
-                            <a href="#"
+
+                            {{-- Makanan --}}
+                            <a href="{{ route('admin.manage.product', ['category' => 'Makanan', 'searchBox' => request('searchBox')]) }}"
                                 class="block px-4 py-3 text-md text-gray-700 hover:bg-gray-50 hover:text-gray-800"
                                 role="menuitem" tabindex="-1" id="menu-item-3">Makanan</a>
-                            <a href="#"
+
+                            {{-- Kesehatan --}}
+                            <a href="{{ route('admin.manage.product', ['category' => 'Kesehatan', 'searchBox' => request('searchBox')]) }}"
                                 class="block px-4 py-3 text-md text-gray-700 hover:bg-gray-50 hover:text-gray-800"
                                 role="menuitem" tabindex="-1" id="menu-item-4">Kesehatan</a>
-                            <a href="#"
+
+                            {{-- Olahraga --}}
+                            <a href="{{ route('admin.manage.product', ['category' => 'Olahraga', 'searchBox' => request('searchBox')]) }}"
                                 class="block px-4 py-3 text-md text-gray-700 hover:bg-gray-50 hover:text-gray-800"
                                 role="menuitem" tabindex="-1" id="menu-item-5">Olahraga</a>
                         </div>
@@ -126,6 +137,18 @@
                                 class="bg-secondaryColors-10 flex items-center justify-center w-auto gap-2 px-2 h-8 rounded-md hover:bg-secondaryColors-20">
                                 <x-icons.eye-01 class="size-5 stroke-secondaryColors-base"></x-icons.eye-01>
                             </a>
+
+                            <form id="delete-product-form-{{ $product['product_id'] }}"
+                                action="{{ route('admin.manage.product.delete', $product['product_id']) }}"
+                                method="POST">
+                                @csrf
+                                @method('DELETE')
+                                <button type="button"
+                                    class="bg-red-100 flex items-center justify-center w-auto gap-2 px-2 h-8 rounded-md hover:bg-red-200"
+                                    data-product-id="{{ $product['product_id'] }}" onclick="confirmDelete(this)">
+                                    <x-icons.delete-01 class="size-5 stroke-red-500"></x-icons.delete-01>
+                                </button>
+                            </form>
                         </td>
                     </tr>
                 @empty
@@ -231,3 +254,16 @@
     </div>
 
 </x-layouts.admin.admin-layout>
+
+<script>
+    function confirmDelete(button) {
+        if (confirm('Apakah Anda yakin ingin menghapus product ini?')) {
+            const productId = button.dataset.productId;
+            console.log('Attempting to delete product with ID:', productId);
+            const form = document.getElementById(`delete-product-form-${productId}`);
+            if (form) {
+                form.submit();
+            }
+        }
+    }
+</script>

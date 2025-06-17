@@ -195,7 +195,7 @@
                                 value="{{ old('product_min_order') }}" required placeholder="Jumlah minimal order"
                                 class="border border-gray-200 px-4 py-3 my-2 rounded-md w-2/3 focus:outline-none focus:border-secondaryColors-base focus:border-2">
                             <div class="relative w-1/3">
-                                <select name="product_min_order_unit" id="minOrderUnit" required
+                                <select name="product_unit" id="minOrderUnit" required
                                     class="border border-gray-200 px-4 py-3 my-2 rounded-md w-full focus:outline-none focus:border-secondaryColors-base focus:border-2 appearance-none">
                                     <option value="">Pilih Satuan</option>
                                     <option value="pcs"
