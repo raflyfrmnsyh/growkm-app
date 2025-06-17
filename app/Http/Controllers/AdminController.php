@@ -15,14 +15,23 @@ class AdminController extends Controller
         // Cek apakah ada input pencarian
         if ($request->has('searchBox') && $request->searchBox !== '') {
             $search = $request->searchBox;
-            $query->where(function ($q) use ($search) {
-                $q->where('username', 'like', "%$search%")
-                ->orWhere('user_phone', 'like', "%$search%")
-                ->orWhere('user_email', 'like', "%$search%");
-            });
+           $query->where(function ($q) use ($search) {
+            $q->where('username', 'like', "%$search%")
+              ->orWhere('user_phone', 'like', "%$search%")
+              ->orWhere('user_email', 'like', "%$search%")
+              ->orWhereRaw("REPLACE(id, 'ADM', '') like ?", ["%$search%"]);
+        });
+    }
+    if ($request->has('role')) {
+        $roleMapping = [
+            'Event Admin' => 'M',
+            'Product Admin' => 'F'
+        ];
+        if (array_key_exists($request->role, $roleMapping)){
+            $query->where('user_role' , $roleMapping[$request->role]);
         }
-
-        // Ambil data 10 per halaman
+    }
+        // Ambil data  per halaman
         $admins = $query->orderBy('created_at', 'desc')->paginate(2);
 
         // Kirim ke view

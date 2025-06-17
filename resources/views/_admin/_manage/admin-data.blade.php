@@ -1,3 +1,6 @@
+@php
+use Illuminate\Support\Arr;
+@endphp
 <x-layouts.admin.admin-layout>
 
     <x-slot:title> {{ $title }}</x-slot:title>
@@ -8,13 +11,19 @@
 
         <div class="flex flex-col md:flex-row items-center gap-4 w-full lg:w-auto justify-between lg:justify-end">
 
-            <form action="{{ route('admin.manage.admin') }}" method="get" method="get">
+            <form action="{{ route('admin.manage.admin') }}" method="get">
                 @csrf
                 <div
                     class="input-bx border border-gray-200 py-2 px-4 rounded-md w-[320px] flex items-center justify-between gap-2">
-                    <input type="text" name="searchBox" id="searchBox" placeholder="Cari sesuatu"
-                        class="outline-none w-full ">
-                    <x-icons.searach-01 class="size-5 stroke-gray-200"></x-icons.searach-01>
+                    <input type="text" name="searchBox" id="searchBox" placeholder="Cari admin"
+                    value="{{request('searchBox')}}"
+                        class="border border-gray-200 px-2 py-1 rounded-md w-full focus:outline-none focus:border-secondaryColors-base focus:border-2">
+                        <button type="submit">
+                            <x-icons.searach-01 class="size-5 stroke-gray-200">
+                            </x-icons.searach-01>
+                        </button> 
+                    
+                    
                 </div>
             </form>
 
@@ -24,10 +33,13 @@
                         <button type="button" @click="open = !open"
                             class="inline-flex w-full items-center justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-md font-semibold text-gray-800 border border-gray-200 hover:bg-gray-50"
                             id="menu-button" aria-expanded="true" aria-haspopup="true">
-                            Semua Role
+                            {{ request('role') ?? 'Semua Role' }}
                             <x-icons.arrow-down class="stroke-dark-base size-5"></x-icons.arrow-down>
                         </button>
                     </div>
+
+                    
+
 
                     <div x-show="open" @click.away="open = false" x-transition:enter="transition ease-out duration-100"
                         x-transition:enter-start="transform opacity-0 scale-95"
@@ -39,13 +51,13 @@
                         role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1"
                         style="display: none;">
                         <div class="py-1" role="none">
-                            <a href="#"
+                            <a href="{{ route('admin.manage.admin', Arr::except(request()->query(), ['role'])) }}"
                                 class="block px-4 py-3 text-md text-secondaryColors-base bg-secondaryColors-10 hover:bg-gray-50 hover:text-gray-800 active"
                                 role="menuitem" tabindex="-1" id="menu-item-0">Semua Role</a>
-                            <a href="#"
+                            <a href="{{ route('admin.manage.admin', array_merge(request()->query(), ['role' => 'Event Admin'])) }}"
                                 class="block px-4 py-3 text-md text-gray-700 hover:bg-gray-50 hover:text-gray-800"
                                 role="menuitem" tabindex="-1" id="menu-item-2">Event Admin</a>
-                            <a href="#"
+                            <a href="{{ route('admin.manage.admin', array_merge(request()->query(), ['role' => 'Product Admin'])) }}"
                                 class="block px-4 py-3 text-md text-gray-700 hover:bg-gray-50 hover:text-gray-800"
                                 role="menuitem" tabindex="-1" id="menu-item-3">Product Admin</a>
                         </div>
@@ -82,8 +94,10 @@
                         <td class="py-4 px-2">{{ $admin->username }}</td>
                         <td class="py-4 px-2 text-start">{{ $admin->user_phone }}</td>
                         <td class="py-4 px-2 text-center">
+                            <span class="px-2 py-1 text-xs font-semibold rounded-full 
+                            {{ $admin->user_role === 'M' ? 'bg-green-100 text-green-800' : 'bg-blue-100 text-blue-800' }}">
                             {{ $admin->user_role === 'M' ? 'Event Admin' : 'Product Admin' }}
-                        </td>
+                            </span>
                         <td class="py-4 px-2 text-center align-middle">
                             <div class="flex items-center justify-center gap-2">
                                 {{-- Tombol Edit / Lihat --}}
@@ -112,7 +126,11 @@
                         <td colspan="7" class="py-12 text-center text-gray-500">
                             <div class="flex flex-col items-center justify-center gap-4">
                                 <x-icons.user-group class="w-12 h-12 stroke-gray-300" />
-                                <p class="text-lg font-medium">Belum ada data admin.</p>
+                                @if(request()->has('searchBox') || request()->has('role'))
+                                    <p class="text-lg font-medium">Tidak ada admin yang sesuai dengan filter.</p>
+                                @else
+                                    <p class="text-lg font-medium">Belum ada data admin.</p>
+                                @endif
                                 <p class="text-sm text-gray-400">Klik tombol "Tambah Data" untuk menambahkan admin pertama.</p>
                             </div>
                         </td>

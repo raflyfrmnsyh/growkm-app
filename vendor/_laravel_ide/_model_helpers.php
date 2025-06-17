@@ -8,20 +8,19 @@ namespace App\Models {
      * @property \Illuminate\Support\Carbon|null $updated_at
      * @property \Illuminate\Support\Carbon|null $created_at
      * @property string $user_role
-     * @property string $user_password
      * @property string|null $user_address
      * @property mixed $user_gender
      * @property string $user_phone
      * @property string $user_email
      * @property string $username
      * @property int $id
+     * @property-read mixed $user_password
      * @method static \Illuminate\Database\Eloquent\Builder<Admin>|Admin whereId($value)
      * @method static \Illuminate\Database\Eloquent\Builder<Admin>|Admin whereUsername($value)
      * @method static \Illuminate\Database\Eloquent\Builder<Admin>|Admin whereUserEmail($value)
      * @method static \Illuminate\Database\Eloquent\Builder<Admin>|Admin whereUserPhone($value)
      * @method static \Illuminate\Database\Eloquent\Builder<Admin>|Admin whereUserGender($value)
      * @method static \Illuminate\Database\Eloquent\Builder<Admin>|Admin whereUserAddress($value)
-     * @method static \Illuminate\Database\Eloquent\Builder<Admin>|Admin whereUserPassword($value)
      * @method static \Illuminate\Database\Eloquent\Builder<Admin>|Admin whereUserRole($value)
      * @method static \Illuminate\Database\Eloquent\Builder<Admin>|Admin whereCreatedAt($value)
      * @method static \Illuminate\Database\Eloquent\Builder<Admin>|Admin whereUpdatedAt($value)

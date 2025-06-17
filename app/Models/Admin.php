@@ -17,4 +17,19 @@ class Admin extends Model
         'user_password',
         'user_role',
     ];
+
+    protected $hidden = [
+        'user_password',
+        'remember_token',
+    ];
+
+    public function getAuthPassword()
+    {
+        return $this->user_password;
+    }
+
+    public function setUserPasswordAttribute($value)
+    {
+        $this->attributes['user_password'] = bcrypt($value);
+    }
 }
