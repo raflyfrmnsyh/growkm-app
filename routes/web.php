@@ -1,22 +1,34 @@
 <?php
 
+use App\Models\Admin;
 use App\Models\Event;
 use App\Models\Product;
+use App\Models\Transaction;
 use Illuminate\Support\Carbon;
 use App\Models\ParticipantRegist;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Request;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\EventController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\ParticipantRegistController;
 
 // Prefix Routing Admin
 
-Route::prefix('admin')->group(function () {
+Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     Route::get('/dashboard', function () {
+
+        $topProduct = Transaction::getTopProducts(5);
+        $topUser = Transaction::getTopUserTransaction();
+        $statDashboard = Admin::getStaticData();
+
         return view('_admin.dashboard', [
-            'title' => "Dashboard - Growkm app"
+            'title' => "Dashboard - Growkm app",
+            'top_product' => $topProduct,
+            'top_user' => $topUser,
+            'stats' => $statDashboard
         ]);
     })->name('admin.dashboard');
 
@@ -36,52 +48,35 @@ Route::prefix('admin')->group(function () {
         /** Kelola data event & kelas */
 
         Route::get('/event', [EventController::class, 'index'])->name('admin.manage.event');
-
-
         Route::get('/event/add', function () {
             return view('_admin._manage._create.add-event-data', [
                 'title' => 'Tambah data event'
             ]);
         })->name('admin.manage.add-event');
-
-
-
         Route::post('/event/store', [EventController::class, 'store'])
             ->name('admin.manage.event.store');
-
         Route::get('/event/detail/{event_id}', [EventController::class, 'show'])->name('admin.manage.event.detail');
-
         Route::delete('/event/delete/{event_id}', [EventController::class, 'destroy'])
             ->name('admin.manage.event.delete');
-
         Route::get('/event/{event_id}/view', [EventController::class, 'view'])->name('admin.manage.event.view');
-
         Route::put('/event/update/{event_id}', [EventController::class, 'update'])
             ->name('admin.manage.event.update');
-
 
         /**
          * Kelola data produk
          */
 
-
         Route::get('/product', [App\Http\Controllers\ProductController::class, 'index'])->name('admin.manage.product');
-
         Route::get('/add-product', function () {
             return view('_admin._manage._create.add-product-data', [
                 'title' => "Tambah data produk"
             ]);
         })->name('admin.manage.product.add');
-
         Route::post('/product/store', [App\Http\Controllers\ProductController::class, 'store'])->name('admin.manage.product.store');
-
         Route::get('/product/detail/{product_id}', [App\Http\Controllers\ProductController::class, 'show'])->name('admin.manage.product.detail');
-
         Route::put('/product/update/{product_id}', [App\Http\Controllers\ProductController::class, 'update'])->name('admin.manage.product.update');
-
         Route::delete('/product/delete/{product_id}', [App\Http\Controllers\ProductController::class, 'destroy'])
             ->name('admin.manage.product.delete');
-
         Route::get('/product/detail/{id}', function ($id) {
             return view('_admin._manage._product.product-detail', [
                 'title' => "Detail Produk",
@@ -94,7 +89,6 @@ Route::prefix('admin')->group(function () {
          */
 
         Route::get('/admin', [AdminController::class, 'index'])->name('admin.manage.admin');
-
         Route::get('/admin/create', [AdminController::class, 'create'])->name('admin.manage.add-admin');
         Route::post('/admin/create', [AdminController::class, 'store'])->name('admin.manage.store-admin');
         Route::get('/admin/edit/{id}', [AdminController::class, 'edit'])->name('admin.manage.edit-admin');
@@ -107,7 +101,7 @@ Route::prefix('admin')->group(function () {
 
 // Prefix Routing user
 
-Route::prefix('user')->group(function () {
+Route::prefix('user')->middleware('user')->group(function () {
 
     // main dashboard
     Route::get('/dashboard', function () {
@@ -302,17 +296,13 @@ Route::prefix('user')->group(function () {
 
 
 Route::prefix('auth')->group(function () {
-    Route::get('/auth/login', function () {
-        return view('_auth.sign-in', [
-            'title' => "Login - Growkm app"
-        ]);
-    });
+    Route::get('/login', [AuthController::class, 'show'])->name('auth.login');
+    Route::post('/login', [AuthController::class, 'login'])->name('auth.login.process');
 
-    Route::get('/auth/register', function () {
-        return view('_auth.sign-up', [
-            'title' => "Register - Growkm app"
-        ]);
-    });
+    Route::post('/logout', [AuthController::class, 'logout'])->name('auth.logout');
+
+    Route::get('/register', [AuthController::class, 'registerView'])->name('auth.register');
+    Route::post('register/process', [AuthController::class, 'registerProces'])->name('auth.register.process');
 });
 
 

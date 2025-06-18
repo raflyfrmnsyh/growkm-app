@@ -23,22 +23,28 @@ class UserFactory extends Factory
      */
     public function definition(): array
     {
+        $gender = $this->faker->randomElement(['L', 'M']);
+
         return [
-            'name' => fake()->name(),
-            'email' => fake()->unique()->safeEmail(),
-            'email_verified_at' => now(),
-            'password' => static::$password ??= Hash::make('password'),
-            'remember_token' => Str::random(10),
+            'user_id' => fake()->unique()->numberBetween(1, 10000), // Optional if auto-increment is preferred
+            'user_name' => fake()->name($gender == 'L' ? 'male' : 'female'),
+            'user_email' => fake()->unique()->safeEmail(),
+            'user_password' => bcrypt('password'), // Default password
+            'user_gender' => $gender,
+            'user_phone' => fake()->unique()->numerify('08##########'),
+            'user_address' => fake()->address(),
+            'user_profile' => null, // or provide fake image path
+            'user_role' => fake()->randomElement(['user', 'super_admin', 'admin_event', 'admin_product']),
         ];
     }
 
     /**
      * Indicate that the model's email address should be unverified.
      */
-    public function unverified(): static
-    {
-        return $this->state(fn (array $attributes) => [
-            'email_verified_at' => null,
-        ]);
-    }
+    // public function unverified(): static
+    // {
+    //     return $this->state(fn(array $attributes) => [
+    //         'email_verified_at' => null,
+    //     ]);
+    // }
 }

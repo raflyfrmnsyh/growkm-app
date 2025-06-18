@@ -8,6 +8,6 @@
     {{ $slot }}
 </body>
 
-<x-partials.footer></x-partials.footer>
+<x-partials.landingpage.footer></x-partials.landingpage.footer>
 
 </html>

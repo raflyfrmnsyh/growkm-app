@@ -84,16 +84,56 @@ class EventController extends Controller
         return redirect()->route('admin.manage.event')->with('success', 'Event berhasil ditambahkan!');
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $events = Event::orderBy('created_at', 'desc')->paginate(10);
+        $search = $request->query('search');
+        $filter = $request->query('filter');
+
+        $query = Event::query();
+
+        // Handle search
+        if ($search) {
+            $query->where('event_title', 'like', '%' . $search . '%');
+        }
+
+        // Handle time filter
+        if ($filter) {
+            $now = Carbon::now();
+
+            switch ($filter) {
+                case 'today':
+                    $query->whereDate('event_date', $now->toDateString());
+                    break;
+
+                case 'this_week':
+                    $startOfWeek = $now->startOfWeek()->toDateString();
+                    $endOfWeek = $now->endOfWeek()->toDateString();
+                    $query->whereBetween('event_date', [$startOfWeek, $endOfWeek]);
+                    break;
+
+                case 'this_month':
+                    $startOfMonth = $now->startOfMonth()->toDateString();
+                    $endOfMonth = $now->endOfMonth()->toDateString();
+                    $query->whereBetween('event_date', [$startOfMonth, $endOfMonth]);
+                    break;
+
+                case 'this_year':
+                    $startOfYear = $now->startOfYear()->toDateString();
+                    $endOfYear = $now->endOfYear()->toDateString();
+                    $query->whereBetween('event_date', [$startOfYear, $endOfYear]);
+                    break;
+            }
+        }
+
+        $events = $query->orderBy('created_at', 'desc')->paginate(10);
 
         return view('_admin._manage.event-data', [
             'title' => 'Kelola data event',
-            'events' => $events
+            'events' => $events,
+            'search' => $search,
+            'filter' => $filter
         ]);
     }
-
     public function show($event_id)
     {
         $event = Event::findOrFail($event_id);

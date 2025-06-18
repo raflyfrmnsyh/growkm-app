@@ -1,5 +1,5 @@
 <x-layouts.admin.admin-layout>
-    <x-slot:title>{{ $title }}</x-slot:title>)
+    <x-slot:title>{{ $title }}</x-slot:title>
     <div class="py-4 px-6 bg-white w-full gap-8 rounded-t-md flex lg:flex-row flex-col items-center justify-between ">
         <h1 class="font-semibold text-lg w-auto text-center lg:text-start">Data Transaksi Product</h1>
 

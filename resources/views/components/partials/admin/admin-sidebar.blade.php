@@ -22,8 +22,8 @@
                 <x-icons.transaction-icon
                     class="size-6 {{ request()->routeIs('admin.transaction-event') ? 'stroke-secondaryColors-base' : 'stroke-primaryColors-90' }}"></x-icons.transaction-icon>
                 <a href="{{ route('admin.transaction-event') }}"
-                    class="{{ request()->routeIs('admin.transaction-event') ? 'text-secondaryColors-base font-medium' : 'text-primaryColors-90 font-normal' }} mb-[1px] text-md">Transaksi
-                    Event & Kelas</a>
+                    class="{{ request()->routeIs('admin.transaction-event') ? 'text-secondaryColors-base font-medium' : 'text-primaryColors-90 font-normal' }} mb-[1px] text-md">
+                    Partisipan event & kelas</a>
                 @if (request()->routeIs('admin.transaction-event'))
                     <div class="line-active absolute left-0 w-[4px] h-full bg-secondaryColors-base rounded-r-lg"></div>
                 @endif

@@ -2,6 +2,10 @@
 
 namespace App\Models;
 
+use App\Models\Order;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -39,5 +43,101 @@ class Transaction extends Model
     public function orders()
     {
         return $this->hasMany(Order::class, 'transaction_id', 'transaction_id');
+    }
+
+    public static function getTopProducts(int $limit = 5)
+    {
+        $limit = 5;
+
+        $startOfWeek = Carbon::now()->startOfWeek();
+        $endOfWeek = Carbon::now()->endOfWeek();
+
+        $topProducts = DB::table('products')
+            ->join('orders', 'products.product_id', '=', 'orders.product_id')
+            ->whereBetween('orders.created_at', [$startOfWeek, $endOfWeek])
+            ->select(
+                'products.product_id',
+                'products.product_name',
+                'products.product_category',
+                DB::raw('SUM(orders.quantity * orders.price) as total_sale')
+            )
+            ->groupBy('products.product_id', 'products.product_name', 'products.product_category')
+            ->orderByDesc('total_sale')
+            ->limit($limit)
+            ->get();
+
+        // Jika tidak ada transaksi minggu ini, tampilkan 5 produk teratas tetap
+        if ($topProducts->isEmpty()) {
+            $topProducts = DB::table('products')
+                ->leftJoin('orders', 'products.product_id', '=', 'orders.product_id')
+                ->select(
+                    'products.product_id',
+                    'products.product_name',
+                    'products.product_category',
+                    DB::raw('IFNULL(SUM(orders.quantity * orders.price), 0) as total_sale')
+                )
+                ->groupBy('products.product_id', 'products.product_name', 'products.product_category')
+                ->orderByDesc('total_sale')
+                ->limit($limit)
+                ->get();
+        }
+        return $topProducts->map(function ($item, $index) {
+            return [
+                'rank' => $index + 1,
+                'product_name' => $item->product_name,
+                'product_category' => explode(',', $item->product_category)[0],
+                'total_sale' => 'Rp ' . number_format($item->total_sale, 0, ',', '.')
+            ];
+        });
+    }
+
+    public static function getTopUserTransaction(int $limit = 5)
+    {
+        $startOfWeek = Carbon::now()->startOfWeek();
+        $endOfWeek = Carbon::now()->endOfWeek();
+
+        $topUsers = DB::table('users')
+            ->join('transactions', 'users.user_id', '=', 'transactions.user_id')
+            ->whereBetween('transactions.created_at', [$startOfWeek, $endOfWeek])
+            ->select(
+                'users.user_id',
+                'users.user_name',
+                'users.user_email',
+                DB::raw('COALESCE(SUM(transactions.total), 0) as total_transaction')
+            )
+            ->groupBy('users.user_id', 'users.user_name', 'users.user_email')
+            ->orderByDesc('total_transaction')
+            ->limit($limit)
+            ->get();
+
+        // Debug log untuk melihat hasil
+        Log::debug('Top Users This Week:', [$topUsers]);
+
+        // Fallback jika kosong
+        if ($topUsers->isEmpty()) {
+            $topUsers = DB::table('users')
+                ->leftJoin('transactions', 'users.user_id', '=', 'transactions.user_id')
+                ->select(
+                    'users.user_id',
+                    'users.user_name',
+                    'users.user_email',
+                    DB::raw('COALESCE(SUM(transactions.total), 0) as total_transaction')
+                )
+                ->groupBy('users.user_id', 'users.user_name', 'users.user_email')
+                ->orderByDesc('total_transaction')
+                ->limit($limit)
+                ->get();
+
+            Log::debug('Top Users All Time (Fallback):', [$topUsers]);
+        }
+
+        return $topUsers->map(function ($item, $index) {
+            return [
+                'rank' => $index + 1,
+                'username' => $item->user_name,
+                'email' => $item->user_email,
+                'total_transaction' => 'Rp ' . number_format($item->total_transaction, 0, ',', '.')
+            ];
+        });
     }
 }
