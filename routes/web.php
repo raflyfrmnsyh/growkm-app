@@ -14,7 +14,7 @@ use App\Http\Controllers\ParticipantRegistController;
 
 // Prefix Routing Admin
 
-Route::prefix('admin')->middleware('admin')->group(function () {
+Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     Route::get('/dashboard', function () {
         return view('_admin.dashboard', [
             'title' => "Dashboard - Growkm app"
@@ -305,12 +305,11 @@ Route::prefix('user')->middleware('user')->group(function () {
 Route::prefix('auth')->group(function () {
     Route::get('/login', [AuthController::class, 'show'])->name('auth.login');
     Route::post('/login', [AuthController::class, 'login'])->name('auth.login.process');
+
     Route::post('/logout', [AuthController::class, 'logout'])->name('auth.logout');
-    Route::get('/auth/register', function () {
-        return view('_auth.sign-up', [
-            'title' => "Register - Growkm app"
-        ]);
-    });
+
+    Route::get('/register', [AuthController::class, 'registerView'])->name('auth.register');
+    Route::post('register/process', [AuthController::class, 'registerProces'])->name('auth.register.process');
 });
 
 

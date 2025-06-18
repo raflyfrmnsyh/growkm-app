@@ -8,8 +8,7 @@
 
         <div class="flex flex-col md:flex-row items-center gap-4 w-full lg:w-auto justify-between lg:justify-end">
 
-            <form action="#" method="get">
-                @csrf
+            <form action="{{ route('admin.manage.admin') }}" method="get">
                 <div
                     class="input-bx border border-gray-200 py-2 px-4 rounded-md w-[320px] flex items-center justify-between gap-2">
                     <input type="text" name="searchBox" id="searchBox" placeholder="Cari sesuatu"
@@ -39,18 +38,21 @@
                         role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1"
                         style="display: none;">
                         <div class="py-1" role="none">
-                            <a href="#"
-                                class="block px-4 py-3 text-md text-secondaryColors-base bg-secondaryColors-10 hover:bg-gray-50 hover:text-gray-800 active"
-                                role="menuitem" tabindex="-1" id="menu-item-0">Semua Role</a>
-                            <a href="#"
-                                class="block px-4 py-3 text-md text-gray-700 hover:bg-gray-50 hover:text-gray-800"
-                                role="menuitem" tabindex="-1" id="menu-item-1">Super Admin</a>
-                            <a href="#"
-                                class="block px-4 py-3 text-md text-gray-700 hover:bg-gray-50 hover:text-gray-800"
-                                role="menuitem" tabindex="-1" id="menu-item-2">Event Admin</a>
-                            <a href="#"
-                                class="block px-4 py-3 text-md text-gray-700 hover:bg-gray-50 hover:text-gray-800"
-                                role="menuitem" tabindex="-1" id="menu-item-3">Product Admin</a>
+                            <a href="{{ route('admin.manage.admin') }}"
+                                class="block px-4 py-3 text-md text-secondaryColors-base bg-secondaryColors-10 hover:bg-gray-50 hover:text-gray-800 {{ request('role_name') == null ? 'font-semibold' : '' }}"
+                                role="menuitem" tabindex="-1" id="menu-item-0">
+                                Semua Role
+                            </a>
+                            <a href="{{ route('admin.manage.admin', ['role_name' => 'admin_event', 'search_box' => request('search_box')]) }}"
+                                class="block px-4 py-3 text-md text-gray-700 hover:bg-gray-50 hover:text-gray-800 {{ request('role_name') == 'admin_event' ? 'font-semibold text-secondaryColors-base' : '' }}"
+                                role="menuitem" tabindex="-1" id="menu-item-2">
+                                Event Admin
+                            </a>
+                            <a href="{{ route('admin.manage.admin', ['role_name' => 'admin_product', 'search_box' => request('search_box')]) }}"
+                                class="block px-4 py-3 text-md text-gray-700 hover:bg-gray-50 hover:text-gray-800 {{ request('role_name') == 'admin_product' ? 'font-semibold text-secondaryColors-base' : '' }}"
+                                role="menuitem" tabindex="-1" id="menu-item-3">
+                                Product Admin
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -72,31 +74,34 @@
                     <th class="py-4 px-2">Tanggal bergabung</th>
                     <th class="py-4 px-2">Nama Admin</th>
                     <th class="py-4 px-2 text-start">No. Phone</th>
-                    <th class="py-4 px-2 text-center">Admin role</th>
+                    <th class="py-4 px-2 text-start">Admin role</th>
                     <th class="text-center p-4">Action</th>
                 </tr>
             </thead>
             <tbody>
                 @forelse ($admins as $index => $admin)
+                    {{-- @dd($admin) --}}
                     <tr class="border-b border-gray-200">
-                        <td class="text-center">{{ $index + 1 }}</td>
-                        <td class="py-4 px-2">{{ '#ADM' . str_pad($admin->id, 4, '0', STR_PAD_LEFT) }}</td>
-                        <td class="py-4 px-2">{{ $admin->created_at->format('d/m/y - H:i') }}</td>
-                        <td class="py-4 px-2">{{ $admin->username }}</td>
-                        <td class="py-4 px-2 text-start">{{ $admin->user_phone }}</td>
-                        <td class="py-4 px-2 text-center">
-                            {{ $admin->user_role === 'M' ? 'Event Admin' : 'Product Admin' }}
+                        <td class="text-center">{{ ($admins->currentPage() - 1) * $admins->perPage() + $index + 1 }}
+                        </td>
+                        <td class="py-4 px-2">{{ 'ADM' . $admin['user_id'] }}</td>
+                        <td class="py-4 px-2">{{ $admin['join_date'] }}</td>
+                        <td class="py-4 px-2">{{ $admin['username'] }}</td>
+                        <td class="py-4 px-2 text-start">{{ $admin['user_phone'] }}</td>
+                        <td class="py-4 px-2 text-start">
+                            {{ ucwords(str_replace('_', ' ', $admin['user_role'])) }}
                         </td>
                         <td class="py-4 px-2 text-center align-middle">
                             <div class="flex items-center justify-center gap-2">
                                 {{-- Tombol Edit / Lihat --}}
-                                <a href="{{ route('admin.manage.edit-admin', $admin->id) }}"
+                                <a href="{{ route('admin.manage.edit-admin', $admin['user_id']) }}"
                                     class="bg-secondaryColors-10 flex items-center justify-center w-8 h-8 rounded-md hover:bg-secondaryColors-20">
                                     <x-icons.eye-01 class="size-5 stroke-secondaryColors-base" />
                                 </a>
 
                                 {{-- Tombol Hapus --}}
-                                <form action="{{ route('admin.manage.delete-admin', $admin->id) }}" method="POST"
+                                <form action="{{ route('admin.manage.delete-admin', $admin['user_id']) }}"
+                                    method="POST"
                                     onsubmit="return confirm('Are you sure you want to delete this admin?');"
                                     class="inline">
                                     @csrf
@@ -128,8 +133,95 @@
         </table>
     </div>
     <div class="p-6 bg-white w-full rounded-b-lg flex items-center justify-between">
-        <span>Showing 1 to 10 of 57 entries</span>
+        <span>Showing {{ $admins->firstItem() ?? 0 }} to {{ $admins->lastItem() ?? 0 }} of
+            {{ $admins->total() ?? 0 }}
+            entries</span>
 
         {{-- Pagination --}}
+        @if ($admins->hasPages())
+            <ul class="flex justify-center gap-1 text-gray-900">
+                {{-- Previous Page Link --}}
+                @if ($admins->onFirstPage())
+                    <li>
+                        <span
+                            class="grid size-8 place-content-center rounded border border-gray-200 opacity-50 cursor-not-allowed">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="size-4" viewBox="0 0 20 20"
+                                fill="currentColor">
+                                <path fill-rule="evenodd"
+                                    d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
+                                    clip-rule="evenodd" />
+                            </svg>
+                        </span>
+                    </li>
+                @else
+                    <li>
+                        <a href="{{ $admins->previousPageUrl() }}"
+                            class="grid size-8 place-content-center rounded border border-gray-200 transition-colors hover:bg-gray-50 rtl:rotate-180"
+                            aria-label="Halaman sebelumnya">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="size-4" viewBox="0 0 20 20"
+                                fill="currentColor">
+                                <path fill-rule="evenodd"
+                                    d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
+                                    clip-rule="evenodd" />
+                            </svg>
+                        </a>
+                    </li>
+                @endif
+
+                {{-- Pagination Elements --}}
+                @foreach ($admins->getUrlRange(1, $admins->lastPage()) as $page => $url)
+                    @if ($page == $admins->currentPage())
+                        <li>
+                            <span
+                                class="block size-8 rounded border border-secondaryColors-base bg-secondaryColors-base text-center text-sm/8 font-medium text-white">
+                                {{ $page }}
+                            </span>
+                        </li>
+                    @else
+                        <li>
+                            <a href="{{ $url }}"
+                                class="block size-8 rounded border border-gray-200 text-center text-sm/8 font-medium transition-colors hover:bg-gray-50">
+                                {{ $page }}
+                            </a>
+                        </li>
+                    @endif
+                @endforeach
+
+                {{-- Next Page Link --}}
+                @if ($admins->hasMorePages())
+                    <li>
+                        <a href="{{ $admins->nextPageUrl() }}"
+                            class="grid size-8 place-content-center rounded border border-gray-200 transition-colors hover:bg-gray-50 rtl:rotate-180"
+                            aria-label="Halaman berikutnya">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="size-4" viewBox="0 0 20 20"
+                                fill="currentColor">
+                                <path fill-rule="evenodd"
+                                    d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                                    clip-rule="evenodd" />
+                            </svg>
+                        </a>
+                    </li>
+                @else
+                    <li>
+                        <span
+                            class="grid size-8 place-content-center rounded border border-gray-200 opacity-50 cursor-not-allowed">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="size-4" viewBox="0 0 20 20"
+                                fill="currentColor">
+                                <path fill-rule="evenodd"
+                                    d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                                    clip-rule="evenodd" />
+                            </svg>
+                        </span>
+                    </li>
+                @endif
+            </ul>
+        @endif
+        @if (session('success'))
+            <div x-data="{ show: true }" x-show="show" x-init="setTimeout(() => show = false, 3000)"
+                class="fixed top-6 right-6 z-50 bg-green-100 text-green-800 px-4 py-2 rounded shadow-lg mb-4"
+                style="min-width: 220px;">
+                {{ session('success') }}
+            </div>
+        @endif
     </div>
 </x-layouts.admin.admin-layout>

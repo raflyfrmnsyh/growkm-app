@@ -14,11 +14,15 @@ class AdminMiddleware
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
+
     public function handle(Request $request, Closure $next): Response
     {
-        if (Auth::check() && Auth::user()->user_role === 'admin') {
+        $user = Auth::user();
+
+        if ($user && in_array($user->user_role, ['super_admin', 'admin_product', 'admin_event'])) {
             return $next($request);
         }
-        return redirect('/auth/login')->withErrors(['access_denied' => 'Akses ditolak.']);
+
+        return redirect()->route('auth.login')->withErrors(['access_denied' => 'Akses ditolak.']);
     }
 }

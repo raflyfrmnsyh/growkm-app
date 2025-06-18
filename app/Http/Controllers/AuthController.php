@@ -14,6 +14,19 @@ class AuthController extends Controller
         ]);
     }
 
+    public function registerView()
+    {
+        return view('_auth.sign-up', [
+            'title' => "Register - Growkm app"
+        ]);
+    }
+
+    public function registerProces(Request $request)
+    {
+        dd($request->all());
+    }
+
+
     public function login(Request $request)
     {
         // Validasi input
@@ -27,10 +40,16 @@ class AuthController extends Controller
             $request->session()->regenerate();
 
             $user = Auth::user();
-            if ($user->user_role === 'admin') {
-                return redirect()->route('admin.dashboard');
-            } elseif ($user->user_role === 'user') {
-                return redirect()->route('user.dashboard');
+            switch ($user->user_role) {
+                case 'super_admin':
+                case 'admin_product':
+                case 'admin_event':
+                    return redirect()->route('admin.dashboard');
+                case 'user':
+                    return redirect()->route('user.dashboard');
+                default:
+                    Auth::logout();
+                    return redirect('/')->withErrors(['login_error' => 'Role tidak dikenali.']);
             }
         }
 

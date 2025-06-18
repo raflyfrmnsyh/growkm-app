@@ -19,6 +19,6 @@ class UserMiddleware
         if (Auth::check() && Auth::user()->user_role === 'user') {
             return $next($request);
         }
-        return redirect('/auth/login')->withErrors(['access_denied' => 'Akses ditolak.']);
+        return redirect()->route('auth.login')->withErrors(['access_denied' => 'Akses ditolak.']);
     }
 }
