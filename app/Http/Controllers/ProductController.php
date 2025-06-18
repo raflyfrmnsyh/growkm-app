@@ -2,19 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\Product;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
 use Carbon\Carbon;
+use App\Models\Product;
+use Illuminate\Support\Str;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Collection;
 
 class ProductController extends Controller
 {
     public function store(Request $request)
     {
-        // Validasi data
+
         $validated = $request->validate([
             'product_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'product_name' => 'required|string|max:100',
@@ -28,50 +29,39 @@ class ProductController extends Controller
             'product_tags' => 'nullable|string|max:255',
         ]);
 
-        // Generate product ID baru
-        $lastProduct = Product::where('product_id', 'like', 'TRXPRD%')
-        ->orderByRaw('CAST(SUBSTR(product_id, 7) AS UNSIGNED) DESC') // Mengurutkan berdasarkan bagian numerik ID
-            ->first();
+        // Generate unique product ID
+        do {
+            $productId = 'PRD' . strtoupper(Str::random(7));
+        } while (Product::where('product_id', $productId)->exists());
 
-        if ($lastProduct) {
-            // Ambil angka terakhir dari ID
-            $lastNumber = (int) substr($lastProduct->product_id, 6); // Perhatikan indeksnya berubah menjadi 6 karena 'TRXPRD' ada 6 karakter.
-            $nextNumber = $lastNumber + 1;
-        } else {
-            $nextNumber = 1;
-        }
+        $validated['product_id'] = $productId;
 
-        // Format angka menjadi 3 digit
-        $formattedNumber = str_pad($nextNumber, 3, '0', STR_PAD_LEFT);
-        $validated['product_id'] = 'TRXPRD' . $formattedNumber;
-
-        // Handle file upload
+        // Handle file upload (jika ada)
         if ($request->hasFile('product_image')) {
             $image = $request->file('product_image');
             $path = $image->store('public/image/products');
             $validated['product_image'] = Storage::url($path);
         }
 
-        // Convert product_category array to JSON string
-        $validated['product_category'] = json_encode($validated['product_category']);
-        
-        // Product tags are already handled as string by validation.
+        // Convert category array to comma-separated string
+        $validated['product_category'] = implode(', ', $validated['product_category']);
 
-        // Create product
+        // Insert to database
         Product::create($validated);
 
-        return redirect()->route('admin.manage.product')->with('success', 'Product added successfully!');
+        return redirect()->route('admin.manage.product')->with('success', 'Product Berhasil Ditambahkan!');
     }
 
     public function update(Request $request, $product_id)
     {
+
         $product = Product::where('product_id', $product_id)->firstOrFail();
 
         $validated = $request->validate([
             'product_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'product_name' => 'required|string|max:100',
             'product_description' => 'required|string',
-            'product_category.*' => 'string|max:100',
+            'product_category' => 'required|array', // <-- ubah jadi string
             'product_price' => 'required|numeric',
             'product_stock' => 'required|integer|min:0',
             'product_min_order' => 'required|integer|min:1',
@@ -79,9 +69,10 @@ class ProductController extends Controller
             'product_tags' => 'nullable|string|max:255',
         ]);
 
+        $validated['product_category'] = implode(', ', $validated['product_category']);
+
         // Handle file upload
         if ($request->hasFile('product_image')) {
-            // Delete old image if it exists
             if ($product->product_image) {
                 Storage::delete(str_replace('/storage', 'public', $product->product_image));
             }
@@ -89,54 +80,51 @@ class ProductController extends Controller
             $path = $image->store('public/image/products');
             $validated['product_image'] = Storage::url($path);
         } else {
-            // Retain old image if no new one is uploaded
             $validated['product_image'] = $product->product_image;
         }
 
-        // Convert product_category array to JSON string
-        $validated['product_category'] = json_encode($validated['product_category']);
-
+        // Langsung update tanpa ubah kategori jadi array
         $product->update($validated);
 
-        return redirect()->route('admin.manage.product')->with('success', 'Product updated successfully!');
+        return redirect()->route('admin.manage.product')->with('success', 'Product Berhasil Terupdated!');
     }
 
-    /**
-     * Menampilkan daftar produk dengan fitur pencarian dan filter kategori
-     * Menggunakan stored procedure 'search_products' untuk efisiensi query
-     *
-     * @param Request $request
-     * @return \Illuminate\View\View
-     */
     public function index(Request $request)
     {
-        // Mengambil parameter pencarian dari request
-        $searchTerm = $request->input('searchBox');
-        $category = $request->input('category');
 
-        // Memanggil stored procedure search_products
-        // Parameter pertama: kata kunci pencarian
-        // Parameter kedua: kategori yang dipilih
-        $products = DB::select('CALL search_products(?, ?)', [$searchTerm, $category]);
+        $search = $request->input('searchBox', '');
+        $category = $request->input('category', '');
 
-        // Konfigurasi pagination
-        $perPage = 10; // Jumlah item per halaman
-        $currentPage = LengthAwarePaginator::resolveCurrentPage(); // Mendapatkan halaman saat ini
-        $currentItems = array_slice($products, ($currentPage - 1) * $perPage, $perPage);
+        // Panggil prosedur
+        $rawProducts = DB::select("CALL SearchAndFilterProducts(?, ?)", [$search, $category]);
 
-        // Membuat instance paginator untuk menangani pagination
+        // Konversi hasil ke Collection lalu mapping
+        // dd([$search, $category, $rawProducts]);
+
+        $mappedProducts = collect($rawProducts)->map(function ($item) {
+            return [
+                'product_id' => $item->product_id,
+                'product_name' => $item->product_name,
+                'product_category' => explode(',', $item->product_category),
+                'product_price' => $item->product_price,
+                'product_stock' => $item->product_stock,
+                'product_min_order' => $item->product_min_order,
+            ];
+        });
+
+        // Manual pagination dari collection
+        $currentPage = LengthAwarePaginator::resolveCurrentPage();
+        $perPage = 10;
+        $currentPageItems = $mappedProducts->slice(($currentPage - 1) * $perPage, $perPage)->values();
+
         $products = new LengthAwarePaginator(
-            $currentItems,
-            count($products),
+            $currentPageItems,
+            $mappedProducts->count(),
             $perPage,
             $currentPage,
-            [
-                'path' => $request->url(),
-                'query' => $request->query() // Mempertahankan parameter query (searchBox, category)
-            ]
+            ['path' => request()->url(), 'query' => request()->query()]
         );
 
-        // Mengirim data ke view
         return view('_admin._manage.product-data', [
             'title' => 'Kelola data Produk',
             'products' => $products
@@ -170,6 +158,6 @@ class ProductController extends Controller
         $product->delete();
 
         return redirect()->route('admin.manage.product')
-                        ->with('success', 'Product berhasil dihapus!');
+            ->with('success', 'Product berhasil dihapus!');
     }
 }

@@ -14,18 +14,19 @@
     </div>
 
     <div class="p-6 bg-white w-full">
-        @if($errors->any())
+        @if ($errors->any())
             <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4">
                 <strong class="font-bold">Terjadi Kesalahan!</strong>
                 <ul>
-                    @foreach($errors->all() as $error)
+                    @foreach ($errors->all() as $error)
                         <li>{{ $error }}</li>
                     @endforeach
                 </ul>
             </div>
         @endif
 
-        <form action="{{ route('admin.manage.product.store') }}" method="POST" enctype="multipart/form-data" class="flex gap-2 flex-wrap justify-between items-start">
+        <form action="{{ route('admin.manage.product.store') }}" method="POST" enctype="multipart/form-data"
+            class="flex gap-2 flex-wrap justify-between items-start">
             @csrf
             <div class="w-full flex items-start justify-between gap-6">
                 <div class="product_informations w-[48%]">
@@ -75,8 +76,8 @@
                                     gambar produk</p>
                                 <p class="text-xs text-gray-500">Mendukung format PNG dan JPG (MAX. 1024x768)</p>
                             </div>
-                            <input id="product_image" name="product_image" type="file" class="hidden" accept="image/*"
-                                @change="updatePreview" x-ref="fileInput" />
+                            <input id="product_image" name="product_image" type="file" class="hidden"
+                                accept="image/*" @change="updatePreview" x-ref="fileInput" />
                         </label>
                         @error('product_image')
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
@@ -92,7 +93,8 @@
                         @enderror
                     </div>
                     <div class="mb-4 flex flex-col w-full">
-                        <label for="product_description" class="font-medium text-gray-800 w-full">Deskripsi Produk</label>
+                        <label for="product_description" class="font-medium text-gray-800 w-full">Deskripsi
+                            Produk</label>
                         <textarea name="product_description" id="descField" rows="3" placeholder="Deskripsi produk"
                             class="border border-gray-200 px-4 py-3 my-2 rounded-md w-full focus:outline-none focus:border-secondaryColors-base focus;border-2 resize-none">{{ old('product_description') }}</textarea>
                         @error('product_description')
@@ -155,7 +157,9 @@
 
                     <div class="mb-4 flex flex-col w-full">
                         <label for="product_tags" class="font-medium text-gray-800 w-full">Tags Produk</label>
-                        <input type="text" name="product_tags" id="tagsField" placeholder="Pisahkan dengan koma, cth: baju, kaos, pria" value="{{ old('product_tags') }}"
+                        <input type="text" name="product_tags" id="tagsField"
+                            placeholder="Pisahkan dengan koma, cth: baju, kaos, pria"
+                            value="{{ old('product_tags') }}"
                             class="border border-gray-200 px-4 py-3 my-2 rounded-md w-full focus:outline-none focus:border-secondaryColors-base focus;border-2">
                         @error('product_tags')
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
@@ -167,7 +171,8 @@
 
                     <div class="mb-4 flex flex-col w-full">
                         <label for="product_price" class="font-medium text-gray-800 w-full">Harga Produk</label>
-                        <input type="text" name="product_price" id="priceField" placeholder="Rp." required value="{{ old('product_price') }}"
+                        <input type="text" name="product_price" id="priceField" placeholder="Rp." required
+                            value="{{ old('product_price') }}"
                             class="border border-gray-200 px-4 py-3 my-2 rounded-md w-full focus:outline-none focus:border-secondaryColors-base focus;border-2">
                         @error('product_price')
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
@@ -176,11 +181,9 @@
 
                     <div class="mb-4 flex flex-col w-full">
                         <label for="product_stock" class="font-medium text-gray-800 w-full">Stok Produk</label>
-                        <div class="flex gap-2">
-                            <input type="number" min="0" name="product_stock" id="stockField" required value="{{ old('product_stock') }}"
-                                placeholder="Jumlah stok produk"
-                                class="border border-gray-200 px-4 py-3 my-2 rounded-md w-full focus:outline-none focus:border-secondaryColors-base focus;border-2">
-                        </div>
+                        <input type="number" min="0" name="product_stock" id="stockField" required
+                            value="{{ old('product_stock') }}" placeholder="Jumlah stok produk"
+                            class="border border-gray-200 px-4 py-3 my-2 rounded-md w-full focus:outline-none focus:border-secondaryColors-base focus;border-2">
                         @error('product_stock')
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                         @enderror
@@ -188,16 +191,23 @@
                     <div class="mb-4 flex flex-col w-full">
                         <label for="product_min_order" class="font-medium text-gray-800 w-full">Min Order</label>
                         <div class="flex gap-2">
-                            <input type="number" min="1" name="product_min_order" id="minOrderField" value="{{ old('product_min_order') }}"
-                                required placeholder="Jumlah minimal order"
+                            <input type="number" min="1" name="product_min_order" id="minOrderField"
+                                value="{{ old('product_min_order') }}" required placeholder="Jumlah minimal order"
                                 class="border border-gray-200 px-4 py-3 my-2 rounded-md w-2/3 focus:outline-none focus:border-secondaryColors-base focus:border-2">
                             <div class="relative w-1/3">
                                 <select name="product_unit" id="minOrderUnit" required
                                     class="border border-gray-200 px-4 py-3 my-2 rounded-md w-full focus:outline-none focus:border-secondaryColors-base focus:border-2 appearance-none">
                                     <option value="">Pilih Satuan</option>
-                                    <option value="pcs" {{ old('product_unit') == 'pcs' ? 'selected' : '' }}>PCS</option>
-                                    <option value="kg" {{ old('product_unit') == 'kg' ? 'selected' : '' }}>KG</option>
-                                    <option value="item" {{ old('product_unit') == 'item' ? 'selected' : '' }}>Item</option>
+                                    <option value="pcs"
+                                        {{ old('product_min_order_unit') == 'pcs' ? 'selected' : '' }}>PCS</option>
+                                    <option value="kg"
+                                        {{ old('product_min_order_unit') == 'kg' ? 'selected' : '' }}>KG</option>
+                                    <option value="liter"
+                                        {{ old('product_min_order_unit') == 'liter' ? 'selected' : '' }}>Liter</option>
+                                    <option value="meter"
+                                        {{ old('product_min_order_unit') == 'meter' ? 'selected' : '' }}>Meter</option>
+                                    <option value="item"
+                                        {{ old('product_min_order_unit') == 'item' ? 'selected' : '' }}>Item</option>
                                 </select>
                                 <div
                                     class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">

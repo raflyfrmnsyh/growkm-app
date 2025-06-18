@@ -1,16 +1,5 @@
 <header
-    class=" desktop_header fixed w-[80%] hidden px-8 py-3 border-b-[1px] border-gray-300 bg-light-base lg:flex gap-4 justify-end items-center h-[80px]">
-
-    <x-partials.dropdown-nav-link :dropdownName="'Program Growkm'" :dropdownClass="'text-md'">
-        <x-slot name="linkName">
-            <x-partials.nav-link href="{{ url('/our-partner') }}" class="block px-4 py-2 hover:bg-gray-100">Event
-                Gratis</x-partials.nav-link>
-            <x-partials.nav-link href="{{ url('/about-supplier-plus') }}"
-                class="block px-4 py-2 hover:bg-gray-100">Supplier Plus</x-partials.nav-link>
-        </x-slot>
-    </x-partials.dropdown-nav-link>
-    <x-partials.nav-link href="{{ url('$') }}" class="hidden md:block">Pusat
-        Bantuan</x-partials.nav-link>
+    class=" desktop_header fixed w-[80%] hidden px-8 py-3 border-b-[1px] border-gray-300 bg-white lg:flex gap-4 justify-end items-center h-[80px] z-50">
 
     <div x-data="{ isOpen: false }" class="relative">
         <div class="profile-menu flex items-center gap-2 cursor-pointer" @click="isOpen = !isOpen">

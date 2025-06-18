@@ -3,76 +3,124 @@
     <x-slot:title>{{ $title }}</x-slot:title>
 </x-partials.head-info>
 
-<body class="bg-gray-100 flex flex-row justify-center items-start">
+<body class="bg-gray-50">
     <x-partials.dashboard.sidebar></x-partials.dashboard.sidebar>
 
-    <main class="w-full lg:w-[80%] lg:left-[20%] absolute ">
+    <main class="w-full lg:w-[80%] lg:left-[20%] absolute">
         {{-- Mobile Header --}}
         <x-partials.dashboard.mobile-header></x-partials.dashboard.mobile-header>
         {{-- Desktop Header --}}
         <x-partials.dashboard.desktop-header></x-partials.dashboard.desktop-header>
 
-        <section class="section_content flex items-start gap-4 mx-8 py-[112px]">
-            <div class="flex flex-col items-center bg-gray-100 min-h-screen py-2 w-full">
-            <div class="w-full bg-white rounded-lg shadow p-8">
-            <div
-        class="p-6 bg-white w-full gap-8 rounded-t-md flex lg:flex-row flex-col items-center justify-between border-b border-gray-200">
-        <h1 class="font-semibold text-lg">Semua Produk</h1>
+        <section class="section_content mx-8 py-[112px]">
+            <div class="max-w-7xl mx-auto">
+                {{-- Header Section --}}
+                <div class="bg-white rounded-lg shadow-sm p-6 mb-6">
+                    <div class="flex flex-col lg:flex-row items-center justify-between gap-6">
+                        <h1 class="text-2xl font-bold text-gray-900">Semua Produk</h1>
 
-        <div class="flex flex-col md:flex-row items-center gap-4 w-full lg:w-auto justify-between lg:justify-end">
-                <form action="#" method="get">
-                    @csrf
-                    <div
-                        class="input-bx border border-gray-200 py-2 px-4 rounded-md w-[320px] flex items-center justify-between gap-2">
-                        <input type="text" name="searchBox" id="searchBox" placeholder="Cari sesuatu"
-                            class="outline-none w-full ">
-                        <x-icons.searach-01 class="size-5 stroke-gray-200"></x-icons.searach-01>
-                    </div>
-                </form>
-            </div>
-        </div>
-            <div class="overflow-x-auto w-full bg-white px-6 py-4 flex flex-wrap flex-rows-4 gap-y-4 gap-x-6">
-                @for ($i = 0; $i < 12; $i++)
-                <div class="overflow-hidden w-full sm:w-[calc(50%-12px)] md:w-[calc(33.333%-16px)] lg:w-[calc(25%-18px)] p-3 border rounded-lg shadow-sm transition hover:shadow-lg">
-                    <div class="relative">
-                        <img alt="" src="{{ asset('image/product.png') }}" class="w-full h-auto"/>
-                    </div>
+                        <div class="flex flex-col lg:flex-row items-center gap-4 w-full lg:w-auto">
+                            {{-- Search Form --}}
+                            <form action="#" method="get" class="w-full lg:w-auto m-0 p-0">
+                                @csrf
+                                <div class="relative">
+                                    <input type="text" name="searchBox" id="searchBox" placeholder="Cari produk..."
+                                        class="w-full lg:w-[400px] pl-4 pr-12 py-3 rounded-lg border border-gray-200 focus:border-secondaryColors-base focus:ring-2 focus:ring-secondaryColors-base/20 outline-none transition-all">
+                                    <x-icons.searach-01
+                                        class="absolute right-4 top-1/2 -translate-y-1/2 size-5 stroke-gray-400"></x-icons.searach-01>
+                                </div>
+                            </form>
 
-                    <div class="bg-white p-2">
-                        <a href="#">
-                            <h3 class="mt-0.5 text-lg text-gray-900 line-clamp-2">Baju Koko Pria Dewasa Model Akhtar</h3>
-                        </a>
+                            {{-- Filter Dropdown --}}
+                            <div x-data="{ open: false }" class="relative">
+                                <button type="button" @click="open = !open"
+                                    class="inline-flex items-center justify-center gap-2 px-4 py-3 rounded-lg border border-gray-200 hover:bg-gray-50 transition-colors">
+                                    <span class="text-gray-700">Filter Kategori</span>
+                                    <x-icons.arrow-down class="size-5 stroke-gray-400"></x-icons.arrow-down>
+                                </button>
 
-                        <p class="mt-1 text-sm/relaxed text-gray-500">Harga Beli</p>
-                        <p class="mt-1 line-clamp-3 text-sm/relaxed text-gray-900 font-semibold">
-                            Rp. 100.000
-                        </p>
-
-                        <p class="mt-1 text-sm/relaxed text-gray-500">Harga Jual</p>
-                        <p class="mt-1 line-clamp-3 text-sm/relaxed text-gray-900 font-semibold">
-                            Belum ditentukan supplier
-                        </p>
+                                <div x-show="open" @click.away="open = false"
+                                    class="absolute right-0 mt-2 w-64 rounded-xl bg-white shadow-lg border border-gray-100 p-4 z-10">
+                                    <div class="space-y-3">
+                                        <div class="flex items-center gap-2">
+                                            <input type="checkbox" id="elektronik"
+                                                class="w-6 h-6 rounded-lg border-gray-200 text-secondaryColors-base focus:ring-secondaryColors-base checked:bg-secondaryColors-base">
+                                            <label for="elektronik" class="text-gray-700">Elektronik</label>
+                                        </div>
+                                        <div class="flex items-center gap-2">
+                                            <input type="checkbox" id="fashion"
+                                                class="w-6 h-6 rounded-lg border-gray-200 text-secondaryColors-base focus:ring-secondaryColors-base checked:bg-secondaryColors-base">
+                                            <label for="fashion" class="text-gray-700">Fashion</label>
+                                        </div>
+                                        <div class="flex items-center gap-2">
+                                            <input type="checkbox" id="makanan"
+                                                class="w-6 h-6 rounded-lg border-gray-200 text-secondaryColors-base focus:ring-secondaryColors-base checked:bg-secondaryColors-base">
+                                            <label for="makanan" class="text-gray-700">Makanan</label>
+                                        </div>
+                                        <div class="flex items-center gap-2">
+                                            <input type="checkbox" id="minuman"
+                                                class="w-6 h-6 rounded-lg border-gray-200 text-secondaryColors-base focus:ring-secondaryColors-base checked:bg-secondaryColors-base">
+                                            <label for="minuman" class="text-gray-700">Minuman</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                @endfor
+
+                {{-- Products Grid --}}
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                    @forelse ($data as $product)
+                        <div
+                            class="bg-white rounded-lg shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden group">
+                            {{-- Product Image --}}
+                            <div class="relative aspect-square overflow-hidden">
+                                <img src="{{ asset($product['product_image']) }}" alt="{{ $product['product_name'] }}"
+                                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                            </div>
+
+                            {{-- Product Info --}}
+                            <div class="p-4">
+                                <a href="{{ route('products.details', ['id' => $product['product_id']]) }}"
+                                    class="block">
+                                    <h3
+                                        class="text-lg font-semibold text-gray-900 line-clamp-2 mb-2 group-hover:text-secondaryColors-base transition-colors">
+                                        {{ $product['product_name'] }}
+                                    </h3>
+                                </a>
+
+                                <div class="space-y-2">
+                                    <div>
+                                        <p class="text-sm text-gray-500">Harga Beli</p>
+                                        <p class="text-lg font-bold text-gray-900">Rp
+                                            {{ number_format($product['product_price']) }}</p>
+                                    </div>
+
+                                    <div>
+                                        <p class="text-sm text-gray-500">Rekomendasi Harga Jual</p>
+                                        <p class="text-lg font-bold text-secondaryColors-base">Rp
+                                            {{ number_format($product['product_sell']) }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @empty
+                        <div class="col-span-full">
+                            <div class="bg-white rounded-lg shadow-sm p-8 text-center">
+                                <p class="text-gray-500 text-lg">Belum ada produk yang tersedia</p>
+                            </div>
+                        </div>
+                    @endforelse
+                </div>
+
+                {{-- Pagination --}}
+                @if ($data->hasPages())
+                    <div class="mt-6">
+                        {{ $data->links() }}
+                    </div>
+                @endif
             </div>
-            <div class="w-full bg-white p-6 rounded-b-md flex justify-center items-center mt-4">
-                <nav aria-label="Pagination" class="flex justify-center items-center space-x-2">
-                    <a href="#" class="relative inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 leading-5 rounded-md hover:text-gray-500 focus:outline-none focus:ring ring-gray-300 focus:border-blue-300 active:bg-gray-100 active:text-gray-700 transition ease-in-out duration-150">
-                        Previous
-                    </a>
-                    <a href="#" class="relative inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 leading-5 rounded-md hover:text-gray-500 focus:outline-none focus:ring ring-gray-300 focus:border-blue-300 active:bg-gray-100 active:text-gray-700 transition ease-in-out duration-150">
-                        1
-                    </a>
-                    <a href="#" class="relative inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 leading-5 rounded-md hover:text-gray-500 focus:outline-none focus:ring ring-gray-300 focus:border-blue-300 active:bg-gray-100 active:text-gray-700 transition ease-in-out duration-150">
-                        2
-                    </a>
-                    <a href="#" class="relative inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 leading-5 rounded-md hover:text-gray-500 focus:outline-none focus:ring ring-gray-300 focus:border-blue-300 active:bg-gray-100 active:text-gray-700 transition ease-in-out duration-150">
-                        Next
-                    </a>
-                </nav>
-            </div>
-        <div>
         </section>
     </main>
 </body>

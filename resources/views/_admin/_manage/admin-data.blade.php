@@ -77,22 +77,53 @@
                 </tr>
             </thead>
             <tbody>
-                @for ($i = 0; $i < 10; $i++)
+                @forelse ($admins as $index => $admin)
                     <tr class="border-b border-gray-200">
-                        <td class="text-center">{{ $i + 1 }}</td>
-                        <td class="py-4 px-2">{{ '#TRXEVT00' . $i + 1 }}</td>
-                        <td class="py-4 px-2">07/06/25 - 22:35</td>
-                        <td class="py-4 px-2">Jhon dae</td>
-                        <td class="py-4 px-2 text-start">+620897667456</td>
-                        <td class="py-4 px-2 text-center">Event Admin</td>
-                        <td class="w-full py-4 flex items-center justify-center gap-2 px-6">
-                            <a href="{{ url('#') }}"
-                                class="bg-secondaryColors-10 flex items-center justify-center w-auto gap-2 px-2 h-8 rounded-md hover:bg-secondaryColors-20">
-                                <x-icons.eye-01 class="size-5 stroke-secondaryColors-base "></x-icons.eye-01>
-                            </a>
+                        <td class="text-center">{{ $index + 1 }}</td>
+                        <td class="py-4 px-2">{{ '#ADM' . str_pad($admin->id, 4, '0', STR_PAD_LEFT) }}</td>
+                        <td class="py-4 px-2">{{ $admin->created_at->format('d/m/y - H:i') }}</td>
+                        <td class="py-4 px-2">{{ $admin->username }}</td>
+                        <td class="py-4 px-2 text-start">{{ $admin->user_phone }}</td>
+                        <td class="py-4 px-2 text-center">
+                            {{ $admin->user_role === 'M' ? 'Event Admin' : 'Product Admin' }}
+                        </td>
+                        <td class="py-4 px-2 text-center align-middle">
+                            <div class="flex items-center justify-center gap-2">
+                                {{-- Tombol Edit / Lihat --}}
+                                <a href="{{ route('admin.manage.edit-admin', $admin->id) }}"
+                                    class="bg-secondaryColors-10 flex items-center justify-center w-8 h-8 rounded-md hover:bg-secondaryColors-20">
+                                    <x-icons.eye-01 class="size-5 stroke-secondaryColors-base" />
+                                </a>
+
+                                {{-- Tombol Hapus --}}
+                                <form action="{{ route('admin.manage.delete-admin', $admin->id) }}" method="POST"
+                                    onsubmit="return confirm('Are you sure you want to delete this admin?');"
+                                    class="inline">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit"
+                                        class="bg-red-100 flex items-center justify-center w-8 h-8 rounded-md hover:bg-red-200">
+                                        <x-icons.delete-01 class="size-5 stroke-red-600" />
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+
+                    </tr>
+
+                @empty
+                    <tr>
+                        <td colspan="7" class="py-12 text-center text-gray-500">
+                            <div class="flex flex-col items-center justify-center gap-4">
+                                <x-icons.user-group class="w-12 h-12 stroke-gray-300" />
+                                <p class="text-lg font-medium">Belum ada data admin.</p>
+                                <p class="text-sm text-gray-400">Klik tombol "Tambah Data" untuk menambahkan admin
+                                    pertama.</p>
+                            </div>
                         </td>
                     </tr>
-                @endfor
+                @endforelse
+
             </tbody>
         </table>
     </div>
