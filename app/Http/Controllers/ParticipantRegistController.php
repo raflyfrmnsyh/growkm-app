@@ -83,11 +83,47 @@ class ParticipantRegistController extends Controller
         return redirect()->route('events.data')->with('success', 'Pendaftaran peserta berhasil!');
     }
 
-    public function showDataParticipant()
+    public function showDataParticipant(Request $request)
     {
-        $participantRegist = ParticipantRegist::orderBy('regist_id', 'desc')->paginate(1);
+        $search = $request->query('search');
+        $filter = $request->query('filter');
+        $now = Carbon::now();
 
-        // Transform each item, but keep pagination
+        $participantRegist = ParticipantRegist::query()
+            ->when($search, function ($query, $search) {
+                $query->where(function ($q) use ($search) {
+                    $q->where('event_name', 'like', '%' . $search . '%')
+                    ->orWhere('participant_name', 'like', '%' . $search . '%')
+                    ->orWhere('payment_status', 'like', '%' . $search . '%');
+                });
+            })
+            ->when($filter && $filter !== 'all', function ($query) use ($filter, $now) {
+                switch ($filter) {
+                    case 'today':
+                        $query->whereDate('created_at', $now->toDateString());
+                        break;
+                    case 'this_week':
+                        $query->whereBetween('created_at', [
+                            $now->copy()->startOfWeek()->toDateString(),
+                            $now->copy()->endOfWeek()->toDateString(),
+                        ]);
+                        break;
+                    case 'this_month':
+                        $query->whereBetween('created_at', [
+                            $now->copy()->startOfMonth()->toDateString(),
+                            $now->copy()->endOfMonth()->toDateString(),
+                        ]);
+                        break;
+                    case 'this_year':
+                        $query->whereBetween('created_at', [
+                            $now->copy()->startOfYear()->toDateString(),
+                            $now->copy()->endOfYear()->toDateString(),
+                        ]);
+                        break;
+                }
+            })
+            ->orderBy('created_at', 'desc')->paginate(10);
+
         $participantRegist->getCollection()->transform(function ($item) {
             return [
                 'regist_id' => $item->regist_id,
@@ -95,7 +131,7 @@ class ParticipantRegistController extends Controller
                 'event_name' => $item->event_name,
                 'subtotal' => $item->subtotal,
                 'payment_status' => $item->payment_status,
-                'created_at' => Carbon::parse($item->created_at)->format('d M Y')
+                'created_at' => Carbon::parse($item->created_at)->format('d M Y'),
             ];
         });
 
