@@ -85,7 +85,51 @@ class ParticipantRegistController extends Controller
 
     public function showDataParticipant(Request $request)
     {
-        $participantRegist = ParticipantRegist::orderBy('regist_id', 'desc')->paginate(1);
+        $search = $request->query('search');
+        $filter = $request->query('filter');
+
+        $query = ParticipantRegist::query();
+
+        // Handle search
+        if ($search) {
+            $query->where(function ($q) use ($search) {
+                $q->where('participant_name', 'like', '%' . $search . '%')
+                    ->orWhere('event_name', 'like', '%' . $search . '%')
+                    ->orWhere('regist_id', 'like', '%' . $search . '%')
+                    ->orWhere('payment_status', 'like', '%' . $search . '%');
+            });
+        }
+
+        // Handle time filter
+        if ($filter) {
+            $now = Carbon::now();
+
+            switch ($filter) {
+                case 'today':
+                    $query->whereDate('created_at', $now->toDateString());
+                    break;
+
+                case 'this_week':
+                    $startOfWeek = $now->startOfWeek()->toDateString();
+                    $endOfWeek = $now->endOfWeek()->toDateString();
+                    $query->whereBetween('created_at', [$startOfWeek, $endOfWeek]);
+                    break;
+
+                case 'this_month':
+                    $startOfMonth = $now->startOfMonth()->toDateString();
+                    $endOfMonth = $now->endOfMonth()->toDateString();
+                    $query->whereBetween('created_at', [$startOfMonth, $endOfMonth]);
+                    break;
+
+                case 'this_year':
+                    $startOfYear = $now->startOfYear()->toDateString();
+                    $endOfYear = $now->endOfYear()->toDateString();
+                    $query->whereBetween('created_at', [$startOfYear, $endOfYear]);
+                    break;
+            }
+        }
+
+        $participantRegist = $query->orderBy('regist_id', 'desc')->paginate(10);
 
         // Transform each item, but keep pagination
         $participantRegist->getCollection()->transform(function ($item) {
@@ -101,7 +145,9 @@ class ParticipantRegistController extends Controller
 
         return view('_admin._transactions.events-page', [
             'title' => 'Data Transaksi Event & Kelas',
-            'data' => $participantRegist
+            'data' => $participantRegist,
+            'search' => $search,
+            'filter' => $filter
         ]);
     }
 
