@@ -14,7 +14,7 @@
             <form action="{{ route('create.transaction.product') }}" method="POST"
                 class="section_content flex items-start gap-4 mx-8 py-[112px]" @submit.prevent="submitForm($event)">
                 @csrf
-                <input type="hidden" name="user_id" value="1">
+                <input type="hidden" name="user_id" value="{{ Auth::user()->user_id }}">
                 <input type="hidden" name="shipping_cost" :value="shippingCost">
                 <input type="hidden" name="total" :value="total">
                 <input type="hidden" name="transaction_status" value="pending">

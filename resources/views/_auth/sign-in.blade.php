@@ -121,4 +121,12 @@
         </form>
     </div>
 
+    @if (session('success'))
+        <div x-data="{ show: true }" x-show="show" x-init="setTimeout(() => show = false, 3000)"
+            class="fixed top-6 right-6 z-50 bg-green-100 text-green-800 px-4 py-2 rounded shadow-lg mb-4"
+            style="min-width: 220px;">
+            {{ session('success') }}
+        </div>
+    @endif
+
 </x-layouts.auth>

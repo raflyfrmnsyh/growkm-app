@@ -83,7 +83,7 @@ class ParticipantRegistController extends Controller
         return redirect()->route('events.data')->with('success', 'Pendaftaran peserta berhasil!');
     }
 
-    public function showDataParticipant()
+    public function showDataParticipant(Request $request)
     {
         $participantRegist = ParticipantRegist::orderBy('regist_id', 'desc')->paginate(1);
 

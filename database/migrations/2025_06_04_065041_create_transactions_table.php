@@ -20,7 +20,7 @@ return new class extends Migration
             $table->decimal('subtotal', 10, 2);
             $table->decimal('shipping_cost', 10, 2);
             $table->decimal('total', 10, 2);
-            $table->enum('transaction_status', ['pending', 'processing', 'shipped', 'delivered', 'cancelled']);
+            $table->enum('transaction_status', ['pending', 'on process', 'on shipping', 'selesai'])->default('pending');
             $table->string('payment_method');
             $table->string('payment_status');
             $table->timestamps();

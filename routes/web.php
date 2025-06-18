@@ -2,6 +2,7 @@
 
 use App\Models\Admin;
 use App\Models\Event;
+use App\Models\Order;
 use App\Models\Product;
 use App\Models\Transaction;
 use Illuminate\Support\Carbon;
@@ -21,7 +22,7 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     Route::get('/dashboard', function () {
 
         $topProduct = Transaction::getTopProducts(5);
-        $topUser = Transaction::getTopUserTransaction();
+        $topUser = Transaction::getTopUserTransaction(5);
         $statDashboard = Admin::getStaticData();
 
         return view('_admin.dashboard', [
@@ -36,11 +37,9 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
         Route::get('/event', [ParticipantRegistController::class, 'showDataParticipant'])->name('admin.transaction-event');
         Route::get('/product-all', [TransactionController::class, 'showtb'])->name('admin.transaction-product');
 
-        Route::get('/detail-transaksi/{id}', function (String $id) {
-            return view('_admin._transactions._product.detail-product-transaction', [
-                'title' => 'Detail Product ' . $id
-            ]);
-        })->name('admin.transaction-product-detail');
+        Route::get('/detail-transaksi/{id}', [TransactionController::class, 'show'])->name('admin.transaction-product-detail');
+
+        Route::post('/update-transaction/{id}', [TransactionController::class, 'update'])->name('update.transaction.status');
     });
 
     Route::prefix('manage')->group(function () {

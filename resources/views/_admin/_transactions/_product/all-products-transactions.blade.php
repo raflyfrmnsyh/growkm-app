@@ -78,17 +78,17 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($data as $item => $data)
+                @foreach ($data as $idx => $item)
                     <tr class="border-b border-gray-200">
                         <td class="text-center"></td>
-                        <td class="py-4 px-2">{{ '#' . $data['id'] }}</td>
-                        <td class="py-4 px-2">{{ $data['tanggal_masuk'] }}</td>
-                        <td class="py-4 px-2">{{ $data['customer_name'] }}</td>
-                        <td class="py-4 px-2">{{ $data['customer_address'] }}</td>
-                        <td class="py-4 px-2 text-center">{{ 'Rp.' . $data['total'] }}</td>
-                        <td class="py-4 px-2 text-center">{{ $data['status'] }}</td>
+                        <td class="py-4 px-2">{{ '#' . $item['id'] }}</td>
+                        <td class="py-4 px-2">{{ $item['tanggal_masuk'] }}</td>
+                        <td class="py-4 px-2">{{ $item['customer_name'] }}</td>
+                        <td class="py-4 px-2">{{ $item['customer_address'] }}</td>
+                        <td class="py-4 px-2 text-center">{{ 'Rp.' . $item['total'] }}</td>
+                        <td class="py-4 px-2 text-center">{{ $item['status'] }}</td>
                         <td class="w-full py-4 flex items-center justify-center gap-2 px-6">
-                            <a href="{{ route('admin.transaction-product-detail', 3) }}"
+                            <a href="{{ route('admin.transaction-product-detail', $item['id']) }}"
                                 class="bg-secondaryColors-10 flex items-center justify-center w-8 h-8 rounded-md hover:bg-secondaryColors-20">
                                 <x-icons.eye-01 class="size-5 stroke-secondaryColors-base "></x-icons.eye-01>
                             </a>

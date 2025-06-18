@@ -106,7 +106,7 @@
         </div>
     </div>
 
-    <div class="top-5-list w-full flex items-center justify-between gap-4 flex-wrap mt-4">
+    <div class="top-5-list w-full flex items-start justify-between gap-4 flex-wrap mt-4">
         <div class="card w-full lg:w-[49%] bg-white rounded-lg cursor-pointer">
             <div class="pb-6 border-b border-gray-200 px-6 pt-6 flex items-center justify-between">
                 <h3 class="text-xl font-semibold">Top 5 User</h3>

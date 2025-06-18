@@ -93,7 +93,11 @@ class EventController extends Controller
 
         // Handle search
         if ($search) {
-            $query->where('event_title', 'like', '%' . $search . '%');
+            $query->where(function ($q) use ($search) {
+                $q->where('event_title', 'like', '%' . $search . '%')
+                    ->orWhere('event_type', 'like', '%' . $search . '%')
+                    ->orWhere('event_quota', 'like', '%' . $search . '%');
+            });
         }
 
         // Handle time filter

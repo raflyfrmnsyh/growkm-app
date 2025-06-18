@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Exception;
 use App\Models\Order;
+use App\Models\Product;
 use App\Models\Transaction;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
@@ -61,6 +62,7 @@ class TransactionController extends Controller
      */
     public function store(Request $request)
     {
+
         DB::beginTransaction();
 
         try {
@@ -111,7 +113,45 @@ class TransactionController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $detail_transaction = Transaction::where('transaction_id', $id)->first();
+        $detail_orders = Order::where('transaction_id', $id)->get();
+
+        // Ringkasan Pesanan
+        // Item products collection
+        $products = $detail_orders->map(function ($order) {
+            $product = Product::where('product_id', $order->product_id)->first();
+            return [
+                'product_image' => $product->product_image ?? '',
+                'product_name' => $product->product_name ?? '',
+                'product_tags' => isset($product->product_tags) ? explode(',', $product->product_tags) : [],
+                'product_qty' => $order->quantity ?? 0,
+                'product_price' => $order->price ?? 0,
+                'product_total' => $order->subtotal
+            ];
+        });
+        // Customer info
+        $customer_info = [
+            'transaction_id' => $detail_transaction->transaction_id ?? '',
+            'shipping_name' => $detail_transaction->shipping_name ?? '',
+            'shipping_address' => $detail_transaction->shipping_address ?? '',
+            'shipping_phone' => $detail_transaction->shipping_phone ?? '',
+            'shipping_cost' => $detail_transaction->shipping_cost ?? 0,
+            'total' => $detail_transaction->total ?? 0,
+            'transaction_status' => $detail_transaction->transaction_status ?? '',
+            'paymethod' => $detail_transaction->payment_method ?? '',
+            'subtotal' => $detail_transaction->subtotal ?? '',
+            'payment_status' => $detail_transaction->payment_status ?? '',
+            'date' => $detail_transaction->created_at
+        ];
+
+
+        // Pass data to view
+        return view('_admin._transactions._product.detail-product-transaction', [
+            'title' => 'Detail Product - ' . $id,
+            'customer' => $customer_info,
+            'product' => $products
+
+        ]);
     }
 
     /**
@@ -128,6 +168,31 @@ class TransactionController extends Controller
     public function update(Request $request, string $id)
     {
         //
+        // dd($request->all());
+        $request->validate([
+            'transaction_status' => 'string',
+        ]);
+
+        $transaction = Transaction::where('transaction_id', $id)->firstOrFail();
+        $currentStatus = $transaction->transaction_status;
+
+        switch ($currentStatus) {
+            case 'pending':
+                $transaction->transaction_status = 'on process';
+                break;
+            case 'on process':
+                $transaction->transaction_status = 'on shipping';
+                break;
+            case 'on shipping':
+                $transaction->transaction_status = 'selesai';
+                break;
+            default:
+                // Tidak ada perubahan status jika status tidak dikenali
+                break;
+        }
+        $transaction->save();
+
+        return redirect()->route('admin.transaction-product-detail', $id)->with('success', 'Status transaksi berhasil diperbarui.');
     }
 
     /**

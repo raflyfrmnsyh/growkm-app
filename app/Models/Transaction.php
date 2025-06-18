@@ -47,40 +47,26 @@ class Transaction extends Model
 
     public static function getTopProducts(int $limit = 5)
     {
-        $limit = 5;
-
         $startOfWeek = Carbon::now()->startOfWeek();
         $endOfWeek = Carbon::now()->endOfWeek();
 
+        // Selalu ambil semua produk, left join dengan orders minggu ini
         $topProducts = DB::table('products')
-            ->join('orders', 'products.product_id', '=', 'orders.product_id')
-            ->whereBetween('orders.created_at', [$startOfWeek, $endOfWeek])
+            ->leftJoin('orders', function ($join) use ($startOfWeek, $endOfWeek) {
+                $join->on('products.product_id', '=', 'orders.product_id')
+                    ->whereBetween('orders.created_at', [$startOfWeek, $endOfWeek]);
+            })
             ->select(
                 'products.product_id',
                 'products.product_name',
                 'products.product_category',
-                DB::raw('SUM(orders.quantity * orders.price) as total_sale')
+                DB::raw('COALESCE(SUM(orders.quantity * orders.price), 0) as total_sale')
             )
             ->groupBy('products.product_id', 'products.product_name', 'products.product_category')
             ->orderByDesc('total_sale')
             ->limit($limit)
             ->get();
 
-        // Jika tidak ada transaksi minggu ini, tampilkan 5 produk teratas tetap
-        if ($topProducts->isEmpty()) {
-            $topProducts = DB::table('products')
-                ->leftJoin('orders', 'products.product_id', '=', 'orders.product_id')
-                ->select(
-                    'products.product_id',
-                    'products.product_name',
-                    'products.product_category',
-                    DB::raw('IFNULL(SUM(orders.quantity * orders.price), 0) as total_sale')
-                )
-                ->groupBy('products.product_id', 'products.product_name', 'products.product_category')
-                ->orderByDesc('total_sale')
-                ->limit($limit)
-                ->get();
-        }
         return $topProducts->map(function ($item, $index) {
             return [
                 'rank' => $index + 1,
@@ -97,8 +83,10 @@ class Transaction extends Model
         $endOfWeek = Carbon::now()->endOfWeek();
 
         $topUsers = DB::table('users')
-            ->join('transactions', 'users.user_id', '=', 'transactions.user_id')
-            ->whereBetween('transactions.created_at', [$startOfWeek, $endOfWeek])
+            ->leftJoin('transactions', function ($join) use ($startOfWeek, $endOfWeek) {
+                $join->on('users.user_id', '=', 'transactions.user_id')
+                    ->whereBetween('transactions.created_at', [$startOfWeek, $endOfWeek]);
+            })
             ->select(
                 'users.user_id',
                 'users.user_name',
@@ -109,9 +97,6 @@ class Transaction extends Model
             ->orderByDesc('total_transaction')
             ->limit($limit)
             ->get();
-
-        // Debug log untuk melihat hasil
-        Log::debug('Top Users This Week:', [$topUsers]);
 
         // Fallback jika kosong
         if ($topUsers->isEmpty()) {
