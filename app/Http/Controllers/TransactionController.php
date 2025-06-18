@@ -21,16 +21,39 @@ class TransactionController extends Controller
         //
     }
 
-    public function showtb()
+    public function showtb(Request $request)
     {
-        $getDataTransaction = Transaction::select(
+
+        $query = Transaction::select(
             'transaction_id',
             'created_at',
             'shipping_name',
             'shipping_address',
             'total',
             'transaction_status'
-        )->orderBy('created_at', 'desc')->get();
+        );
+
+        // Filter by searchBox (search in transaction_id, shipping_name, shipping_address)
+        if ($request->filled('searchBox')) {
+            $search = $request->input('searchBox');
+            $query->where(function ($q) use ($search) {
+                $q->where('transaction_id', 'like', "%{$search}%")
+                    ->orWhere('shipping_name', 'like', "%{$search}%")
+                    ->orWhere('shipping_address', 'like', "%{$search}%");
+            });
+        }
+
+        // Filter by transaction_status
+        if ($request->filled('transaction_status')) {
+            $query->where('transaction_status', $request->input('transaction_status'));
+        }
+
+        // Filter by date (today)
+        if ($request->input('filter') === 'today') {
+            $query->whereDate('created_at', now()->toDateString());
+        }
+
+        $getDataTransaction = $query->orderBy('created_at', 'desc')->get();
 
         $data = $getDataTransaction->map(function ($transaction) {
             return [
