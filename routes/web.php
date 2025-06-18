@@ -62,7 +62,6 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
         Route::put('/event/update/{event_id}', [EventController::class, 'update'])
             ->name('admin.manage.event.update');
 
-
         /**
          * Kelola data produk
          */
