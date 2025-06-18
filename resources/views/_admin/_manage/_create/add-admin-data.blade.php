@@ -14,20 +14,21 @@
     </div>
 
     <div class="p-6 bg-white w-full">
-        <form action="{{ route('admin.manage.store-admin') }}" method="POST" class="flex gap-2 flex-wrap justify-between items-start">
-    @csrf
+        <form action="{{ route('admin.manage.store-admin') }}" method="POST"
+            class="flex gap-2 flex-wrap justify-between items-start">
+            @csrf
 
             {{-- username, user_email, user_phone, user_gender, user_address, user_profile, user_role --}}
 
             <div class="mb-4 flex flex-col w-full md:w-[48%]">
-                <label for="username" class="font-medium text-gray-800 w-full">Username</label>
-                <input type="text" name="username" id="usernameField" placeholder="Jhon Doe" required
+                <label for="user_name" class="font-medium text-gray-800 w-full">Username</label>
+                <input type="text" name="user_name" id="usernameField" placeholder="Jhon Doe" required
                     class="border border-gray-200 px-4 py-3 my-2 rounded-md w-full focus:outline-none focus:border-secondaryColors-base focus;border-2">
             </div>
             <div class="mb-4 flex flex-col w-full md:w-[48%]">
                 <label for="email" class="font-medium text-gray-800 w-full">Email</label>
                 <input type="email" name="user_email" id="EmailField" placeholder="example@email.com" required
-                class="border border-gray-200 px-4 py-3 my-2 rounded-md w-full focus:outline-none focus:border-secondaryColors-base focus:border-2">
+                    class="border border-gray-200 px-4 py-3 my-2 rounded-md w-full focus:outline-none focus:border-secondaryColors-base focus:border-2">
 
             </div>
             <div class="mb-4 flex flex-col w-full md:w-[48%]">
@@ -65,8 +66,8 @@
                     <select name="user_role" id="genderFieldSelect"
                         class="block appearance-none my-2 w-full bg-white border border-gray-200 px-4 py-3 pr-8 rounded-md leading-tight focus:outline-none transition focus:border-2 focus:border-secondaryColors-40 custom-select">
                         <option value="">Pilih Role</option>
-                        <option value="M">Admin Event</option>
-                        <option value="F">Admin Produk</option>
+                        <option value="admin_event">Admin Event</option>
+                        <option value="admin_product">Admin Produk</option>
                     </select>
                     <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-400">
                         <svg class="fill-current h-4 w-4" viewBox="0 0 20 20">
@@ -89,7 +90,23 @@
                 </div>
             </div>
         </form>
+        @if ($errors->any())
+            <div class="mt-6 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+                <strong class="font-bold">Terjadi kesalahan:</strong>
+                <ul class="mt-2 list-disc pl-5">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
     </div>
 
+
+    @if (session('success'))
+        <script>
+            alert("{{ session('success') }}");
+        </script>
+    @endif
 
 </x-layouts.admin.admin-layout>

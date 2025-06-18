@@ -14,7 +14,7 @@
     </div>
 
     <div class="p-6 bg-white w-full">
-        <form action="{{ route('admin.manage.update-admin', $admin->id) }}" method="POST"
+        <form action="{{ route('admin.manage.update-admin', $admin->user_id) }}" method="POST"
             class="flex gap-2 flex-wrap justify-between items-start">
             @csrf
             @method('PUT')
@@ -22,7 +22,7 @@
             {{-- Username --}}
             <div class="mb-4 flex flex-col w-full md:w-[48%]">
                 <label for="username" class="font-medium text-gray-800 w-full">Nama Admin</label>
-                <input type="text" name="username" id="username" value="{{ old('username', $admin->username) }}"
+                <input type="text" name="user_name" id="username" value="{{ old('username', $admin->user_name) }}"
                     class="border border-gray-200 px-4 py-3 my-2 rounded-md w-full focus:outline-none focus:border-secondaryColors-base focus:border-2"
                     required>
                 @error('username')
@@ -60,8 +60,11 @@
                 <select name="user_role" id="user_role"
                     class="block appearance-none my-2 w-full bg-white border border-gray-200 px-4 py-3 pr-8 rounded-md leading-tight focus:outline-none transition focus:border-2 focus:border-secondaryColors-40">
                     <option value="">Pilih Role</option>
-                    <option value="M" {{ $admin->user_role === 'M' ? 'selected' : '' }}>Event Admin</option>
-                    <option value="P" {{ $admin->user_role === 'P' ? 'selected' : '' }}>Product Admin</option>
+                    <option value="admin_event" {{ $admin->user_role === 'admin_event' ? 'selected' : '' }}>Event Admin
+                    </option>
+                    <option value="admin_product" {{ $admin->user_role === 'admin_product' ? 'selected' : '' }}>Product
+                        Admin
+                    </option>
                 </select>
                 @error('user_role')
                     <span class="text-red-500 text-sm">{{ $message }}</span>

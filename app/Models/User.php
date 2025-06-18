@@ -3,31 +3,51 @@
 namespace App\Models;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
-    use Notifiable;
+    use HasFactory;
+
+    protected $primaryKey = 'user_id';
+    public $incrementing = true;
+    protected $keyType = 'int';
 
     protected $primaryKey = 'user_id';
     protected $fillable = [
+        'user_id',
         'user_name',
-        'email',
-        'password',
+        'user_email',
+        'user_password',
         'user_gender',
         'user_phone',
         'user_address',
         'user_profile',
-        'user_role'
+        'user_role',
     ];
 
     protected $hidden = [
-        'password',
-        'remember_token',
+        'user_password',
     ];
 
     public function getAuthPassword()
     {
-        return $this->password;
+        return [
+            'password' => 'hashed',
+        ];
+    }
+
+    public function getEmailAttribute()
+    {
+        return $this->user_email;
+    }
+
+    public function setEmailAttribute($value)
+    {
+        $this->user_email = $value;
+    }
+
+    public function getAuthPassword()
+    {
+        return $this->user_password;
     }
 }

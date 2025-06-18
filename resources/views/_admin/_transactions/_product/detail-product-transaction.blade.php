@@ -4,13 +4,13 @@
     <div class="p-6 mb-6 w-full bg-white flex items-center justify-between rounded-lg">
         <div class="flex items-center gap-8">
             <h1 class="font-semibold text-xl flex items-end gap-2">
-                Detail order <span class="font-normal">#2523423</span>
+                Detail order <span class="font-normal">{{ '#' . $customer['transaction_id'] }}</span>
             </h1>
             <h4 class="font-semibold">
-                Pesanan Masuk
+                {{ Str::of($customer['transaction_status'])->camel() }}
             </h4>
             <h4 class="date-information">
-                Sat 14 Jun 2025 - 06:24 PM
+                {{ \Carbon\Carbon::parse($customer['date'])->locale('id')->isoFormat('dddd, D MMMM Y - HH:mm') }}
             </h4>
         </div>
 
@@ -32,25 +32,31 @@
                     Status Pengiriman
 
                     <span class="font-normal text-md text-gray-600">Dikirim ke <span
-                            class="font-medium text-gray-900">Rafly
-                            Firmansyah,
-                            Sumedang</span></span>
+                            class="font-medium text-gray-900">{{ $customer['shipping_name'] . ' di ' . $customer['shipping_address'] }}</span></span>
                 </h1>
 
                 <div class="p-6 w-full flex items-center justify-between gap-6">
-                    <div class="flex flex-col items-start py-2 w-full border-b-4 border-secondaryColors-base">
+                    @php
+                        $status = $customer['transaction_status']; // misalnya 'on shipping'
+                    @endphp
+
+                    <div
+                        class="flex flex-col items-start py-2 w-full border-b-4 {{ $status === 'pending' ? 'border-secondaryColors-base' : 'border-gray-200' }}">
                         <i>icon</i>
                         <span class="status">Review Order</span>
                     </div>
-                    <div class="flex flex-col items-start py-2 w-full border-b-4 border-gray-200">
+                    <div
+                        class="flex flex-col items-start py-2 w-full border-b-4 {{ $status === 'on process' || $status === 'on shipping' || $status === 'selesai' ? 'border-secondaryColors-base' : 'border-gray-200' }}">
                         <i>icon</i>
                         <span class="status">Order diproses</span>
                     </div>
-                    <div class="flex flex-col items-start py-2 w-full border-b-4 border-gray-200">
+                    <div
+                        class="flex flex-col items-start py-2 w-full border-b-4 {{ $status === 'on shipping' || $status === 'selesai' ? 'border-secondaryColors-base' : 'border-gray-200' }}">
                         <i>icon</i>
                         <span class="status">Sedang dikirim</span>
                     </div>
-                    <div class="flex flex-col items-start py-2 w-full border-b-4 border-gray-200">
+                    <div
+                        class="flex flex-col items-start py-2 w-full border-b-4 {{ $status === 'selesai' ? 'border-secondaryColors-base' : 'border-gray-200' }}">
                         <i>icon</i>
                         <span class="status">Selesai</span>
                     </div>
@@ -58,10 +64,44 @@
                 <div class="px-6 py-3 w-full border-t border-gray-200 flex items-center justify-between">
                     <span>Estimasi Pengiriman 3 Hari</span>
 
-                    <form action="" method="POST">
+                    <form action="{{ route('update.transaction.status', $customer['transaction_id']) }}"
+                        method="POST">
                         @csrf
-                        <input type="submit" value="Ubah status"
-                            class="px-4 py-2 bg-secondaryColors-base rounded-md font-medium text-white hover:bg-secondaryColors-60 cursor-pointer transition-all">
+                        <input type="text" name="current_status" id="status_transaction"
+                            value="{{ old('transaction_status', $customer['transaction_status']) }}" hidden>
+
+                        @if ($customer['transaction_status'] === 'pending')
+                            <button type="submit"
+                                class="px-4 py-2 bg-secondaryColors-base rounded-md font-medium text-white hover:bg-secondaryColors-60 cursor-pointer transition-all">
+                                Terima Pesanan
+                            </button>
+                        @elseif ($customer['transaction_status'] === 'on process')
+                            <button type="submit"
+                                class="px-4 py-2 bg-secondaryColors-base rounded-md font-medium text-white hover:bg-secondaryColors-60 cursor-pointer transition-all">
+                                Lakukan Pengiriman
+                            </button>
+                        @elseif ($customer['transaction_status'] === 'on shipping')
+                            <button type="submit"
+                                class="px-4 py-2 bg-secondaryColors-base rounded-md font-medium text-white hover:bg-secondaryColors-60 cursor-pointer transition-all">
+                                Selesaikan
+                            </button>
+                        @elseif ($customer['transaction_status'] === 'selesai')
+                            <button type="button" disabled
+                                class="px-4 py-2 bg-gray-300 rounded-md font-medium text-white cursor-not-allowed transition-all">
+                                Selesai
+                            </button>
+                        @endif
+
+                        @if ($errors->any())
+                            <div class="bg-red-100 p-3 text-red-500 border border-red-500">
+                                <h6 class="font-bold">Error!!</h6>
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
                     </form>
                 </div>
 
@@ -78,26 +118,28 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @for ($i = 0; $i < 6; $i++)
+                        @foreach ($product as $idx => $item)
+                            {{-- @dd($item) --}}
                             <tr class="border-b border-gray-200">
-                                <td class="text-center">{{ $i + 1 }}</td>
+                                <td class="text-center">{{ $idx + 1 }}</td>
                                 <td class="py-4 px-2 flex items-center gap-6">
 
                                     <div class="img w-16 h-16 flex items-center justify-center rounded-md bg-gray-50">
-                                        img
+                                        <img src="{{ asset($item['product_image']) }}"
+                                            alt="{{ $item['product_name'] }}">
                                     </div>
 
                                     <div>
-                                        <h1 class="title-product font-medium">Fjallraven - Foldsack No.1 Backpack</h1>
-                                        <span class="text-gray-500">tags, tags, tags</span>
+                                        <h1 class="title-product font-medium">{{ $item['product_name'] }}</h1>
+                                        <span class="text-gray-500">{{ implode(',', $item['product_tags']) }}</span>
                                     </div>
 
                                 </td>
-                                <td class="py-4 px-2 text-center">1x</td>
-                                <td class="py-4 px-2">Rp.0</td>
-                                <td class="py-4 px-2 font-semibold">Rp. 80.000</td>
+                                <td class="py-4 px-2 text-center">{{ $item['product_qty'] . 'x' }}</td>
+                                <td class="py-4 px-2">{{ 'Rp.' . $item['product_price'] }}</td>
+                                <td class="py-4 px-2 font-semibold">{{ 'Rp.' . $item['product_total'] }}</td>
                             </tr>
-                        @endfor
+                        @endforeach
                     </tbody>
                 </table>
             </div>
@@ -105,39 +147,21 @@
         <div class="w-[40%] h-auto">
             <div class="bg-white w-full rounded-lg border border-gray-200">
                 <h2 class="p-4 border-b border-gray-200 font-bold flex items-center justify-between">Detail Pelanggan
-                    <i
-                        class="p-2 border-[2px] cursor-pointer border-gray-200 rounded-lg w-8 h-8 text-md flex items-center justify-center">i</i>
+
                 </h2>
 
                 <ul class="px-4 py-4 flex flex-col items-start gap-4 border-b border-gray-200">
                     <li class="flex gap-2">
                         <i>icon</i>
-                        <span>Alex Jander</span>
+                        <span>{{ $customer['shipping_name'] }}r</span>
                     </li>
                     <li class="flex gap-2">
                         <i>i</i>
-                        <span>alex@email.test</span>
-                    </li>
-                    <li class="flex gap-2">
-                        <i>i</i>
-                        <span>+6867565465345</span>
-                    </li>
-                </ul>
-                <ul class="px-4 py-4 flex flex-col items-start gap-4 border-b border-gray-200">
-                    <h1 class="font-semibold">
-                        Informasi Pengiriman
-                    </h1>
-                    <li class="flex gap-2">
-                        <i>icon</i>
-                        <span>Jl. Malaka Desa Situraja Utara RW06/RT03 Kec. Situraja</span>
+                        <span>{{ $customer['shipping_phone'] }}</span>
                     </li>
                     <li class="flex gap-2">
                         <i>icon</i>
-                        <span>Kab. Sumedang, Jawa barat</span>
-                    </li>
-                    <li class="flex gap-2">
-                        <i>icon</i>
-                        <span>45371</span>
+                        <span>{{ $customer['shipping_address'] }}</span>
                     </li>
                 </ul>
                 <ul class="px-4 py-4 flex flex-col items-start gap-4">
@@ -146,24 +170,28 @@
                     </h1>
                     <li class="flex items-center justify-between w-full">
                         <span>ID Transaksi</span>
-                        <span>Alex Jander</span>
+                        <span>{{ $customer['transaction_id'] }}</span>
                     </li>
                     <li class="flex items-center justify-between w-full">
                         <span>Payment method</span>
-                        <span>Bank transfer</span>
+                        <span>{{ $customer['paymethod'] }}</span>
                     </li>
                     <li class="flex items-center justify-between w-full">
                         <span>Shipping</span>
-                        <span>Rp. 0 (Free)</span>
+                        @if ($customer['shipping_cost'] == 0)
+                            <span>{{ 'Rp.' . $customer['shipping_cost'] . '(Gratis)' }}</span>
+                        @elseif ($customer['shipping_cost'] > 0)
+                            <span>{{ 'Rp.' . $customer['shipping_cost'] }}</span>
+                        @endif
                     </li>
                     <li class="flex items-center justify-between w-full">
                         <span>Subtotal</span>
-                        <span>Rp. 1000.000</span>
+                        <span>{{ 'Rp.' . $customer['subtotal'] }}</span>
                     </li>
 
                     <li class="flex items-center justify-between w-full font-bold">
                         <span>Total Bayar</span>
-                        <span>Rp. 0</span>
+                        <span>{{ 'Rp.' . $customer['total'] }}</span>
                     </li>
                 </ul>
             </div>

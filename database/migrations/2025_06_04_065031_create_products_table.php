@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('product_category', 100)->nullable();
             $table->string('product_image', 255)->nullable();
             $table->integer('product_min_order');
+            $table->string('product_unit',255)->nullable();
             $table->string('product_tags', 255)->nullable();
             $table->timestamps();
         });

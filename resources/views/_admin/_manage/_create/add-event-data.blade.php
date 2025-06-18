@@ -14,8 +14,19 @@
     </div>
 
     <div class="p-6 bg-white w-full">
-        <form action="" method="POST" class="flex gap-2 flex-wrap justify-between items-start">
+        @if($errors->any())
+            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4">
+                <strong class="font-bold">Terjadi Kesalahan!</strong>
+                <ul>
+                    @foreach($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
 
+        <form action="{{ route('admin.manage.event.store') }}" method="POST" enctype="multipart/form-data" class="flex gap-2 flex-wrap justify-between items-start">
+            @csrf
             <div class="w-full flex items-start justify-between gap-6">
                 <div class="event_informations w-[48%]">
                     <h1 class="font-semibold text-xl mb-4">Informasi umum event</h1>
@@ -36,7 +47,7 @@
                             $refs.fileInput.value = '';
                         }
                     }" class="mb-4 relative">
-                        <label for="event_banner"
+                        <label for="event_banner_img"
                             class="flex flex-col items-center justify-center w-full h-[192px] border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100 transition-all relative">
                             <template x-if="preview">
                                 <div class="w-full h-full relative">
@@ -65,7 +76,7 @@
                                 </p>
                                 <p class="text-xs text-gray-500">Mendukung format PNG dan JPG (MAX. 1024x768)</p>
                             </div>
-                            <input id="event_banner" name="event_banner" type="file" class="hidden" accept="image/*"
+                            <input id="event_banner_img" name="event_banner_img" type="file" class="hidden" accept="image/*"
                                 @change="updatePreview" x-ref="fileInput" />
                         </label>
                     </div>
@@ -131,13 +142,14 @@
                     </div>
                     <h1 class="font-semibold text-xl mb-4 pt-4">Informasi biaya</h1>
                     <div class="mb-4 flex flex-col w-full md:w-full">
-                        <label for="user_role" class="font-medium text-gray-800 w-full">Jenis kegiatan</label>
+                        <label for="event_type_paid" class="font-medium text-gray-800 w-full">Jenis kegiatan</label>
                         <div class="relative">
-                            <select name="user_role" id="genderFieldSelect"
+                            <select name="event_type_paid" id="eventTypePaidrFieldSelect"
                                 class="block appearance-none my-2 w-full bg-white border border-gray-200 px-4 py-3 pr-8 rounded-md leading-tight focus:outline-none transition focus:border-2 focus:border-secondaryColors-40 custom-select">
-                                <option value="">Online berbayar</option>
-                                <option value="M">Online Gratis</option>
-                                <option value="F">Langsung atau Offline</option>
+                                <option value="Online_Berbayar">Online Berbayar</option>
+                                <option value="Online_Gratis">Online Gratis</option>
+                                <option value="Offline_Berbayar">Offline Berbayar</option>
+                                <option value="Offline_Gratis">Offline Gratis</option>
                             </select>
                             <div
                                 class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-400">
@@ -149,8 +161,8 @@
                     </div>
 
                     <div class="mb-4 flex flex-col w-full">
-                        <label for="event_name" class="font-medium text-gray-800 w-full">Biaya Kegiatan</label>
-                        <input type="text" name="event_name" id="nameField" placeholder="Rp." required
+                        <label for="event_price" class="font-medium text-gray-800 w-full">Biaya Kegiatan</label>
+                        <input type="text" name="event_price" id="priceField" placeholder="Rp." required
                             class="border border-gray-200 px-4 py-3 my-2 rounded-md w-full focus:outline-none focus:border-secondaryColors-base focus;border-2">
                     </div>
 
@@ -159,34 +171,50 @@
                     <h1 class="font-semibold text-xl mb-4">Detail Waktu Kegiatan dan pendaftaran</h1>
 
                     <div class="mb-4 flex flex-col w-full">
-                        <label for="event_name" class="font-medium text-gray-800 w-full">Set Lokasi Kegiatan</label>
-                        <input type="text" name="event_name" id="nameField"
+                        <label for="event_location" class="font-medium text-gray-800 w-full">Set Lokasi Kegiatan</label>
+                        <input type="text" name="event_location" id="nameField"
+                            placeholder="Link Maps Vanue atau Zoom Meet Link" required
+                            class="border border-gray-200 px-4 py-3 my-2 rounded-md w-full focus:outline-none focus:border-secondaryColors-base focus;border-2">
+                    </div>
+                    <div class="mb-4 flex flex-col w-full">
+                        <label for="event_date" class="font-medium text-gray-800 w-full">Tanggal Event</label>
+                        <input type="date" name="event_date" id="nameField"
                             placeholder="Link Maps Vanue atau Zoom Meet Link" required
                             class="border border-gray-200 px-4 py-3 my-2 rounded-md w-full focus:outline-none focus:border-secondaryColors-base focus;border-2">
                     </div>
                     <div class="mb-7 flex items-center w-full gap-2">
                         <div class="flex flex-col gap-2 w-full">
-                            <label for="start_date_time" class="font-medium text-gray-800 w-full">Waktu awal</label>
-                            <input type="datetime-local" name="start_date_time" aria-label="Mulai"
+                            <label for="event_start_time" class="font-medium text-gray-800 w-full">Waktu awal</label>
+                            <input type="time" name="event_start_time" aria-label="Mulai"
                                 class="flex-1 px-3 py-2 border border-gray-200 rounded-md focus:outline-none focus:border-secondaryColors-base" />
                         </div>
                         <span class="text-gray-500 self-center translate-y-4">-</span>
                         <div class="flex flex-col gap-2 w-full">
-                            <label for="start_date_time" class="font-medium text-gray-800 w-full">Waktu Akhir</label>
-                            <input type="datetime-local" name="end_date_time" aria-label="Selesai"
+                            <label for="event_end_time" class="font-medium text-gray-800 w-full">Waktu Akhir</label>
+                            <input type="time" name="event_end_time" aria-label="Selesai"
                                 class="flex-1 px-3 py-2 border border-gray-200 rounded-md focus:outline-none focus:border-secondaryColors-base" />
                         </div>
                     </div>
                     <div class="mb-4 flex flex-col w-full">
-                        <label for="event_name" class="font-medium text-gray-800 w-full">Set batas pendaftaran</label>
-                        <input type="date" name="event_name" id="nameField"
-                            placeholder="Link Maps Vanue atau Zoom Meet Link" required
+                        <label for="event_registration_deadline" class="font-medium text-gray-800 w-full">Set batas pendaftaran</label>
+                        <input type="datetime-local" name="event_registration_deadline" id="nameField" required
                             class="border border-gray-200 px-4 py-3 my-2 rounded-md w-full focus:outline-none focus:border-secondaryColors-base focus;border-2">
                     </div>
                     <div class="mb-4 flex flex-col w-full">
-                        <label for="event_name" class="font-medium text-gray-800 w-full">Set Kuota Peserta</label>
-                        <input type="number" min="0" name="event_name" id="nameField" required
+                        <label for="event_quota" class="font-medium text-gray-800 w-full">Set Kuota Peserta</label>
+                        <input type="number" min="0" name="event_quota" id="nameField" required
                             placeholder="Jumlah kuota peserta"
+                            class="border border-gray-200 px-4 py-3 my-2 rounded-md w-full focus:outline-none focus:border-secondaryColors-base focus;border-2">
+                    </div>
+                    <h1 class="font-semibold text-xl mb-4 pt-4">Informasi Pemateri</h1>
+                    <div class="mb-4 flex flex-col w-full">
+                        <label for="event_speaker_name" class="font-medium text-gray-800 w-full">Nama Pemateri</label>
+                        <input type="text" name="event_speaker_name" id="priceField" placeholder="Asep Surasep" required
+                            class="border border-gray-200 px-4 py-3 my-2 rounded-md w-full focus:outline-none focus:border-secondaryColors-base focus;border-2">
+                    </div>
+                    <div class="mb-4 flex flex-col w-full">
+                        <label for="event_speaker_job" class="font-medium text-gray-800 w-full">Pekerjaan Pemateri</label>
+                        <input type="text" name="event_speaker_job" id="priceField" placeholder="Head of GrowKM" required
                             class="border border-gray-200 px-4 py-3 my-2 rounded-md w-full focus:outline-none focus:border-secondaryColors-base focus;border-2">
                     </div>
                     <div class="w-full">

@@ -20,8 +20,10 @@
                 class="block px-4 py-2 hover:bg-gray-100">Profile</x-partials.nav-link>
             <x-partials.nav-link href="{{ url('/setting') }}"
                 class="block px-4 py-2 hover:bg-gray-100">Pengaturan</x-partials.nav-link>
-            <x-partials.nav-link href="{{ url('/logout') }}"
-                class="block px-4 py-2 hover:bg-gray-100">Logout</x-partials.nav-link>
+            <form action="{{ route('auth.logout') }}" method="POST" class="cursor-pointer w-full">
+                @csrf
+                <button type="submit" class="block px-4 py-2 hover:bg-gray-100 w-full">Logout</button>
+            </form>
         </div>
     </div>
 </header>

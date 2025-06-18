@@ -102,37 +102,107 @@
                     <th class="py-4 px-2">Nama Event / Kelas</th>
                     <th class="py-4 px-2">Total Payment</th>
                     <th class="py-4 px-2 text-center">Payment status</th>
-                    <th class="text-center p-4">Action</th>
                 </tr>
             </thead>
             <tbody>
-                @for ($i = 0; $i < 10; $i++)
+                @foreach ($data as $item)
                     <tr class="border-b border-gray-200">
-                        <td class="text-center">{{ $i + 1 }}</td>
-                        <td class="py-4 px-2">{{ '#TRXEVT00' . $i + 1 }}</td>
-                        <td class="py-4 px-2">07/06/25 - 22:35</td>
-                        <td class="py-4 px-2">Jhon dae</td>
-                        <td class="py-4 px-2">Bisnis Digital with Growkm</td>
-                        <td class="py-4 px-2 text-center">Rp. 0</td>
+                        <td class="text-center">{{ $loop->iteration + ($data->firstItem() - 1) }}.</td>
+                        <td class="py-4 px-2">{{ $item['regist_id'] }}</td>
+                        <td class="py-4 px-2">{{ $item['created_at'] }}</td>
+                        <td class="py-4 px-2">{{ $item['participant_name'] }}</td>
+                        <td class="py-4 px-2">{{ $item['event_name'] }}</td>
+                        <td class="py-4 px-2 text-center">Rp. {{ $item['subtotal'] }}</td>
                         <td class="py-4 px-2 text-center">Success</td>
-                        <td class="w-full py-4 flex items-center justify-center gap-2 px-6">
-                            <a href="{{ url('#') }}"
-                                class="bg-secondaryColors-10 flex items-center justify-center w-8 h-8 rounded-md hover:bg-secondaryColors-20">
-                                <x-icons.eye-01 class="size-5 stroke-secondaryColors-base "></x-icons.eye-01>
-                            </a>
-                            <a href="{{ url('#') }}"
-                                class="bg-orange-100 flex items-center justify-center w-8 h-8 rounded-md hover:bg-orange-200">
-                                <x-icons.bill-return class="size-5 stroke-orange-600"></x-icons.bill-return>
-                            </a>
-                        </td>
                     </tr>
-                @endfor
+                @endforeach
             </tbody>
         </table>
     </div>
+
+
     <div class="p-6 bg-white w-full rounded-b-lg flex items-center justify-between">
-        <span>Showing 1 to 10 of 57 entries</span>
+        <span>Showing {{ $data->firstItem() }} to {{ $data->lastItem() }} of {{ $data->total() }}
+            entries</span>
 
         {{-- Pagination --}}
+        @if ($data->hasPages())
+            <ul class="flex justify-center gap-1 text-gray-900">
+                {{-- Previous Page Link --}}
+                @if ($data->onFirstPage())
+                    <li>
+                        <span
+                            class="grid size-8 place-content-center rounded border border-gray-200 opacity-50 cursor-not-allowed">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="size-4" viewBox="0 0 20 20"
+                                fill="currentColor">
+                                <path fill-rule="evenodd"
+                                    d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
+                                    clip-rule="evenodd" />
+                            </svg>
+                        </span>
+                    </li>
+                @else
+                    <li>
+                        <a href="{{ $data->previousPageUrl() }}"
+                            class="grid size-8 place-content-center rounded border border-gray-200 transition-colors hover:bg-gray-50 rtl:rotate-180"
+                            aria-label="Halaman sebelumnya">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="size-4" viewBox="0 0 20 20"
+                                fill="currentColor">
+                                <path fill-rule="evenodd"
+                                    d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
+                                    clip-rule="evenodd" />
+                            </svg>
+                        </a>
+                    </li>
+                @endif
+
+                {{-- Pagination Elements --}}
+                @foreach ($data->getUrlRange(1, $data->lastPage()) as $page => $url)
+                    @if ($page == $data->currentPage())
+                        <li>
+                            <span
+                                class="block size-8 rounded border border-secondaryColors-base bg-secondaryColors-base text-center text-sm/8 font-medium text-white">
+                                {{ $page }}
+                            </span>
+                        </li>
+                    @else
+                        <li>
+                            <a href="{{ $url }}"
+                                class="block size-8 rounded border border-gray-200 text-center text-sm/8 font-medium transition-colors hover:bg-gray-50">
+                                {{ $page }}
+                            </a>
+                        </li>
+                    @endif
+                @endforeach
+
+                {{-- Next Page Link --}}
+                @if ($data->hasMorePages())
+                    <li>
+                        <a href="{{ $data->nextPageUrl() }}"
+                            class="grid size-8 place-content-center rounded border border-gray-200 transition-colors hover:bg-gray-50 rtl:rotate-180"
+                            aria-label="Halaman berikutnya">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="size-4" viewBox="0 0 20 20"
+                                fill="currentColor">
+                                <path fill-rule="evenodd"
+                                    d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                                    clip-rule="evenodd" />
+                            </svg>
+                        </a>
+                    </li>
+                @else
+                    <li>
+                        <span
+                            class="grid size-8 place-content-center rounded border border-gray-200 opacity-50 cursor-not-allowed">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="size-4" viewBox="0 0 20 20"
+                                fill="currentColor">
+                                <path fill-rule="evenodd"
+                                    d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                                    clip-rule="evenodd" />
+                            </svg>
+                        </span>
+                    </li>
+                @endif
+            </ul>
+        @endif
     </div>
 </x-layouts.admin.admin-layout>
