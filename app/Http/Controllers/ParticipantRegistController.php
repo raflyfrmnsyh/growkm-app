@@ -87,7 +87,7 @@ class ParticipantRegistController extends Controller
         return redirect()->route('events.data')->with('success', 'Pendaftaran peserta berhasil!');
     }
 
-    public function showDataParticipant(Request $request)
+
     public function showDataParticipant(Request $request)
     {
         $search = $request->query('search');

@@ -120,7 +120,7 @@ Route::prefix('user')->middleware('user')->group(function () {
             'user' => $user
         ]);
     })->name('user.profile');
-    
+
     Route::put('/profile/update', [UserController::class, 'updateProfile'])->name('user.profile.update');
 
     //settings
@@ -133,7 +133,7 @@ Route::prefix('user')->middleware('user')->group(function () {
                 'user' => $user
             ]);
         })->name('profile.info');
-        
+
         Route::put('/profile-info/update', [UserController::class, 'updateProfile'])->name('profile.info.update');
 
         Route::get('/account-info', function () {
@@ -339,6 +339,36 @@ Route::prefix('user')->middleware('user')->group(function () {
                 'data' => $data
             ]);
         })->name('register.event');
+
+        Route::get('/riwayat-event', function () {
+            $userId = Auth::user()->user_id;
+            // Get all participant registrations for this user
+            $participantRegists = ParticipantRegist::where('user_id', $userId)->get();
+
+            // Get all event names from participant registrations
+            $eventNames = $participantRegists->pluck('event_name')->unique();
+
+            // Get events that match the event names
+            $events = Event::whereIn('event_title', $eventNames)->get()->keyBy('event_title');
+
+            // Combine participant registration with event details
+            $data = $participantRegists->map(function ($regist) use ($events) {
+                $event = $events->get($regist->event_name);
+                return [
+                    'event_id' => $event ? $event->event_id : null,
+                    'event_title' => $regist->event_name,
+                    'event_description' => $event ? $event->event_description : null,
+                    'event_date' => $event ? Carbon::parse($event->event_date)->format('d M Y') : null,
+                    'event_banner_img' => $event ? $event->event_banner_img : null,
+                    'registered_at' => $regist->created_at,
+                ];
+            });
+
+            return view('_users._transactions.history-event', [
+                'title' => 'History Event - Growkm app',
+                'data' => $data
+            ]);
+        })->name('history.event');
 
         Route::post('/regist-process', [ParticipantRegistController::class, 'store'])->name('participant.register');
 
