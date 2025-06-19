@@ -8,18 +8,14 @@
             </div>
             <div class="profile-name">
                 <div class="flex items-center gap-1">
-                    <h5 class="_name font-medium">Rafly Firmansyah</h5>
+                    <h5 class="_name font-medium">{{ Auth::user()->user_name }}</h5>
                     <x-icons.verify-icon></x-icons.verify-icon>
                 </div>
-                <span class="text-sm text-gray-600">Super Admin</span>
+                <span class="text-sm text-gray-600">{{ Auth::user()->user_role }}</span>
             </div>
         </div>
         <div x-show="isOpen" x-transition
             class="absolute right-0 mt-[22px] w-56 bg-white border border-gray-300 rounded-[4px] shadow-lg z-50">
-            <x-partials.nav-link href="{{ url('/profile') }}"
-                class="block px-4 py-2 hover:bg-gray-100">Profile</x-partials.nav-link>
-            <x-partials.nav-link href="{{ url('/setting') }}"
-                class="block px-4 py-2 hover:bg-gray-100">Pengaturan</x-partials.nav-link>
             <form action="{{ route('auth.logout') }}" method="POST" class="cursor-pointer w-full">
                 @csrf
                 <button type="submit" class="block px-4 py-2 hover:bg-gray-100 w-full">Logout</button>

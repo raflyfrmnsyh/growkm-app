@@ -97,16 +97,6 @@
                 </li>
             @endif
         </ul>
-        <ul class="flex flex-col gap-2">
-            <span
-                class="menu-section w-full py-3 px-6 text-sm text-primaryColors-base font-medium uppercase opacity-45">Pengaturan</span>
-            <li
-                class="flex items-center gap-4 px-6 py-3 w-full cursor-pointer relative hover:bg-[#007f7310] transition-all duration-300 ease-in-out">
-                <x-icons.web-icon class="size-6 stroke-primaryColors-90"></x-icons.web-icon>
-                <a href="{{ url('#') }}" class="text-primaryColors-90 mb-[1px] text-md font-normal">Account
-                    Setting</a>
-            </li>
-        </ul>
 
 
     </div>

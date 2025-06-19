@@ -12,8 +12,6 @@
         {{-- Desktop Header --}}
         <x-partials.dashboard.desktop-header></x-partials.dashboard.desktop-header>
 
-
-
         <section class="section_content flex flex-wrap lg:flex-nowrap items-start gap-8 mx-8 py-[112px]">
             <div class="w-full lg:w-[70%]">
                 <div class="flex flex-col">
@@ -78,41 +76,40 @@
 
                         <!-- Row 2 -->
                         <div>
-                            <h2 class="text-lg font-semibold text-dark-base mb-1">Pemateri Kelas</h2>
+                            <h2 class="text-lg font-semibold text-dark-base mb-4">Pemateri Kelas</h2>
                             <div class="grid grid-cols-[auto,1fr] gap-3">
                                 <div class="w-fit">
                                     <img src="{{ asset('image/dummy-profile.png') }}" alt="profile" class="w-12">
                                 </div>
-                                <div class="grid grid-rows-3">
-                                    <p class="text-lg font-medium">Roy Subagya Santoso</p>
-                                    <p class="text-xs">Head of Product Development at Growkm</p>
-                                    <div class="flex gap-6 text-2xl">
-                                        <a href="{{ url('#') }}" class="social_link hover:scale-[1.1]">
-                                            <img src="{{ asset('image/linkedin.svg') }}" alt="Linkedin">
-                                        </a>
-                                        <a href="{{ url('#') }}" class="social_link hover:scale-[1.1]">
-                                            <img src="{{ asset('image/tiktok.svg') }}" alt="Tiktok">
-                                        </a>
-                                        <a href="{{ url('#') }}" class="social_link hover:scale-[1.1]">
-                                            <img src="{{ asset('image/instagram.svg') }}" alt="Instagram">
-                                        </a>
-                                        <a href="{{ url('#') }}" class="social_link hover:scale-[1.1]">
-                                            <img src="{{ asset('image/x.svg') }}" alt="X">
-                                        </a>
-                                        <a href="{{ url('#') }}" class="social_link hover:scale-[1.1]">
-                                            <img src="{{ asset('image/youtube.svg') }}" alt="Youtube">
-                                        </a>
-                                    </div>
+                                <div class="">
+                                    <p class="text-lg font-medium">{{ $data['event_speaker'] }}</p>
+                                    <p class="text-xs">{{ $data['event_speaker_job'] }} at Growkm</p>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="p-6 rounded-lg border border-gray-200 bg-light-base mt-3 flex">
+                <div class="p-6 rounded-lg border border-gray-200 bg-light-base mt-3 flex flex-col gap-4">
 
-                    <a href="{{ route('register.event', ['id' => $data['event_id']]) }}"
-                        class="w-full py-3 rounded-lg text-center bg-secondaryColors-base text-light-base hover:bg-primaryColors-base transition-colors text-sm md:text-base font-medium">
-                        Join Group Kelas
+                    @if (!$isRegistered)
+                        <a href="{{ route('register.event', ['id' => $data['event_id']]) }}"
+                            class="w-full py-3 rounded-lg text-center bg-secondaryColors-base text-light-base hover:bg-primaryColors-base transition-colors text-sm md:text-base font-medium">
+                            Daftar Kelas
+                        </a>
+                    @elseif ($data['event_type'] === 'Offline')
+                        <a href="{{ url('#') }}"
+                            class="w-full py-3 rounded-lg text-center bg-primaryColors-base text-light-base hover:bg-secondaryColors-base transition-colors text-sm md:text-base font-medium">
+                            Lihat Tiket
+                        </a>
+                    @elseif ($data['event_type'] === 'Online')
+                        <a href="{{ $data['event_location'] ?? 'http://meet.google.com' }}"
+                            class="w-full py-3 rounded-lg text-center bg-primaryColors-base text-light-base hover:bg-secondaryColors-base transition-colors text-sm md:text-base font-medium">
+                            Join Meet
+                        </a>
+                    @endif
+                    <a href="{{ route('events.data') }}"
+                        class="w-full py-3 rounded-lg text-center bg-gray-200 text-dark-base hover:bg-gray-300 transition-colors text-sm md:text-base font-medium flex items-center justify-center gap-2">
+                        Kembali
                     </a>
                 </div>
             </div>

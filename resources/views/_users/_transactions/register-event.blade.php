@@ -33,12 +33,16 @@
                 {{-- Shipping Information --}}
                 <div class="flex flex-col">
                     <div class="bg-white mb-4 rounded-lg">
-                        <div class="w-full h-[188px] flex items-center justify-center bg-gray-200 rounded-t-lg ">
-                            ...
+
+                        <div
+                            class="w-full h-[188px] flex items-center justify-center bg-gray-200 rounded-t-lg overflow-hidden">
+                            <img src="{{ isset($data['event_banner_image']) && $data['event_banner_image'] ? asset($data['event_banner_image']) : asset('image/courses-1.png') }}"
+                                alt="{{ $data['event_title'] }}" class="w-full h-full object-cover">
                         </div>
                         <div class="py-4 px-4">
-                            <h2>Judul Event or Course</h2>
-                            <span>Lorem, ipsum dolor sit amet</span>
+                            <h2 class="text-xl font-semibold">{{ $data['event_title'] }}</h2>
+                            <h4 class="pt-6 pb-2 font-semibold">Deskripsi Event</h4>
+                            <span>{{ $data['event_description'] }}</span>
                         </div>
                     </div>
 
@@ -52,24 +56,27 @@
                     </div>
 
                     <div class="pt-6 px-6 bg-white w-full flex flex-wrap justify-between">
-                        <input type="hidden" name="user_id" value="1">
+                        <input type="hidden" name="user_id" value="{{ Auth::user()->user_id }}">
 
                         <div class="mb-4 flex flex-col w-full md:w-[48%]">
                             <label for="participant_name" class="font-medium text-gray-800 w-full">Nama Lengkap</label>
                             <input type="text" name="participant_name" id="participant_nameField"
-                                placeholder="Jhon Doe" value="Jhon Doe" required
+                                placeholder="Jhon Doe" value="{{ old('participant_name', Auth::user()->user_name) }}"
+                                required
                                 class="border border-gray-200 px-4 py-3 my-2 rounded-md w-full focus:outline-none focus:border-secondaryColors-base focus:border-2">
                         </div>
                         <div class="mb-4 flex flex-col w-full md:w-[48%]">
                             <label for="participant_email" class="font-medium text-gray-800 w-full">Email</label>
                             <input type="text" name="participant_email" id="participant_emailField"
                                 placeholder="jhondoe@example.id" required
+                                value="{{ old('participant_email', Auth::user()->email) }}"
                                 class="border border-gray-200 px-4 py-3 my-2 rounded-md w-full focus:outline-none focus:border-secondaryColors-base focus:border-2">
                         </div>
                         <div class="mb-4 flex flex-col w-full md:w-[48%]">
                             <label for="participant_phone" class="font-medium text-gray-800 w-full">No. Ponsel</label>
                             <input type="text" name="participant_phone" id="participant_phoneField"
                                 placeholder="+62xxxxxxx" required
+                                value="{{ old('participant_phone', Auth::user()->user_phone) }}"
                                 class="border border-gray-200 px-4 py-3 my-2 rounded-md w-full focus:outline-none focus:border-secondaryColors-base focus:border-2">
                         </div>
                         <div class="mb-4 flex flex-col w-full md:w-[48%]">
@@ -113,7 +120,7 @@
                             class="w-full bg-secondaryColors-base py-3 rounded-md text-white font-medium hover:bg-secondaryColors-60 transition-all">
                             Lanjut Pembayaran
                         </button>
-                        <a href="{{ route('event-detail', ['id' => $data['event_id']]) }}"
+                        <a href="{{ route('event-detail', ['event_id' => $data['event_id'], 'user_id' => Auth::user()->user_id]) }}"
                             class="w-full bg-transparent py-3 rounded-md text-gray-800 font-medium hover:bg-light-60 transition-all text-center">
                             Kembali
                         </a>

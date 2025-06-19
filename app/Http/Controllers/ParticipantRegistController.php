@@ -33,7 +33,10 @@ class ParticipantRegistController extends Controller
         $eventID = $request->id;
         $payment_status = "Success";
 
+        // dd($request->all());
+
         $validated = $request->validate([
+            'user_id' => 'required',
             'participant_name' => 'required|string|max:100',
             'participant_email' => 'required|email|max:100',
             'participant_phone' => 'required|string|max:15',
@@ -70,6 +73,7 @@ class ParticipantRegistController extends Controller
 
         ParticipantRegist::create([
             'regist_id' => $registID,
+            'user_id' => $validated['user_id'],
             'event_name' => $event_name,
             'participant_name' => $validated['participant_name'],
             'participant_email' => $validated['participant_email'],

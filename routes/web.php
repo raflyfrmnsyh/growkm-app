@@ -5,6 +5,7 @@ use App\Models\Event;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\Transaction;
+use Illuminate\Support\Str;
 use Illuminate\Support\Carbon;
 use App\Models\ParticipantRegist;
 use Illuminate\Support\Facades\Route;
@@ -136,9 +137,11 @@ Route::prefix('user')->middleware('user')->group(function () {
             $data = Event::select(
                 'event_id',
                 'event_title',
+                'event_description',
                 'event_date',
                 'event_speaker_name',
                 'event_speaker_job',
+                'event_tags',
                 'event_price'
             )->get();
 
@@ -146,9 +149,11 @@ Route::prefix('user')->middleware('user')->group(function () {
                 return [
                     'event_id' => $event->event_id,
                     'event_title' => $event->event_title,
+                    'event_description' => Str::limit($event->event_description ?? 'Deskripsi belum tersedia.', 15, '...'),
                     'event_date' => Carbon::parse($event->event_date)->format('d M Y'),
                     'event_speaker' => $event->event_speaker_name,
                     'event_speaker_job' => $event->event_speaker_job,
+                    'event_tags' => array_slice(explode(',', $event->event_tags), 0, 3),
                     'event_price' => $event->event_price
                 ];
             });
@@ -159,12 +164,25 @@ Route::prefix('user')->middleware('user')->group(function () {
             ]);
         })->name('events.data');
 
-        Route::get('/detail-event/{id}', function ($id) {
+        Route::get('/detail-event/{event_id}/{user_id}', function ($event_id, $user_id) {
 
-            $getData = Event::select('*')->where('event_id', $id)->first();
+            $getData = Event::select('*')->where('event_id', $event_id)->first();
+
+            // Get event_name first with id
+            $eventName = $getData->event_title ?? null;
+
+            // Get current user id
+            $userId = $user_id;
+            // Check if user already registered for this event by comparing event_name
+            $isRegistered = false;
+            if ($eventName) {
+                $isRegistered = ParticipantRegist::where('user_id', $userId)
+                    ->where('event_name', $eventName)
+                    ->exists();
+            }
 
             $data =  [
-                'event_id' => $id,
+                'event_id' => $event_id,
                 'event_title' => $getData->event_title,
                 'event_description' => $getData->event_description,
                 'event_type' => $getData->event_type,
@@ -172,11 +190,16 @@ Route::prefix('user')->middleware('user')->group(function () {
                 'event_tags' => explode(',', $getData->event_tags),
                 'event_banner_img' => $getData->event_banner_img,
                 'event_price' => $getData->event_price,
-                'event_date' => Carbon::parse($getData->event_date)->format('d M Y')
-            ];;
+                'event_date' => Carbon::parse($getData->event_date)->format('d M Y'),
+                'event_speaker' => $getData->event_speaker_name,
+                'event_speaker_job' => $getData->event_speaker_job,
+                'event_location' => $getData->event_location
+            ];
+
             return view('_users._events.event-detail', [
                 'title' => "Detail Event",
-                'data' => $data
+                'data' => $data,
+                'isRegistered' => $isRegistered
             ]);
         })->name('event-detail');
     });
@@ -184,18 +207,30 @@ Route::prefix('user')->middleware('user')->group(function () {
     Route::prefix('product')->group(function () {
         // routing product role user
 
-        Route::get('/list', function () {
+        Route::get('/list', function (\Illuminate\Http\Request $request) {
+            $query = Product::query();
 
-            $data = Product::orderBy('created_at', 'desc')->paginate(10);
+            // Filter by category if provided
+            if ($request->filled('category')) {
+                $query->where('product_category', $request->input('category'));
+            }
 
-            // If product_sell is an accessor, you don't need this transform
+            // Search by product name if provided
+            if ($request->filled('searchBox')) {
+                $search = $request->input('searchBox');
+                $query->where('product_name', 'like', '%' . $search . '%');
+            }
+
+            $data = $query->orderBy('created_at', 'desc')->paginate(10);
+
             $data->getCollection()->transform(function ($item) {
                 return [
                     'product_id' => $item->product_id,
                     'product_name' => $item->product_name,
                     'product_image' => $item->product_image,
                     'product_price' => $item->product_price,
-                    'product_sell' => $item->product_price + ($item->product_price * 0.20)
+                    'product_sell' => $item->product_price + ($item->product_price * 0.20),
+                    'product_category' => $item->product_category
                 ];
             });
 
@@ -278,7 +313,9 @@ Route::prefix('user')->middleware('user')->group(function () {
             $data = [
                 'event_id' => $id,
                 'event_price' => $getData['event_price'],
-                'event_quota' => $getData['event_quota']
+                'event_quota' => $getData['event_quota'],
+                'event_title' => $getData['event_title'],
+                'event_description' => $getData['event_description']
             ];
             return view('_users._transactions.register-event', [
                 'title' => "Halaman register event",

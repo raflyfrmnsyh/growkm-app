@@ -90,9 +90,6 @@
                         <span class="px-2 py-1 text-xs border border-[#A9B2B2] rounded-lg">Gratis</span>
                         <span class="px-2 py-1 text-xs border border-[#A9B2B2] rounded-lg">Bersertifikat</span>
                     </div>
-                    <button class="w-full py-2.5 px-6 rounded-lg border border-[#007F73] bg-secondaryColors-base text-light-base hover:bg-[#00635a] transition-colors">
-                        Bergabung Sekarang
-                    </button>
                 </div>
             </div>
 
