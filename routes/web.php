@@ -14,6 +14,8 @@ use App\Http\Controllers\EventController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\ParticipantRegistController;
+use App\Http\Controllers\UserController;
+use Illuminate\Support\Facades\Auth;
 
 // Prefix Routing Admin
 
@@ -110,14 +112,29 @@ Route::prefix('user')->middleware('user')->group(function () {
         ]);
     })->name('user.dashboard');
 
+    // Profile routes
+    Route::get('/profile', function () {
+        $user = Auth::user();
+        return view('_users._settings.profile-info', [
+            'title' => 'Profile Information - Growkm app',
+            'user' => $user
+        ]);
+    })->name('user.profile');
+    
+    Route::put('/profile/update', [UserController::class, 'updateProfile'])->name('user.profile.update');
+
     //settings
 
     Route::prefix('setting')->group(function () {
-        Route::get('//profile-info', function () {
+        Route::get('/profile-info', function () {
+            $user = Auth::user();
             return view('_users._settings.profile-info', [
-                'title' => "Profile Information - Growkm app"
+                'title' => "Profile Information - Growkm app",
+                'user' => $user
             ]);
         })->name('profile.info');
+        
+        Route::put('/profile-info/update', [UserController::class, 'updateProfile'])->name('profile.info.update');
 
         Route::get('/account-info', function () {
             return view('_users._settings.account-info', [
