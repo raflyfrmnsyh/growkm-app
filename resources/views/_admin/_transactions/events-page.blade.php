@@ -8,31 +8,33 @@
         <div class="flex flex-col md:flex-row items-center gap-4 w-full lg:w-auto justify-between lg:justify-end">
 
             <form action="{{ route('admin.transaction-event') }}" method="GET">
-                @if (request('filter'))
+                @csrf
+                @if(request('filter'))
                     <input type="hidden" name="filter" value="{{ request('filter') }}">
                 @endif
-                <div
-                    class="input-bx border border-gray-200 py-2 px-4 rounded-md w-[320px] flex items-center justify-between gap-2">
-                    <input type="text" name="search" id="searchBox" placeholder="Cari sesuatu"
-                        value="{{ request('search') }}" class="outline-none w-full">
+                <div class="input-bx border border-gray-200 py-2 px-4 rounded-md w-[320px] flex items-center justify-between gap-2">
+                    <input
+                        type="text"
+                        name="search"
+                        id="searchBox"
+                        placeholder="Cari sesuatu"
+                        value="{{ request('search') }}"
+                        class="outline-none w-full">
                     <x-icons.searach-01 class="size-5 stroke-gray-200"></x-icons.searach-01>
                 </div>
             </form>
 
-            <div x-data="{ open: false }" class="relative inline-block text-left">
+           <div x-data="{ open: false }" class="relative inline-block text-left">
                 <div>
                     <button type="button" @click="open = !open"
                         class="inline-flex w-full items-center justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-md font-semibold text-gray-800 border border-gray-200 hover:bg-gray-50"
                         id="menu-button" aria-expanded="true" aria-haspopup="true">
-                        {{ request('filter') == 'today'
-                            ? 'Hari ini'
-                            : (request('filter') == 'this_week'
-                                ? 'Minggu ini'
-                                : (request('filter') == 'this_month'
-                                    ? 'Bulan ini'
-                                    : (request('filter') == 'this_year'
-                                        ? 'Tahun ini'
-                                        : 'Semua Waktu'))) }}
+                        {{
+                            request('filter') == 'today' ? 'Hari ini' :
+                            (request('filter') == 'this_week' ? 'Minggu ini' :
+                            (request('filter') == 'this_month' ? 'Bulan ini' :
+                            (request('filter') == 'this_year' ? 'Tahun ini' : 'Semua Waktu')))
+                        }}
                         <x-icons.arrow-down class="stroke-dark-base size-5"></x-icons.arrow-down>
                     </button>
                 </div>
@@ -63,11 +65,8 @@
                             class="block px-4 py-3 text-md {{ request('filter') == 'this_year' ? 'text-secondaryColors-base bg-secondaryColors-10' : 'text-gray-700' }} hover:bg-gray-50 hover:text-gray-800"
                             role="menuitem" tabindex="-1" id="menu-item-4">Tahun ini</a>
                     </div>
-
                 </div>
-
-            </div>
-
+           </div>
         </div>
     </div>
     <div class="overflow-x-auto w-full">

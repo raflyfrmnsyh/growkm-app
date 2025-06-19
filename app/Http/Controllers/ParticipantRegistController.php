@@ -33,10 +33,7 @@ class ParticipantRegistController extends Controller
         $eventID = $request->id;
         $payment_status = "Success";
 
-        // dd($request->all());
-
         $validated = $request->validate([
-            'user_id' => 'required',
             'participant_name' => 'required|string|max:100',
             'participant_email' => 'required|email|max:100',
             'participant_phone' => 'required|string|max:15',
@@ -73,7 +70,6 @@ class ParticipantRegistController extends Controller
 
         ParticipantRegist::create([
             'regist_id' => $registID,
-            'user_id' => $validated['user_id'],
             'event_name' => $event_name,
             'participant_name' => $validated['participant_name'],
             'participant_email' => $validated['participant_email'],
@@ -87,56 +83,48 @@ class ParticipantRegistController extends Controller
         return redirect()->route('events.data')->with('success', 'Pendaftaran peserta berhasil!');
     }
 
-
     public function showDataParticipant(Request $request)
     {
         $search = $request->query('search');
         $filter = $request->query('filter');
+        $now = Carbon::now();
 
-        $query = ParticipantRegist::query();
-
-        // Handle search
-        if ($search) {
-            $query->where(function ($q) use ($search) {
-                $q->where('participant_name', 'like', '%' . $search . '%')
-                    ->orWhere('event_name', 'like', '%' . $search . '%')
-                    ->orWhere('regist_id', 'like', '%' . $search . '%')
+        $participantRegist = ParticipantRegist::query()
+            ->when($search, function ($query, $search) {
+                $query->where(function ($q) use ($search) {
+                    $q->where('event_name', 'like', '%' . $search . '%')
+                    ->orWhere('participant_name', 'like', '%' . $search . '%')
                     ->orWhere('payment_status', 'like', '%' . $search . '%');
-            });
-        }
-
-        // Handle time filter
-        if ($filter) {
-            $now = Carbon::now();
-
+                });
+            })
+            ->when($filter && $filter !== 'all', function ($query) use ($filter, $now) {
             switch ($filter) {
                 case 'today':
                     $query->whereDate('created_at', $now->toDateString());
                     break;
-
                 case 'this_week':
-                    $startOfWeek = $now->startOfWeek()->toDateString();
-                    $endOfWeek = $now->endOfWeek()->toDateString();
-                    $query->whereBetween('created_at', [$startOfWeek, $endOfWeek]);
+                        $query->whereBetween('created_at', [
+                            $now->copy()->startOfWeek()->toDateString(),
+                            $now->copy()->endOfWeek()->toDateString(),
+                        ]);
                     break;
-
                 case 'this_month':
-                    $startOfMonth = $now->startOfMonth()->toDateString();
-                    $endOfMonth = $now->endOfMonth()->toDateString();
-                    $query->whereBetween('created_at', [$startOfMonth, $endOfMonth]);
+                        $query->whereBetween('created_at', [
+                            $now->copy()->startOfMonth()->toDateString(),
+                            $now->copy()->endOfMonth()->toDateString(),
+                        ]);
                     break;
-
                 case 'this_year':
-                    $startOfYear = $now->startOfYear()->toDateString();
-                    $endOfYear = $now->endOfYear()->toDateString();
-                    $query->whereBetween('created_at', [$startOfYear, $endOfYear]);
+                        $query->whereBetween('created_at', [
+                            $now->copy()->startOfYear()->toDateString(),
+                            $now->copy()->endOfYear()->toDateString(),
+                        ]);
                     break;
             }
-        }
+            })
+            ->orderBy('regist_id', 'desc')
+            ->paginate(10);
 
-        $participantRegist = $query->orderBy('regist_id', 'desc')->paginate(10);
-
-        // Transform each item, but keep pagination
         $participantRegist->getCollection()->transform(function ($item) {
             return [
                 'regist_id' => $item->regist_id,
@@ -150,9 +138,7 @@ class ParticipantRegistController extends Controller
 
         return view('_admin._transactions.events-page', [
             'title' => 'Data Transaksi Event & Kelas',
-            'data' => $participantRegist,
-            'search' => $search,
-            'filter' => $filter
+            'data' => $participantRegist
         ]);
     }
 
@@ -175,9 +161,34 @@ class ParticipantRegistController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, ParticipantRegist $participantRegist)
+    public function update(Request $request, $id)
     {
-        //
+        $participant = ParticipantRegist::findOrFail($id);
+
+        // Validasi sesuai kebutuhan
+        $validated = $request->validate([
+            'participant_name' => 'sometimes|string|max:100',
+            'participant_email' => 'sometimes|email|max:100',
+            'participant_phone' => 'sometimes|string|max:15',
+            // tambahkan field lain sesuai kebutuhan
+        ]);
+
+        $changes = [];
+
+        // Bandingkan setiap field yang di-request dengan data lama
+        foreach ($validated as $key => $value) {
+            if ($participant->$key != $value) {
+                $changes[$key] = $value;
+            }
+        }
+
+        // Jika ada perubahan, update
+        if (!empty($changes)) {
+            $participant->update($changes);
+            return back()->with('success', 'Data berhasil diupdate!');
+        } else {
+            return back()->with('info', 'Tidak ada perubahan data.');
+        }
     }
 
     /**

@@ -85,6 +85,30 @@
                                 </select>
                                 @error('user_gender') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
                             </div>
+                            <div>
+                                <label class="block text-sm font-medium mb-1">Tempat Lahir</label>
+                                <input type="text" class="w-full border rounded px-4 py-2 text-sm"
+                                    placeholder="Enter your birthplace">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium mb-1">Tanggal Lahir</label>
+                                <input type="date" class="w-full border rounded px-4 py-2 text-sm">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium mb-1">Status Pekerjaan</label>
+                                <select class="w-full border rounded px-4 py-2 text-sm">
+                                    <option>Pilih Status</option>
+                                    <option>Pelajar</option>
+                                    <option>Mahasiswa</option>
+                                    <option>Pekerja</option>
+                                    <option>Lainnya</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium mb-1">Asal Kabupaten / Kota</label>
+                                <input type="text" class="w-full border rounded px-4 py-2 text-sm"
+                                    placeholder="Masukan Kabupaten/Kota">
+                            </div>
                         </div>
                         <div class="mb-6">
                             <label class="block text-sm font-medium mb-1">Alamat Lengkap</label>

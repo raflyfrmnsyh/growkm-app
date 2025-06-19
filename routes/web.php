@@ -2,10 +2,8 @@
 
 use App\Models\Admin;
 use App\Models\Event;
-use App\Models\Order;
 use App\Models\Product;
 use App\Models\Transaction;
-use Illuminate\Support\Str;
 use Illuminate\Support\Carbon;
 use App\Models\ParticipantRegist;
 use Illuminate\Support\Facades\Route;
@@ -25,7 +23,7 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     Route::get('/dashboard', function () {
 
         $topProduct = Transaction::getTopProducts(5);
-        $topUser = Transaction::getTopUserTransaction(5);
+        $topUser = Transaction::getTopUserTransaction();
         $statDashboard = Admin::getStaticData();
 
         return view('_admin.dashboard', [
@@ -40,9 +38,11 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
         Route::get('/event', [ParticipantRegistController::class, 'showDataParticipant'])->name('admin.transaction-event');
         Route::get('/product-all', [TransactionController::class, 'showtb'])->name('admin.transaction-product');
 
-        Route::get('/detail-transaksi/{id}', [TransactionController::class, 'show'])->name('admin.transaction-product-detail');
-
-        Route::post('/update-transaction/{id}', [TransactionController::class, 'update'])->name('update.transaction.status');
+        Route::get('/detail-transaksi/{id}', function (String $id) {
+            return view('_admin._transactions._product.detail-product-transaction', [
+                'title' => 'Detail Product ' . $id
+            ]);
+        })->name('admin.transaction-product-detail');
     });
 
     Route::prefix('manage')->group(function () {
@@ -107,27 +107,8 @@ Route::prefix('user')->middleware('user')->group(function () {
 
     // main dashboard
     Route::get('/dashboard', function () {
-
-        $userId = Auth::user()->user_id;
-
-        // Jumlah event yang diikuti user
-        $countEvent = ParticipantRegist::where('user_id', $userId)->count();
-
-        // Jumlah transaksi produk
-        $countProductTransaction = Transaction::where('user_id', $userId)->count();
-
-        // Total semua transaksi (event + produk)
-        // Total semua transaksi (event + produk) dalam IDR');
-        $totalProductTransaction = Transaction::where('user_id', $userId)->sum('total');
-
-
-
         return view('_users.dashboard', [
-            'title' => 'Dashboard user',
-            'event_total' => $countEvent,
-            'product_transaction_total' => $countProductTransaction,
-            'transaction_total' => 'Rp. ' . number_format($totalProductTransaction, 0, ',', '.')
-
+            'title' => 'Dashboard user'
         ]);
     })->name('user.dashboard');
 
@@ -139,7 +120,7 @@ Route::prefix('user')->middleware('user')->group(function () {
             'user' => $user
         ]);
     })->name('user.profile');
-
+    
     Route::put('/profile/update', [UserController::class, 'updateProfile'])->name('user.profile.update');
 
     //settings
@@ -152,7 +133,7 @@ Route::prefix('user')->middleware('user')->group(function () {
                 'user' => $user
             ]);
         })->name('profile.info');
-
+        
         Route::put('/profile-info/update', [UserController::class, 'updateProfile'])->name('profile.info.update');
 
         Route::get('/account-info', function () {
@@ -173,11 +154,9 @@ Route::prefix('user')->middleware('user')->group(function () {
             $data = Event::select(
                 'event_id',
                 'event_title',
-                'event_description',
                 'event_date',
                 'event_speaker_name',
                 'event_speaker_job',
-                'event_tags',
                 'event_price'
             )->get();
 
@@ -185,11 +164,9 @@ Route::prefix('user')->middleware('user')->group(function () {
                 return [
                     'event_id' => $event->event_id,
                     'event_title' => $event->event_title,
-                    'event_description' => Str::limit($event->event_description ?? 'Deskripsi belum tersedia.', 15, '...'),
                     'event_date' => Carbon::parse($event->event_date)->format('d M Y'),
                     'event_speaker' => $event->event_speaker_name,
                     'event_speaker_job' => $event->event_speaker_job,
-                    'event_tags' => array_slice(explode(',', $event->event_tags), 0, 3),
                     'event_price' => $event->event_price
                 ];
             });
@@ -200,25 +177,12 @@ Route::prefix('user')->middleware('user')->group(function () {
             ]);
         })->name('events.data');
 
-        Route::get('/detail-event/{event_id}/{user_id}', function ($event_id, $user_id) {
+        Route::get('/detail-event/{id}', function ($id) {
 
-            $getData = Event::select('*')->where('event_id', $event_id)->first();
-
-            // Get event_name first with id
-            $eventName = $getData->event_title ?? null;
-
-            // Get current user id
-            $userId = $user_id;
-            // Check if user already registered for this event by comparing event_name
-            $isRegistered = false;
-            if ($eventName) {
-                $isRegistered = ParticipantRegist::where('user_id', $userId)
-                    ->where('event_name', $eventName)
-                    ->exists();
-            }
+            $getData = Event::select('*')->where('event_id', $id)->first();
 
             $data =  [
-                'event_id' => $event_id,
+                'event_id' => $id,
                 'event_title' => $getData->event_title,
                 'event_description' => $getData->event_description,
                 'event_type' => $getData->event_type,
@@ -226,16 +190,11 @@ Route::prefix('user')->middleware('user')->group(function () {
                 'event_tags' => explode(',', $getData->event_tags),
                 'event_banner_img' => $getData->event_banner_img,
                 'event_price' => $getData->event_price,
-                'event_date' => Carbon::parse($getData->event_date)->format('d M Y'),
-                'event_speaker' => $getData->event_speaker_name,
-                'event_speaker_job' => $getData->event_speaker_job,
-                'event_location' => $getData->event_location
-            ];
-
+                'event_date' => Carbon::parse($getData->event_date)->format('d M Y')
+            ];;
             return view('_users._events.event-detail', [
                 'title' => "Detail Event",
-                'data' => $data,
-                'isRegistered' => $isRegistered
+                'data' => $data
             ]);
         })->name('event-detail');
     });
@@ -243,30 +202,18 @@ Route::prefix('user')->middleware('user')->group(function () {
     Route::prefix('product')->group(function () {
         // routing product role user
 
-        Route::get('/list', function (\Illuminate\Http\Request $request) {
-            $query = Product::query();
+        Route::get('/list', function () {
 
-            // Filter by category if provided
-            if ($request->filled('category')) {
-                $query->where('product_category', $request->input('category'));
-            }
+            $data = Product::orderBy('created_at', 'desc')->paginate(10);
 
-            // Search by product name if provided
-            if ($request->filled('searchBox')) {
-                $search = $request->input('searchBox');
-                $query->where('product_name', 'like', '%' . $search . '%');
-            }
-
-            $data = $query->orderBy('created_at', 'desc')->paginate(10);
-
+            // If product_sell is an accessor, you don't need this transform
             $data->getCollection()->transform(function ($item) {
                 return [
                     'product_id' => $item->product_id,
                     'product_name' => $item->product_name,
                     'product_image' => $item->product_image,
                     'product_price' => $item->product_price,
-                    'product_sell' => $item->product_price + ($item->product_price * 0.20),
-                    'product_category' => $item->product_category
+                    'product_sell' => $item->product_price + ($item->product_price * 0.20)
                 ];
             });
 
@@ -349,62 +296,13 @@ Route::prefix('user')->middleware('user')->group(function () {
             $data = [
                 'event_id' => $id,
                 'event_price' => $getData['event_price'],
-                'event_quota' => $getData['event_quota'],
-                'event_title' => $getData['event_title'],
-                'event_description' => $getData['event_description']
+                'event_quota' => $getData['event_quota']
             ];
             return view('_users._transactions.register-event', [
                 'title' => "Halaman register event",
                 'data' => $data
             ]);
         })->name('register.event');
-
-        Route::get('/riwayat-event', function () {
-            $userId = Auth::user()->user_id;
-
-            // Ambil semua registrasi peserta berdasarkan user_id
-            $registData = ParticipantRegist::where('user_id', $userId)->get();
-
-            $eventHistory = [];
-
-            foreach ($registData as $regist) {
-                // Ambil data event berdasarkan event_name di tabel regist dan event_title di tabel Event
-                $event = Event::where('event_title', $regist->event_name)->first();
-
-                // Jika data event ditemukan
-                if ($event) {
-                    $eventHistory[] = [
-                        'event_id' => $event->event_id,
-                        'event_title' => $event->event_title,
-                        'event_description' => $event->event_description,
-                        'event_type' => $event->event_type,
-                        'event_quota' => $event->event_quota,
-                        'event_tags' => explode(',', $event->event_tags),
-                        'event_banner_img' => $event->event_banner_img,
-                        'event_price' => $event->event_price,
-                        'event_date' => Carbon::parse($event->event_date)->format('d M Y'),
-                        'event_speaker' => $event->event_speaker_name,
-                        'event_speaker_job' => $event->event_speaker_job,
-                        'event_location' => $event->event_location
-                    ];
-                }
-            }
-
-
-            return view('_users._transactions.history-event', [
-                'title' => 'History Event - Growkm app',
-                'data' => $eventHistory
-            ]);
-        })->name('history.event');
-
-        Route::get('/riwayat/transaksi', function () {
-            $data = Transaction::all()->where('user_id', Auth::user()->user_id);
-
-            return view('_users._transactions.history-transaction', [
-                'title' => "Riwayat Transaksi",
-                'data' => $data
-            ]);
-        })->name('history.transactions');
 
         Route::post('/regist-process', [ParticipantRegistController::class, 'store'])->name('participant.register');
 
@@ -428,10 +326,7 @@ Route::prefix('auth')->group(function () {
 
 // Basic Routing
 Route::get('/', function () {
-    $statDashboard = Admin::getStaticData();
-
     return view('landing-page', [
-        'title' => 'Growkm - Solusi Berkembang UMKM',
-        'stats' => $statDashboard
+        'title' => 'Growkm - Solusi Berkembang UMKM'
     ]);
 })->name('landing.page');
