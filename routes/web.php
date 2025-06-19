@@ -107,8 +107,27 @@ Route::prefix('user')->middleware('user')->group(function () {
 
     // main dashboard
     Route::get('/dashboard', function () {
+
+        $userId = Auth::user()->user_id;
+
+        // Jumlah event yang diikuti user
+        $countEvent = ParticipantRegist::where('user_id', $userId)->count();
+
+        // Jumlah transaksi produk
+        $countProductTransaction = Transaction::where('user_id', $userId)->count();
+
+        // Total semua transaksi (event + produk)
+        // Total semua transaksi (event + produk) dalam IDR');
+        $totalProductTransaction = Transaction::where('user_id', $userId)->sum('total');
+
+
+
         return view('_users.dashboard', [
-            'title' => 'Dashboard user'
+            'title' => 'Dashboard user',
+            'event_total' => $countEvent,
+            'product_transaction_total' => $countProductTransaction,
+            'transaction_total' => 'Rp. ' . number_format($totalProductTransaction, 0, ',', '.')
+
         ]);
     })->name('user.dashboard');
 
