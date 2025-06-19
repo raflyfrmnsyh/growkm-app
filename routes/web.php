@@ -378,6 +378,15 @@ Route::prefix('user')->middleware('user')->group(function () {
             ]);
         })->name('history.event');
 
+        Route::get('/riwayat/transaksi', function () {
+            $data = Transaction::all()->where('user_id', Auth::user()->user_id);
+
+            return view('_users._transactions.history-transaction', [
+                'title' => "Riwayat Transaksi",
+                'data' => $data
+            ]);
+        })->name('history.transactions');
+
         Route::post('/regist-process', [ParticipantRegistController::class, 'store'])->name('participant.register');
 
         Route::post('/create/order-product', [TransactionController::class, 'store'])->name('create.transaction.product');

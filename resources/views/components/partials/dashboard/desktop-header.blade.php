@@ -7,7 +7,7 @@
         </div>
         <div class="profile-name">
             <div class="flex items-center gap-1">
-                <h5 class="_name font-medium"></h5>
+                <h5 class="_name font-medium">{{ Auth::user()->user_name }}</h5>
                 <x-icons.verify-icon></x-icons.verify-icon>
             </div>
             <span class="text-sm text-gray-600">Basic Member</span>
