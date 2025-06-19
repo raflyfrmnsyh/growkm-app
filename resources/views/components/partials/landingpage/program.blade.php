@@ -60,7 +60,7 @@
           <p class="text-primaryColors-base text-sm sm:text-base">
             Yes! Growkm provides smart tools and resources to help you grow personally and professionally. From goal setting to progress tracking, we make self-improvement easier and more effective.
           </p>
-          <a href="#" class="mt-2 text-primaryColors-base text-sm sm:text-base font-bold underline inline-flex items-center">
+          <a href="{{ route('auth.register')}}" class="mt-2 text-primaryColors-base text-sm sm:text-base font-bold underline inline-flex items-center">
             Bergabung Sekarang
             <i class="hgi hgi-stroke hgi-arrow-right-02 text-sm ml-1"></i>
           </a>
