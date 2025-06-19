@@ -309,7 +309,10 @@ Route::prefix('auth')->group(function () {
 
 // Basic Routing
 Route::get('/', function () {
+    $statDashboard = Admin::getStaticData();
+
     return view('landing-page', [
-        'title' => 'Growkm - Solusi Berkembang UMKM'
+        'title' => 'Growkm - Solusi Berkembang UMKM',
+        'stats' => $statDashboard
     ]);
 })->name('landing.page');

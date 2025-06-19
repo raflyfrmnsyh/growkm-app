@@ -9,28 +9,20 @@
             </div>
             <p class="text-dark-base text-4xl sm:text-5xl font-extrabold">
                 Berkembang bersama pelaku usaha se-Indonesia melalui
-                <span class="text-secondaryColors-base">Pendampingan Growkm</span>
+                <span class="text-secondaryColors-base">Growkm</span>
             </p>
 
             <p class="text-gray-500 md:mt-4 text-justify sm:text-left">
-                Growkm hadir sebagai platform kombinasi edukasi bisnis yang praktis,
-                pendampingan dari mentor berpengalaman, dan fitur Supplier+ yang mempertemukan
-                pelaku usaha dengan supplier terpercaya.
+                Growkm hadir sebagai platform edukasi bisnis praktis
+                sekaligus penyedia akses bahan baku terpercaya bagi pelaku usaha
             </p>
 
-            <div class="flex flex-col sm:flex-row mt-4 gap-2 sm:gap-4 sm:mt-6">
+            <div class="flex flex-col mt-4 sm:mt-6">
                 <a
                 class="w-full text-center rounded bg-secondaryColors-base px-5 py-3 text-sm sm:text-base font-medium text-light-base shadow-sm"
-                href="#"
+                href="{{ route('auth.register') }}"
                 >
                 Bergabung Sekarang
-                </a>
-
-                <a
-                class="w-full text-center rounded border border-black px-5 py-3 text-sm sm:text-base font-medium text-gray-700 shadow-sm"
-                href="#"
-                >
-                Tentang Supplier+
                 </a>
             </div>
         </div>

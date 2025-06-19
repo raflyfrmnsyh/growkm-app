@@ -4,7 +4,7 @@
     <div class="flex gap-2 font-main">
         <p>{{ $text }}</p>
         <i class="hgi hgi-stroke hgi-arrow-right-02"></i>
-        <a href="#"
+        <a href={{ $route }}
             class="text-yellowLight-base font-semibold hover:underline hover:underline-offset-1">{{ $textAction }}</a>
     </div>
     <button x-on:click="show = false"

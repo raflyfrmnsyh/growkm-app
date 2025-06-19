@@ -48,13 +48,9 @@
              <ul class="link_group flex flex-col gap-4 md:w-full w-[50%] ">
                  <span class="font-bold text-secondaryColors-base">Solusi Kami</span>
                  <a href="{{ url('#') }}"
-                     class="foot_nav-link hover:font-medium hover:text-primaryColors-base hover:text-nowrap lg:hover:text-wrap w-full">Supplier+</a>
+                     class="foot_nav-link hover:font-medium hover:text-primaryColors-base hover:text-nowrap lg:hover:text-wrap w-full">Growkm Event</a>
                  <a href="{{ url('#') }}"
-                     class="foot_nav-link hover:font-medium hover:text-primaryColors-base hover:text-nowrap lg:hover:text-wrap w-full">Growkm
-                     Course</a>
-                 <a href="{{ url('#') }}"
-                     class="foot_nav-link hover:font-medium hover:text-primaryColors-base hover:text-nowrap lg:hover:text-wrap w-full">Pendampingan
-                     Usaha</a>
+                     class="foot_nav-link hover:font-medium hover:text-primaryColors-base hover:text-nowrap lg:hover:text-wrap w-full">Supply Hub</a>
              </ul>
              <ul class="link_group flex flex-col gap-4 md:w-full mt-8 sm:mt-0 w-[50%]">
                  <span class="font-bold text-secondaryColors-base w-full">Jadi Bagian Kami</span>

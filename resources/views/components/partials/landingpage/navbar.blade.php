@@ -3,28 +3,31 @@
     <x-partials.logo href="{{ url('/') }}"></x-partials.logo>
 
     <!-- Mobile Hamburger -->
-    <div x-data="{ open: false }" class="md:hidden">
+    <div x-data="{ open: false }" class="lg:hidden">
         <x-partials.hamburger-button></x-partials.hamburger-button>
 
         <!-- Mobile Dropdown Menu -->
         <div x-show="open" @click.outside="open = false" x-transition
             class="absolute top-full left-0 w-full bg-white ring-1 ring-gray-200 py-5 px-6 text-dark-base z-50 flex flex-col gap-6 shadow-none text-md">
+            <x-partials.nav-link href="#beranda" class="{{ request()->is('/') || request()->is('#beranda') ? 'text-primaryColors-base font-semibold' : '' }}">
+                Beranda
+            </x-partials.nav-link>
 
-            <x-partials.nav-link href="{{ url('/') }}">Beranda</x-partials.nav-link>
-            <x-partials.nav-link href="#">Program Growkm</x-partials.nav-link>
+            <x-partials.nav-link href="#program" class="{{ request()->is('#program') ? 'text-primaryColors-base font-semibold' : '' }}">
+                Program Growkm
+            </x-partials.nav-link>
 
-            <!-- Mobile: Sumber Daya / Dropdown-->
-            <x-partials.dropdown-nav-link :dropdownName="'Sumber Daya'">
-                <x-slot name="linkName">
-                    <x-partials.nav-link href="{{ url('/our-partner') }}">Mitra Growkm</x-partials.nav-link>
-                    <x-partials.nav-link href="{{ url('/about-supplier-plus') }}">Tentang
-                        Supplier+</x-partials.nav-link>
-                    <x-partials.nav-link href="{{ url('/our-team') }}">Tim Growkm</x-partials.nav-link>
-                </x-slot>
-            </x-partials.dropdown-nav-link>
+            <x-partials.nav-link href="#event" class="{{ request()->is('#event') ? 'text-primaryColors-base font-semibold' : '' }}">
+                Growkm Event
+            </x-partials.nav-link>
 
-            <x-partials.nav-link href="#">Testimoni</x-partials.nav-link>
-            <x-partials.nav-link href="#">Pusat Bantuan</x-partials.nav-link>
+            <x-partials.nav-link href="#testimoni" class="{{ request()->is('#testimoni') ? 'text-primaryColors-base font-semibold' : '' }}">
+                Testimoni
+            </x-partials.nav-link>
+
+            <x-partials.nav-link href="#bantuan" class="{{ request()->is('#bantuan') ? 'text-primaryColors-base font-semibold' : '' }}">
+                Pusat Bantuan
+            </x-partials.nav-link>
 
             <!-- Mobile: Bahasa & Auth -->
             <div class=" border-gray-200 flex flex-col gap-4">
@@ -48,20 +51,26 @@
     </div>
 
     <!-- Desktop Menu -->
-    <ul class="items-center gap-8 text-lg hidden md:flex">
-        <x-partials.nav-link href="{{ url('/') }}">Beranda</x-partials.nav-link>
-        <x-partials.nav-link href="{{ url('#') }}">Program Growkm</x-partials.nav-link>
-        <x-partials.dropdown-nav-link :dropdownName="'Sumber Daya'">
-            <x-slot name="linkName">
-                <x-partials.nav-link href="{{ url('/our-partner') }}">Mitra Growkm</x-partials.nav-link>
-                <x-partials.nav-link href="{{ url('/about-supplier-plus') }}">Tentang Supplier+</x-partials.nav-link>
-                <x-partials.nav-link href="{{ url('/our-team') }}">Tim Growkm</x-partials.nav-link>
-            </x-slot>
-        </x-partials.dropdown-nav-link>
+    <ul class="items-center gap-8 text-lg hidden lg:flex">
+        <x-partials.nav-link href="#beranda" class="{{ request()->is('/') || request()->is('#beranda') ? 'text-primaryColors-base font-semibold' : '' }}">
+            Beranda
+        </x-partials.nav-link>
 
+        <x-partials.nav-link href="#program" class="{{ request()->is('#program') ? 'text-primaryColors-base font-semibold' : '' }}">
+            Program Growkm
+        </x-partials.nav-link>
 
-        <x-partials.nav-link href="{{ url('#') }}">Testimoni</x-partials.nav-link>
-        <x-partials.nav-link href="{{ url('#') }}">Pusat Bantuan</x-partials.nav-link>
+        <x-partials.nav-link href="#event" class="{{ request()->is('#event') ? 'text-primaryColors-base font-semibold' : '' }}">
+            Growkm Event
+        </x-partials.nav-link>
+
+        <x-partials.nav-link href="#testimoni" class="{{ request()->is('#testimoni') ? 'text-primaryColors-base font-semibold' : '' }}">
+            Testimoni
+        </x-partials.nav-link>
+
+        <x-partials.nav-link href="#bantuan" class="{{ request()->is('#bantuan') ? 'text-primaryColors-base font-semibold' : '' }}">
+            Pusat Bantuan
+        </x-partials.nav-link>
         <div class="vertical-line w-[1px] h-[32px] bg-dark-30"></div>
 
         <li>

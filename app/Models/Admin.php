@@ -29,6 +29,7 @@ class Admin extends Model
         // Get total events with type 'online gratis' and 'online berbayar'
         $totalEventsOnline = Event::where('event_type', 'Online')->count();
         $totalEventsOffline = Event::where('event_type', 'Offline')->count();
+        $totalEvents = Event::count();
 
         // Get total products
         $totalProducts = Product::count();
@@ -45,6 +46,7 @@ class Admin extends Model
         return [
             'total_events_online' => $totalEventsOnline,
             'total_events_offline' => $totalEventsOffline,
+            'total_events' => $totalEvents,
             'total_products' => $totalProducts,
             'total_users' => $totalUsers,
             'total_transactions' => $totalTransactions,
