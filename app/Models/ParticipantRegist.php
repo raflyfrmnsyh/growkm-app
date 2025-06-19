@@ -13,6 +13,7 @@ class ParticipantRegist extends Model
 
     protected $fillable = [
         'regist_id',
+        'event_id',
         'user_id',
         'participant_name',
         'event_name',
@@ -23,6 +24,8 @@ class ParticipantRegist extends Model
         'subtotal',
         'payment_status',
     ];
+
+    
 
     protected $catst = [
         'subtotal' => 'double'

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
@@ -12,7 +13,6 @@ class User extends Authenticatable
     public $incrementing = true;
     protected $keyType = 'int';
 
-    protected $primaryKey = 'user_id';
     protected $fillable = [
         'user_id',
         'user_name',
@@ -28,13 +28,6 @@ class User extends Authenticatable
     protected $hidden = [
         'user_password',
     ];
-
-    public function getAuthPassword()
-    {
-        return [
-            'password' => 'hashed',
-        ];
-    }
 
     public function getEmailAttribute()
     {

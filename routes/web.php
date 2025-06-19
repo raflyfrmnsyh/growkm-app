@@ -131,6 +131,21 @@ Route::prefix('user')->middleware('user')->group(function () {
         })->name('change.password');
     });
 
+    if (!function_exists('getEventStatus')) {
+    function getEventStatus($eventDate) {
+        $now = Carbon::now();
+        $eventDate = Carbon::parse($eventDate);
+
+        if ($now->gt($eventDate)) {
+            return 'Selesai';
+        } else if ($now->diffInDays($eventDate) <= 7) {
+            return 'Akan Datang';
+        } else {
+            return 'Berlangsung';
+        }
+    }
+}
+
     Route::prefix('event')->group(function () {
         Route::get('/list', function () {
             $data = Event::select(
@@ -159,9 +174,13 @@ Route::prefix('user')->middleware('user')->group(function () {
             ]);
         })->name('events.data');
 
+        Route::get('/riwayat', [ParticipantRegistController::class, 'riwayatEventUser'])->name('events.riwayat');
+
+
         Route::get('/detail-event/{id}', function ($id) {
 
             $getData = Event::select('*')->where('event_id', $id)->first();
+            if (!$getData) return abort(404);
 
             $data =  [
                 'event_id' => $id,
@@ -204,6 +223,12 @@ Route::prefix('user')->middleware('user')->group(function () {
                 'data' => $data
             ]);
         })->name('product.list');
+
+        Route::get('/riwayat-transaksi', [ParticipantRegistController::class, 'riwayatTransaksiUser'])->name('riwayat.transaksi');
+
+        Route::get('/user/riwayat-transaksi', [ParticipantRegistController::class, 'riwayatTransaksiUser'])
+    ->name('_user._transactions.riwayat-transaction');
+
 
 
         Route::get('/checkout/{id}', function ($id) {

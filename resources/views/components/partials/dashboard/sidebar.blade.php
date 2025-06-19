@@ -36,13 +36,13 @@
             <li
                 class="flex items-center gap-4 px-6 py-3 w-full cursor-pointer relative hover:bg-[#007f7310] transition-all duration-300 ease-in-out">
                 <x-icons.history-transaction class="size-6 stroke-primaryColors-90"></x-icons.history-transaction>
-                <a href="{{ url('#') }}" class="text-primaryColors-90 mb-[1px] text-md font-normal">Riwayat
+                <a href="{{ route('_user._transactions.riwayat-transaction') }}" class="text-primaryColors-90 mb-[1px] text-md font-normal">Riwayat
                     Transaksi</a>
             </li>
             <li
                 class="flex items-center gap-4 px-6 py-3 w-full cursor-pointer relative hover:bg-[#007f7310] transition-all duration-300 ease-in-out">
                 <x-icons.save-01 class="size-6 stroke-primaryColors-90"></x-icons.save-01>
-                <a href="{{ route('profile.info') }}" class="text-primaryColors-90 mb-[1px] text-md font-normal">Riwayat
+                <a href="{{ route('events.riwayat') }}" class="text-primaryColors-90 mb-[1px] text-md font-normal">Riwayat
                     Event & Kelas</a>
             </li>
         </ul>

@@ -17,7 +17,7 @@ return new class extends Migration
             WITH user_activity AS (
                 SELECT 
                     u.user_id,
-                    u.name,
+                    u.user_name,
                     COALESCE(p.total_event_regs, 0) AS total_event_regs,
                     COALESCE(t.total_transactions, 0) AS total_transactions,
                     (COALESCE(p.total_event_regs, 0) + COALESCE(t.total_transactions, 0)) AS total_activity
