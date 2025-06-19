@@ -88,6 +88,7 @@ class ParticipantRegistController extends Controller
     }
 
     public function showDataParticipant(Request $request)
+    public function showDataParticipant(Request $request)
     {
         $search = $request->query('search');
         $filter = $request->query('filter');
@@ -143,7 +144,7 @@ class ParticipantRegistController extends Controller
                 'event_name' => $item->event_name,
                 'subtotal' => $item->subtotal,
                 'payment_status' => $item->payment_status,
-                'created_at' => Carbon::parse($item->created_at)->format('d M Y')
+                'created_at' => Carbon::parse($item->created_at)->format('d M Y'),
             ];
         });
 
