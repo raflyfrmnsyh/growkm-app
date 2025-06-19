@@ -31,21 +31,23 @@
 
             <!-- Mobile: Bahasa & Auth -->
             <div class=" border-gray-200 flex flex-col gap-4">
-                <x-partials.dropdown-nav-link :dropdownName="'ID'">
-                    <x-slot name="beforeIcon">
-                        <i class="hgi hgi-stroke hgi-globe-02"></i>
-                    </x-slot>
-
-                    <x-slot name="linkName">
-                        <x-partials.nav-link href="#">ID - Indonesia</x-partials.nav-link>
-                        <x-partials.nav-link href="#">EN - Inggris</x-partials.nav-link>
-                    </x-slot>
-                </x-partials.dropdown-nav-link>
-
-                <a href="{{ url('/auth/register') }}"
+                @guest
+                    <!-- Tampilkan jika user belum login -->
+                    <a href="{{ url('/auth/register') }}"
+                        class="rounded border border-dark-base text-dark-base text-center px-4 py-3 hover:bg-gray-50 transition">Daftar</a>
+                    <a href="{{ url('/auth/login') }}"
+                        class="rounded bg-dark-base text-white text-center px-4 py-3 hover:bg-gray-900 transition">Masuk</a>
+                @else
+                    <!-- Tampilkan jika user sudah login -->
+                    <a href="{{ route('user.dashboard') }}"
+                        class="rounded bg-primaryColors-base text-white text-center px-4 py-3 hover:bg-primaryColors-500 transition">
+                        Dashboard Saya
+                    </a>
+                @endguest
+                {{-- <a href="{{ url('/auth/register') }}"
                     class="rounded border border-dark-base text-dark-base text-center px-4 py-3 hover:bg-gray-50 transition">Daftar</a>
                 <a href="{{ url('/auth/login') }}"
-                    class="rounded bg-dark-base text-white text-center px-4 py-3 hover:bg-gray-900 transition">Masuk</a>
+                    class="rounded bg-dark-base text-white text-center px-4 py-3 hover:bg-gray-900 transition">Masuk</a> --}}
             </div>
         </div>
     </div>
@@ -75,19 +77,24 @@
 
         <li>
             <div class="flex items-center gap-4">
-                <x-partials.dropdown-nav-link :dropdownName="'ID'">
-                    <x-slot name="beforeIcon">
-                        <i class="hgi hgi-stroke hgi-globe-02"></i>
-                    </x-slot>
-                    <x-slot name="linkName">
-                        <x-partials.nav-link href="#">ID - Indonesia</x-partials.nav-link>
-                        <x-partials.nav-link href="#">EN - Inggris</x-partials.nav-link>
-                    </x-slot>
-                </x-partials.dropdown-nav-link>
-                <a href="{{ url('/auth/register') }}"
+                @guest
+                    <!-- Tampilkan jika user belum login -->
+                    <a href="{{ url('/auth/register') }}"
+                        class="btn px-3 py-2 border border-dark-base bg-transparent text-dark-base rounded-[4px]">Daftar</a>
+                    <a href="{{ url('/auth/login') }}"
+                        class="btn px-3 py-2 border border-dark-base bg-dark-base text-light-base rounded-[4px]">Masuk</a>
+                @else
+                    <!-- Tampilkan jika user sudah login -->
+                    <a href="{{ route('user.dashboard') }}"
+                        class="btn px-3 py-2 border border-dark-base bg-dark-base text-light-base rounded-[4px] flex items-center gap-2">
+                        <i class="hgi hgi-stroke hgi-user-circle text-lg"></i>
+                        Dashboard
+                    </a>
+                @endguest
+                {{-- <a href="{{ url('/auth/register') }}"
                     class="btn px-3 py-2 border border-dark-base bg-transparent text-dark-base rounded-[4px]">Daftar</a>
                 <a href="{{ url('/auth/login') }}"
-                    class="btn px-3 py-2 border border-dark-base bg-dark-base text-light-base rounded-[4px]">Masuk</a>
+                    class="btn px-3 py-2 border border-dark-base bg-dark-base text-light-base rounded-[4px]">Masuk</a> --}}
             </div>
         </li>
     </ul>
