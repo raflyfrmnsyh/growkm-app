@@ -23,14 +23,13 @@
             <div class="w-full bg-white px-6 py-8">
                 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                     @foreach ($data as $item)
-                        @dd($item)
                         <div class="w-full">
                             <div class="rounded-t-lg overflow-hidden bg-gray-100">
                                 <img src="{{ asset('image/courses-1.png') }}" class="w-full h-auto"
                                     alt="Event thumbnail">
                             </div>
                             <div class="p-3 space-y-4">
-                                <a href="{{ route('event-detail', ['event_id' => $item['event_id'], 'user_id' => $item['user_id']]) }}"
+                                <a href="{{ route('event-detail', ['event_id' => $item['event_id'], 'user_id' => Auth::user()->user_id]) }}"
                                     class="text-secondaryColors-base text-lg font-bold leading-[150%] line-clamp-2">
                                     {{ $item['event_title'] }}
                                 </a>

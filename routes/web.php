@@ -342,31 +342,39 @@ Route::prefix('user')->middleware('user')->group(function () {
 
         Route::get('/riwayat-event', function () {
             $userId = Auth::user()->user_id;
-            // Get all participant registrations for this user
-            $participantRegists = ParticipantRegist::where('user_id', $userId)->get();
 
-            // Get all event names from participant registrations
-            $eventNames = $participantRegists->pluck('event_name')->unique();
+            // Ambil semua registrasi peserta berdasarkan user_id
+            $registData = ParticipantRegist::where('user_id', $userId)->get();
 
-            // Get events that match the event names
-            $events = Event::whereIn('event_title', $eventNames)->get()->keyBy('event_title');
+            $eventHistory = [];
 
-            // Combine participant registration with event details
-            $data = $participantRegists->map(function ($regist) use ($events) {
-                $event = $events->get($regist->event_name);
-                return [
-                    'event_id' => $event ? $event->event_id : null,
-                    'event_title' => $regist->event_name,
-                    'event_description' => $event ? $event->event_description : null,
-                    'event_date' => $event ? Carbon::parse($event->event_date)->format('d M Y') : null,
-                    'event_banner_img' => $event ? $event->event_banner_img : null,
-                    'registered_at' => $regist->created_at,
-                ];
-            });
+            foreach ($registData as $regist) {
+                // Ambil data event berdasarkan event_name di tabel regist dan event_title di tabel Event
+                $event = Event::where('event_title', $regist->event_name)->first();
+
+                // Jika data event ditemukan
+                if ($event) {
+                    $eventHistory[] = [
+                        'event_id' => $event->event_id,
+                        'event_title' => $event->event_title,
+                        'event_description' => $event->event_description,
+                        'event_type' => $event->event_type,
+                        'event_quota' => $event->event_quota,
+                        'event_tags' => explode(',', $event->event_tags),
+                        'event_banner_img' => $event->event_banner_img,
+                        'event_price' => $event->event_price,
+                        'event_date' => Carbon::parse($event->event_date)->format('d M Y'),
+                        'event_speaker' => $event->event_speaker_name,
+                        'event_speaker_job' => $event->event_speaker_job,
+                        'event_location' => $event->event_location
+                    ];
+                }
+            }
+
 
             return view('_users._transactions.history-event', [
                 'title' => 'History Event - Growkm app',
-                'data' => $data
+                'data' => $eventHistory
             ]);
         })->name('history.event');
 
