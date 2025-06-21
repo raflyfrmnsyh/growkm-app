@@ -217,6 +217,23 @@ Route::prefix('user')->middleware('user')->group(function () {
                     ->exists();
             }
 
+            $participant = null;
+            $participantCode = null;
+            if ($eventName) {
+                $participant = ParticipantRegist::where('user_id', $userId)
+                    ->where('event_name', $eventName)
+                    ->first();
+
+                if ($participant) {
+                    $isRegistered = true;
+                    $participantCode = $participant->participant_code;
+                } else {
+                    $isRegistered = false;
+                }
+            }
+
+
+
             $data =  [
                 'event_id' => $event_id,
                 'event_title' => $getData->event_title,
@@ -232,10 +249,12 @@ Route::prefix('user')->middleware('user')->group(function () {
                 'event_location' => $getData->event_location
             ];
 
+
             return view('_users._events.event-detail', [
                 'title' => "Detail Event",
                 'data' => $data,
-                'isRegistered' => $isRegistered
+                'isRegistered' => $isRegistered,
+                'participantCode' => $participantCode
             ]);
         })->name('event-detail');
     });
