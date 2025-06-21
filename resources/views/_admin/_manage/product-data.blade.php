@@ -12,17 +12,14 @@
         <div class="flex flex-col md:flex-row items-center gap-4 w-full lg:w-auto justify-between lg:justify-end">
 
             {{-- Search Form --}}
-            <form action="/product" method="get">
-                @csrf
+            <form action="{{ route('admin.manage.product') }}" method="get">
                 <div
                     class="input-bx border border-gray-200 py-2 px-4 rounded-md w-[320px] flex items-center justify-between gap-2">
                     <input type="text" name="searchBox" id="searchBox" placeholder="Cari produk"
                         class="outline-none w-full ">
                     <x-icons.searach-01 class="size-5 stroke-gray-200"></x-icons.searach-01>
                 </div>
-            </div>
-
-            {{-- Category Filter and Add Button Section --}}
+            </form>
             <div class="flex gap-4">
                 {{-- Category Dropdown Menu --}}
                 <div x-data="{ open: false }" class="relative inline-block text-left">
@@ -65,8 +62,12 @@
                     class="inline-flex px-4 py-2 text-md font-semibold rounded-md border border-gray-200 bg-secondaryColors-base text-white hover:bg-secondaryColors-60 transition-all">Tambah
                     Data</a>
             </div>
-
         </div>
+
+        {{-- Category Filter and Add Button Section --}}
+
+
+    </div>
     </div>
 
     {{-- Products Table Section --}}
@@ -91,10 +92,10 @@
                     <tr class="border-b border-gray-200">
                         {{-- Row Number --}}
                         <td class="text-center gap-2 px-6">{{ $index + 1 }}</td>
-                        
+
                         {{-- Product ID --}}
                         <td class="py-4 px-2">{{ $product['product_id'] }}</td>
-                        
+
                         {{-- Product Name and Min Order --}}
                         <td class="py-4 px-2">
                             <div class="flex flex-col">
@@ -104,7 +105,7 @@
                                 </span>
                             </div>
                         </td>
-                        
+
                         {{-- Product Categories --}}
                         <td class="py-4 px-2">
                             @foreach ($product['product_category'] as $category)
@@ -112,15 +113,15 @@
                                     class="inline-block bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded mr-1 mb-1">{{ $category }}</span>
                             @endforeach
                         </td>
-                        
+
                         {{-- Stock --}}
                         <td class="py-4 px-2 text-start">{{ $product['product_stock'] }}</td>
-                        
+
                         {{-- Price --}}
                         <td class="py-4 px-2 text-end">
                             Rp. {{ number_format($product['product_price'], 0, ',', '.') }}
                         </td>
-                        
+
                         {{-- Stock Status --}}
                         <td class="py-4 px-2 text-center">
                             @if ($product['product_stock'] > 10)
@@ -135,7 +136,7 @@
                                     class="bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded">Habis</span>
                             @endif
                         </td>
-                        
+
                         {{-- Action Buttons --}}
                         <td class="w-full py-4 flex items-center justify-center gap-2 px-6">
                             {{-- View Button --}}
