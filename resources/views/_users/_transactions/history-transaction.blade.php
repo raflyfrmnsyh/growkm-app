@@ -42,7 +42,8 @@
                                 </td>
                                 <td class="py-4 px-2">{{ $item['shipping_name'] }}</td>
                                 <td class="py-4 px-2">{{ $item['shipping_address'] }}</td>
-                                <td class="py-4 px-2 text-center">{{ 'Rp.' . $item['total'] }}</td>
+                                <td class="py-4 px-2 text-center">
+                                    {{ 'Rp. ' . number_format($item['total'], 0, ',', '.') }}</td>
                                 <td class="py-4 px-2 text-center">{{ $item['transaction_status'] }}</td>
 
                             </tr>

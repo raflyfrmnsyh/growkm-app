@@ -12,7 +12,7 @@
         <x-partials.dashboard.mobile-header></x-partials.dashboard.mobile-header>
 
         {{-- Desktop Header --}}
-        <x-partials.dashboard.desktop-header></x-partials.dashboard.desktop-header>)
+        <x-partials.dashboard.desktop-header></x-partials.dashboard.desktop-header>
         <form action="{{ route('participant.register', ['id' => $data['event_id']]) }}" method="POST"
             @submit.prevent="
         $refs.subtotalInput.value = subtotal;
@@ -28,6 +28,8 @@
             }" x-init="price = {{ $data['event_price'] }}">
 
             @csrf
+
+
 
             <div class="w-[70%] flex flex-col gap-4">
                 {{-- Shipping Information --}}
@@ -116,10 +118,18 @@
                     </ul>
 
                     <ul class="px-4 py-4 flex flex-col items-start gap-4 border-t border-gray-200">
-                        <button type="submit"
-                            class="w-full bg-secondaryColors-base py-3 rounded-md text-white font-medium hover:bg-secondaryColors-60 transition-all">
-                            Lanjut Pembayaran
-                        </button>
+
+                        @if ($data['event_quota'] > 0)
+                            <button type="submit"
+                                class="w-full bg-secondaryColors-base py-3 rounded-md text-white font-medium hover:bg-secondaryColors-60 transition-all">
+                                Lanjut Pembayaran
+                            </button>
+                        @else
+                            <button type="button" disabled
+                                class="w-full bg-gray-400 py-3 rounded-md text-white font-medium cursor-not-allowed">
+                                Maaf, Tiket Habis
+                            </button>
+                        @endif
                         <a href="{{ route('event-detail', ['event_id' => $data['event_id'], 'user_id' => Auth::user()->user_id]) }}"
                             class="w-full bg-transparent py-3 rounded-md text-gray-800 font-medium hover:bg-light-60 transition-all text-center">
                             Kembali
@@ -130,5 +140,21 @@
         </form>
 
     </main>
+
+    @if (session()->has('quota_sold'))
+        <div x-data="{ show: true }" x-init="setTimeout(() => show = false, 3000)" x-show="show" x-transition
+            class="fixed top-6 right-6 z-50">
+            <div class="bg-red-500 text-white px-6 py-4 rounded shadow-lg flex items-center gap-2"
+                style="background-color: #ef4444 !important;">
+                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="2"
+                    viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M18.364 5.636l-1.414-1.414A9 9 0 105.636 18.364l1.414 1.414A9 9 0 1018.364 5.636z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4m0 4h.01" />
+                </svg>
+                <span>{{ session('quota_sold') }}</span>
+            </div>
+        </div>
+    @endif
 
 </body>

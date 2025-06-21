@@ -33,8 +33,6 @@ class ParticipantRegistController extends Controller
         $eventID = $request->id;
         $payment_status = "Success";
 
-        // dd($request->all());
-
         $validated = $request->validate([
             'user_id' => 'required',
             'participant_name' => 'required|string|max:100',
@@ -46,6 +44,17 @@ class ParticipantRegistController extends Controller
 
         $event = Event::where('event_id', $eventID)->first();
         $event_name = $event?->event_title;
+
+        // Check if event event_quota is 0
+        if ($event && $event->event_quota == 0) {
+            return redirect()->back()->with('quota_sold', 'Pendaftaran gagal! Kuota event sudah habis.');
+        }
+
+        // Check if user orders more than the remaining event_quota
+        if ($event && $validated['participant_qty'] > $event->event_quota) {
+            $sisa_quota = $event->event_quota;
+            return redirect()->back()->with('quota_sold', 'Pendaftaran gagal! Jumlah peserta melebihi kuota yang tersedia. Sisa kuota: ' . $sisa_quota . '.');
+        }
 
         $lastRegist = ParticipantRegist::where('regist_id', 'like', 'REGEVT%')
             ->orderBy('created_at', 'desc')
@@ -61,7 +70,6 @@ class ParticipantRegistController extends Controller
         $registID = 'REGEVT' . str_pad($nextNumber, 3, '0', STR_PAD_LEFT);
 
         // kode peserta
-
         $codes = [];
         for ($i = 0; $i < $validated['participant_qty']; $i++) {
             $code = strtoupper(substr(bin2hex(random_bytes(3)), 0, 6)); // hasil: 6 karakter
@@ -69,7 +77,6 @@ class ParticipantRegistController extends Controller
         }
 
         $participant_code = implode(',', $codes);
-
 
         ParticipantRegist::create([
             'regist_id' => $registID,

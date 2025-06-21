@@ -89,6 +89,23 @@ class TransactionController extends Controller
         DB::beginTransaction();
 
         try {
+            // Validasi stok produk & minimum order
+            foreach ($request->products as $product) {
+                $dbProduct = Product::where('product_id', $product['product_id'])->lockForUpdate()->first();
+                if (!$dbProduct) {
+                    DB::rollBack();
+                    return back()->withErrors(['message' => 'Produk tidak ditemukan.']);
+                }
+                if ($product['quantity'] > $dbProduct->product_stock) {
+                    DB::rollBack();
+                    return back()->withErrors(['message' => 'Stok produk "' . $dbProduct->product_name . '" tidak mencukupi.']);
+                }
+                if (isset($dbProduct->min_order) && $product['quantity'] < $dbProduct->min_order) {
+                    DB::rollBack();
+                    return back()->withErrors(['message' => 'Jumlah pembelian produk "' . $dbProduct->product_name . '" tidak boleh kurang dari minimum order (' . $dbProduct->min_order . ').']);
+                }
+            }
+
             $lastTransaction = Transaction::where('transaction_id', 'like', 'TRX%')
                 ->orderByRaw("CAST(SUBSTRING(transaction_id, 4) AS UNSIGNED) DESC")
                 ->first();
@@ -120,6 +137,9 @@ class TransactionController extends Controller
                     'price'          => $product['price'],
                     'subtotal'       => $product['subtotal'],
                 ]);
+
+                // Kurangi stok produk
+                Product::where('product_id', $product['product_id'])->decrement('product_stock', $product['quantity']);
             }
 
             DB::commit();

@@ -33,7 +33,8 @@
                         <!-- Product Image -->
                         <div class="flex justify-center">
                             <div class="relative group">
-                                <img src="{{ asset('image/product.png') }}" alt="Main Product Image"
+                                <img src="{{ $data['product_ing'] ?? ($data['product_img'] ?? asset('image/product.png')) }}"
+                                    alt="Main Product Image"
                                     class="w-[400px] h-[400px] object-cover rounded-xl shadow-sm transition-transform group-hover:scale-[1.02]">
                             </div>
                         </div>
@@ -43,7 +44,8 @@
                         <div class="space-y-8">
                             <div>
                                 <h1 class="text-2xl font-semibold text-gray-900 mb-2">{{ $data['product_name'] }}</h1>
-                                <div class="text-3xl font-bold text-[#007F73]">Rp.{{ round($data['product_price']) }}
+                                <div class="text-3xl font-bold text-[#007F73]">
+                                    Rp.{{ number_format(round($data['product_price'])) }}
                                 </div>
                             </div>
 
