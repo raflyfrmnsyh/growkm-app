@@ -178,7 +178,8 @@ Route::prefix('user')->middleware('user')->group(function () {
                 'event_speaker_name',
                 'event_speaker_job',
                 'event_tags',
-                'event_price'
+                'event_price',
+                'event_banner_img'
             )->get();
 
             $processedEvents = $data->map(function ($event) {
@@ -190,7 +191,8 @@ Route::prefix('user')->middleware('user')->group(function () {
                     'event_speaker' => $event->event_speaker_name,
                     'event_speaker_job' => $event->event_speaker_job,
                     'event_tags' => array_slice(explode(',', $event->event_tags), 0, 3),
-                    'event_price' => $event->event_price
+                    'event_price' => $event->event_price,
+                    'event_banner_img' => $event->event_banner_img ?? asset('images/courses-1.png')
                 ];
             });
 
