@@ -22,7 +22,7 @@
                 </div>
                 <div class="stat-dash_body bg-light-base p-4 md:p-6 rounded-b-lg">
                     <div class="greating">
-                        <h2 class="text-xl font-semibold">Halo, Rafly Firmansyah!</h2>
+                        <h2 class="text-xl font-semibold">Halo, {{ Auth::user()->user_name }}!</h2>
                         <span class="text-sm my-2">Mulai Belajar dan aktif mengikuti event bisnis di Growkm</span>
                     </div>
                     <div class="stat-dash_main mt-6 flex flex-col sm:flex-row items-center gap-4 sm:gap-2 ">

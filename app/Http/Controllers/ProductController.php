@@ -95,30 +95,35 @@ class ProductController extends Controller
         $search = $request->input('searchBox', '');
         $category = $request->input('category', '');
 
-        // Panggil prosedur
-        $rawProducts = DB::select("CALL SearchAndFilterProducts(?, ?)", [$search, $category]);
+        // Panggil stored procedure
+        $rawProducts = DB::select("CALL SearchAndFilterProductsWithFallback(:searchTerm, :categoryTerm)", [
+            'searchTerm' => $search,
+            'categoryTerm' => $category
+        ]);
 
-        // Konversi hasil ke Collection lalu mapping
-        // dd([$search, $category, $rawProducts]);
+        // Cek apakah hasil valid
+        $hasValidData = !empty($rawProducts) && $rawProducts[0]->product_id !== null;
 
-        $mappedProducts = collect($rawProducts)->map(function ($item) {
-            return [
-                'product_id' => $item->product_id,
-                'product_name' => $item->product_name,
-                'product_category' => explode(',', $item->product_category),
-                'product_price' => $item->product_price,
-                'product_stock' => $item->product_stock,
-                'product_min_order' => $item->product_min_order,
-            ];
-        });
+        $mappedProducts = $hasValidData
+            ? collect($rawProducts)->map(function ($item) {
+                return [
+                    'product_id'        => $item->product_id,
+                    'product_name'      => $item->product_name,
+                    'product_category'  => explode(',', $item->product_category),
+                    'product_price'     => $item->product_price,
+                    'product_stock'     => $item->product_stock,
+                    'product_min_order' => $item->product_min_order,
+                ];
+            })
+            : collect(); // Kosong jika bukan data valid
 
-        // Manual pagination dari collection
-        $currentPage = LengthAwarePaginator::resolveCurrentPage();
+        // Manual pagination
         $perPage = 10;
-        $currentPageItems = $mappedProducts->slice(($currentPage - 1) * $perPage, $perPage)->values();
+        $currentPage = LengthAwarePaginator::resolveCurrentPage();
+        $paginatedItems = $mappedProducts->slice(($currentPage - 1) * $perPage, $perPage)->values();
 
         $products = new LengthAwarePaginator(
-            $currentPageItems,
+            $paginatedItems,
             $mappedProducts->count(),
             $perPage,
             $currentPage,
@@ -126,8 +131,8 @@ class ProductController extends Controller
         );
 
         return view('_admin._manage.product-data', [
-            'title' => 'Kelola data Produk',
-            'products' => $products
+            'title'    => 'Kelola data Produk',
+            'products' => $products,
         ]);
     }
 

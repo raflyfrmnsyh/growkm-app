@@ -178,7 +178,8 @@ Route::prefix('user')->middleware('user')->group(function () {
                 'event_speaker_name',
                 'event_speaker_job',
                 'event_tags',
-                'event_price'
+                'event_price',
+                'event_banner_img'
             )->get();
 
             $processedEvents = $data->map(function ($event) {
@@ -190,7 +191,8 @@ Route::prefix('user')->middleware('user')->group(function () {
                     'event_speaker' => $event->event_speaker_name,
                     'event_speaker_job' => $event->event_speaker_job,
                     'event_tags' => array_slice(explode(',', $event->event_tags), 0, 3),
-                    'event_price' => $event->event_price
+                    'event_price' => $event->event_price,
+                    'event_banner_img' => $event->event_banner_img ?? asset('images/courses-1.png')
                 ];
             });
 
@@ -217,6 +219,23 @@ Route::prefix('user')->middleware('user')->group(function () {
                     ->exists();
             }
 
+            $participant = null;
+            $participantCode = null;
+            if ($eventName) {
+                $participant = ParticipantRegist::where('user_id', $userId)
+                    ->where('event_name', $eventName)
+                    ->first();
+
+                if ($participant) {
+                    $isRegistered = true;
+                    $participantCode = $participant->participant_code;
+                } else {
+                    $isRegistered = false;
+                }
+            }
+
+
+
             $data =  [
                 'event_id' => $event_id,
                 'event_title' => $getData->event_title,
@@ -232,10 +251,12 @@ Route::prefix('user')->middleware('user')->group(function () {
                 'event_location' => $getData->event_location
             ];
 
+
             return view('_users._events.event-detail', [
                 'title' => "Detail Event",
                 'data' => $data,
-                'isRegistered' => $isRegistered
+                'isRegistered' => $isRegistered,
+                'participantCode' => $participantCode
             ]);
         })->name('event-detail');
     });

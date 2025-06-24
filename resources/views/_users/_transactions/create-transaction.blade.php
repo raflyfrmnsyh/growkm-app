@@ -34,25 +34,45 @@
                 <div class="w-[70%] flex flex-col gap-4">
                     <!-- Shipping Information -->
                     <div class="flex flex-col">
+
                         <div class="p-6 bg-white w-full rounded-t-lg border-b border-gray-200">
-                            <h1 class="text-lg font-medium mb-4">Informasi Pengiriman</h1>
-                            <div class="mb-4">
-                                <label class="font-medium block mb-1" for="shipping_name">Nama Penerima</label>
-                                <input type="text" id="shipping_name" name="shipping_name"
-                                    class="w-full border rounded px-3 py-2" required>
+                            <h1 class="text-lg font-medium pb-4 border-b border-gray-200">Informasi Pengiriman</h1>
+                            @if (Auth::user()->user_address == null)
+                                <div class="mb-4">
+                                    <label class="font-medium block mb-1" for="shipping_name">Nama Penerima</label>
+                                    <input type="text" id="shipping_name" name="shipping_name"
+                                        class="w-full border rounded px-3 py-2" required>
 
-                            </div>
-                            <div class="mb-4">
-                                <label class="font-medium block mb-1" for="shipping_phone">No. Telepon</label>
-                                <input type="text" id="shipping_phone" name="shipping_phone"
-                                    class="w-full border rounded px-3 py-2" required>
+                                </div>
+                                <div class="mb-4">
+                                    <label class="font-medium block mb-1" for="shipping_phone">No. Telepon</label>
+                                    <input type="text" id="shipping_phone" name="shipping_phone"
+                                        class="w-full border rounded px-3 py-2" required>
 
-                            </div>
-                            <div>
-                                <label class="font-medium block mb-1" for="shipping_address">Alamat Pengiriman</label>
-                                <textarea id="shipping_address" name="shipping_address" class="w-full border rounded px-3 py-2" rows="3" required></textarea>
-                            </div>
+                                </div>
+                                <div>
+                                    <label class="font-medium block mb-1" for="shipping_address">Alamat
+                                        Pengiriman</label>
+                                    <textarea id="shipping_address" name="shipping_address" class="w-full border rounded px-3 py-2" rows="3" required></textarea>
+                                </div>
+                            @elseif(!Auth::user()->user_address == null)
+                                <input type="hidden" name="shipping_name" value="{{ Auth::user()->user_name }}">
+                                <input type="hidden" name="shipping_phone" value="{{ Auth::user()->user_phone }}">
+                                <input type="hidden" name="shipping_address" value="{{ Auth::user()->user_address }}">
+                                <div class="flex items-center justify-between">
+                                    <div class="mt-6">
+                                        <h2 class="font-medium">Rumah - {{ Auth::user()->user_name }}</h2>
+                                        <small>No. Hp : {{ Auth::user()->user_phone }}</small>
+                                    </div>
+                                    <div>
+                                        <p>{{ Auth::user()->user_address }}</p>
+                                    </div>
+                                </div>
+                            @endif
+
+
                         </div>
+
 
                         <!-- Shipping Options -->
                         <div class="p-6 bg-white w-full border-b border-gray-200">

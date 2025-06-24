@@ -97,17 +97,40 @@
                             Daftar Kelas
                         </a>
                     @elseif ($data['event_type'] === 'Offline')
-                        <a href="{{ url('#') }}"
-                            class="w-full py-3 rounded-lg text-center bg-primaryColors-base text-light-base hover:bg-secondaryColors-base transition-colors text-sm md:text-base font-medium">
-                            Lihat Tiket
-                        </a>
+                        <div x-data="{ showPopup: false }">
+                            <!-- Tombol Trigger -->
+                            <button @click="showPopup = true"
+                                class="w-full py-3 rounded-lg text-center bg-primaryColors-base text-light-base hover:bg-secondaryColors-base transition-colors text-sm md:text-base font-medium">
+                                Lihat Tiket
+                            </button>
+
+                            <!-- Popup -->
+                            <div x-show="showPopup" x-transition.opacity
+                                class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+
+                                <div @click.away="showPopup = false" x-transition
+                                    class="bg-white p-6 rounded-xl shadow-xl w-11/12 max-w-md relative">
+
+                                    <!-- Tombol Close -->
+                                    <button @click="showPopup = false"
+                                        class="absolute top-2 right-3 text-gray-500 hover:text-red-600 text-xl">
+                                        &times;
+                                    </button>
+
+                                    <!-- Konten Tiket -->
+                                    <h2 class="text-lg font-semibold mb-4">Detail Tiket</h2>
+                                    <p><strong>Kode Tiket:</strong> <span>{{ $participantCode ?? 'ABC123' }}</span></p>
+
+                                </div>
+                            </div>
+                        </div>
                     @elseif ($data['event_type'] === 'Online')
                         <a href="{{ $data['event_location'] ?? 'http://meet.google.com' }}"
                             class="w-full py-3 rounded-lg text-center bg-primaryColors-base text-light-base hover:bg-secondaryColors-base transition-colors text-sm md:text-base font-medium">
                             Join Meet
                         </a>
                     @endif
-                    <a href="{{ route('events.data') }}"
+                    <a href="{{ url()->previous() }}"
                         class="w-full py-3 rounded-lg text-center bg-gray-200 text-dark-base hover:bg-gray-300 transition-colors text-sm md:text-base font-medium flex items-center justify-center gap-2">
                         Kembali
                     </a>
@@ -115,7 +138,7 @@
             </div>
         </section>
     </main>
-
+    <script src="//unpkg.com/alpinejs" defer></script>
 
 </body>
 

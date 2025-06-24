@@ -83,8 +83,7 @@
                     @foreach ($data as $item)
                         <div class="w-full">
                             <div class="rounded-t-lg overflow-hidden bg-gray-100">
-                                <img src="{{ asset('image/courses-1.png') }}" class="w-full h-auto"
-                                    alt="Event thumbnail">
+                                <img src="{{ $item['event_banner_img'] }}" class="w-full h-auto" alt="Event thumbnail">
                             </div>
                             <div class="p-3 space-y-4">
                                 <a href="{{ route('event-detail', ['event_id' => $item['event_id'], 'user_id' => Auth::user()->user_id]) }}"
